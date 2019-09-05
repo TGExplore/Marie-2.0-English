@@ -22,8 +22,8 @@ hoi {}, my name is {}! if you have any questions about how to use me please give
 
 im a group manager bot maintained by  [this man](tg://user?id={}).
 
-I was built on python3 using the python-telegram-bot library.... 
-I am completely opensource. My Orginal code is available to you [here](github.com/PaulSonOfLars/tgbot) 
+My future updates will be put into [This Channel](t.me/MarieChechi), Support Group @InFoTelGroup and 
+This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/TGExplore/Marie-2.0-English)...
 
 Using standard [Marie](http://telegram.dog/BanhammerMarie_bot) is always gonna be easier.
 Perks:
@@ -33,11 +33,6 @@ Perks:
 - the database will always be correctly formatted
 - bugs will always be fixed ASAP
 - no need to maintain anything yourself
-
-[Deploy Code](https://heroku.com/deploy?template=https://github.com/TGExplore/Marie-2.0-English);
-
-My future updates will be put into [This Channel](t.me/MarieChechi), Support Group @InFoTelGroup.
-
 **Keep in mind that any changes you DO do to the source have to be on github, as per the license.**
 
 """
