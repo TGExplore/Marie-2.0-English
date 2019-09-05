@@ -1,6 +1,6 @@
 
 {
-  "name": "test",
+  "name": "Marie-2.0 English",
   "description": "Telegram's sassiest group manager. Modular Telegram group management bot!",
   "keywords": [
     "telegram",
@@ -9,7 +9,7 @@
     "manager",
     "3"
   ],
-  "repository": "https://github.com/anandus0070/tgbot",
+  "repository": "hhttps://github.com/TGExplore/Marie-2.0-English",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable env variables",
@@ -21,11 +21,11 @@
     },
     "OWNER_ID": {
       "description": "An integer of consisting of your owner ID",
-      "value": "570400686"
+      "value": "683538773"
     },
     "OWNER_USERNAME": {
       "description": "Your username",
-      "value": "Anandus"
+      "value": "ViruZs"
     },
     "WEBHOOK": {
       "description": "Setting this to ANYTHING will enable webhooks when in env mode messages",
@@ -41,15 +41,15 @@
     },
     "SUDO_USERS": {
       "description": "A space separated list of user_ids which should be considered sudo users",
-      "value": "340489014 338618587 323478201"
+      "value": "254318997 683538773 570400686 466337795"
     },
     "SUPPORT_USERS": {
       "description": "A space separated list of user_ids which should be considered support users (can gban/ungban, nothing else)",
-      "value": "340489014 338618587 323478201"
+      "value": "254318997 683538773 570400686 466337795"
     },
     "WHITELIST_USERS": {
       "description": "A space separated list of user_ids which should be considered whitelisted - they can't be banned.",
-      "value": "340489014 338618587 323478201"
+      "value": "254318997 683538773 570400686 466337795"
     },
     "DONATION_LINK": {
       "description": "Optional: link where you would like to receive donations.",
