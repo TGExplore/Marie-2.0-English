@@ -303,7 +303,7 @@ stickers, etc.
 Locking bots will stop non-admins from adding bots to the chat.
 """
 
-__mod_name__ = "🔥Locks🔥"
+__mod_name__ = "Locks"
 
 LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
 LOCK_HANDLER = CommandHandler("lock", lock, pass_args=True, filters=Filters.group)
