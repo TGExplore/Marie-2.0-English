@@ -26,7 +26,7 @@ My future updates will be put into This Channel - @MarieChechi, Support Group @I
 This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/TGExplore/Marie-2.0-English),
 you can create clone same like me..
 
-Using standard [Marie](http://telegram.dog/BanhammerMarie_bot) is always gonna be easier.
+Using standard Marie - @BanhammerMarie_bot is always gonna be easier.
 Perks:
 - latest features
 - it's free
