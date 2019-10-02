@@ -11,19 +11,19 @@ from telegram import ParseMode, Update, Bot, Chat, User, MessageEntity
 from telegram.ext import run_async, CommandHandler, MessageHandler, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from haruka import dispatcher, OWNER_ID, SUDO_USERS, WHITELIST_USERS, MESSAGE_DUMP, LOGGER
-from haruka.modules.helper_funcs.handlers import CMD_STARTERS
-from haruka.modules.helper_funcs.misc import is_module_loaded, send_to_list
-from haruka.modules.helper_funcs.chat_status import is_user_admin
-from haruka.modules.helper_funcs.extraction import extract_user, extract_user_and_text
-from haruka.modules.helper_funcs.string_handling import markdown_parser
-from haruka.modules.disable import DisableAbleCommandHandler
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, WHITELIST_USERS, MESSAGE_DUMP, LOGGER
+from tg_bot.modules.helper_funcs.handlers import CMD_STARTERS
+from tg_bot.modules.helper_funcs.misc import is_module_loaded, send_to_list
+from tg_bot.modules.helper_funcs.chat_status import is_user_admin
+from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
+from tg_bot.modules.helper_funcs.string_handling import markdown_parser
+from tg_bot.modules.disable import DisableAbleCommandHandler
 
-import haruka.modules.sql.feds_sql as sql
+import tg_bot.modules.sql.feds_sql as sql
 
-from haruka.modules.translations.strings import tld
+from tg_bot.modules.translations.strings import tld
 
-from haruka.modules.connection import connected
+from tg_bot.modules.connection import connected
 
 # Hello bot owner, I spended for feds many hours of my life, Please don't remove this if you still respect MrYacha and peaktogoo
 # Federation by MrYacha 2018-2019
