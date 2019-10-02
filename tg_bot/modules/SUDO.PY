@@ -77,8 +77,8 @@ __help__ = """
 
 __mod_name__ = "Sudo"
 
-SUDOPROMOTE_HANDLER = CommandHandler("sudopromote", sudopromote, pass_args=True, filters=Filters.user(OWNER_ID))
-SUDODEMOTE_HANDLER = CommandHandler("sudodemote", sudodemote, pass_args=True, filters=Filters.user(OWNER_ID))
+addsudo_HANDLER = CommandHandler("addsudo", addsudo, pass_args=True, filters=Filters.user(OWNER_ID))
+rsudo_HANDLER = CommandHandler("rsudo", rsudo, pass_args=True, filters=Filters.user(OWNER_ID))
 
-dispatcher.add_handler(SUDOPROMOTE_HANDLER)
-dispatcher.add_handler(SUDODEMOTE_HANDLER)
+dispatcher.add_handler(addsudo_HANDLER)
+dispatcher.add_handler(rsudo_HANDLER)
