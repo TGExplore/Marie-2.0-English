@@ -24,7 +24,7 @@ Maintained by  [AVATAR](tg://user?id={}).
 
 Need any help then click  /help button...
 
-**JOIN [SUPPORTGROUP](T.ME/CTRLSUPPORT)link_preview=false
+JOIN SUPPORTGROUP at @ctrlsupport
 
 """
 
