@@ -2,7 +2,7 @@ import threading
 
 from sqlalchemy import Column, String, UnicodeText, func, distinct
 
-from haruka.modules.sql import SESSION, BASE
+from tg_bot.modules.sql import SESSION, BASE
 
 
 class Federations(BASE):
