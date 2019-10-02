@@ -22,3 +22,4 @@ pynewtonmath
 bs4
 telegraph
 psycopg2
+tldextract
