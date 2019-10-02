@@ -20,3 +20,4 @@ zalgo_text
 pynewtonmath
 bs4
 telegraph
+psycopg2
