@@ -13,7 +13,7 @@ PyLyrics
 wget
 gTTS
 telegram
-PIL
+Pil
 zalgo_text
 pynewtonmath
 bs4
