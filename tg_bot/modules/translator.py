@@ -7,7 +7,7 @@ from telegram.ext import Filters, MessageHandler, run_async
 from tg_bot import dispatcher, LOGGER
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.extraction import extract_text
-from py_translator import translator
+from translator import translator
 from googletrans import Translator
 
 @run_async
