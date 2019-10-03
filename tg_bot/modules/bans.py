@@ -72,6 +72,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
+            bot.send_sticker(chat.id, BAN_STICKER)
             message.reply_text('Banned!', quote=False)
             return log
         else:
