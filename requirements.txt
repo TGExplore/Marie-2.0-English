@@ -23,3 +23,5 @@ bs4
 telegraph
 psycopg2
 tldextract
+gsearch
+wikipedia
