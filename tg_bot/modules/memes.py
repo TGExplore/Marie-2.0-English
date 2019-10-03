@@ -18,8 +18,8 @@ from telegram import Message, Update, Bot, User
 from telegram import MessageEntity
 from telegram.ext import Filters, MessageHandler, run_async
 
-from haruka import dispatcher, DEEPFRY_TOKEN
-from haruka.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
+from tg_bot import dispatcher, DEEPFRY_TOKEN
+from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
 
 WIDE_MAP = dict((i, i + 0xFEE0) for i in range(0x21, 0x7F))
 WIDE_MAP[0x20] = 0x3000
