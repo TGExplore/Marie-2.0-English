@@ -25,5 +25,6 @@ psycopg2
 tldextract
 gsearch
 wikipedia
+pyowm
 translator
 googletrans
