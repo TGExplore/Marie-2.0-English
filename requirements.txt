@@ -26,5 +26,6 @@ tldextract
 gsearch
 wikipedia
 pyowm
+spongemock
 translator
 googletrans
