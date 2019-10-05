@@ -124,9 +124,9 @@ __help__ = """
 - /Ungmute : Ungmute a user
 Sudo/owner can use these commands too.
 **Users:**
-- /listsudo Gives a list of sudo users
-- /listsupport gives a list of support users
+- /slist Gives a list of sudo and support users
 """
+
 __mod_name__ = "Special"
 
 SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args=True, filters=CustomFilters.sudo_filter)
