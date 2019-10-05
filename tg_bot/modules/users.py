@@ -99,7 +99,7 @@ def chats(bot: Bot, update: Update):
                                                 caption="Here is the list of chats in my database.")
 
   
- @run_async
+@run_async
 def slist(bot: Bot, update: Update):
     message = update.effective_message
     text1 = "My sudo users are:"
