@@ -128,21 +128,6 @@ def export_data(bot: Bot, update: Update, chat_data):
 		chat_id = update.effective_chat.id
 		chat_name = update.effective_message.chat.title
 
-	jam = time.time()
-	new_jam = jam + 10800
-	checkchat = get_chat(chat_id, chat_data)
-	if checkchat.get('status'):
-		if jam <= int(checkchat.get('value')):
-			timeformatt = time.strftime("%H:%M:%S %d/%m/%Y", time.localtime(checkchat.get('value')))
-			update.effective_message.reply_text("You can only backup once a day!\nYou can backup again in about `{}`".format(timeformatt), parse_mode=ParseMode.MARKDOWN)
-			return
-		else:
-			if user.id != 90296554:
-				put_chat(chat_id, new_jam, chat_data)
-	else:
-		if user.id != 90296554:
-			put_chat(chat_id, new_jam, chat_data)
-
 	note_list = sql.get_all_chat_notes(chat_id)
 	backup = {}
 	notes = {}
@@ -153,40 +138,30 @@ def export_data(bot: Bot, update: Update, chat_data):
 	rules = ""
 	count = 0
 	countbtn = 0
-	# Notes
+	# Backuping notes
+	note_list = notesql.get_all_chat_notes(chat_id)
+	notes = []
 	for note in note_list:
-		count += 1
-		getnote = sql.get_note(chat_id, note.name)
-		namacat += '{}<###splitter###>'.format(note.name)
-		if note.msgtype == 1:
-			tombol = sql.get_buttons(chat_id, note.name)
-			keyb = []
-			for btn in tombol:
-				countbtn += 1
-				if btn.same_line:
-					buttonlist.append(('{}'.format(btn.name), '{}'.format(btn.url), True))
-				else:
-					buttonlist.append(('{}'.format(btn.name), '{}'.format(btn.url), False))
-			isicat += '###button###: {}<###button###>{}<###splitter###>'.format(note.value,str(buttonlist))
-			buttonlist.clear()
-		elif note.msgtype == 2:
-			isicat += '###sticker###:{}<###splitter###>'.format(note.file)
-		elif note.msgtype == 3:
-			isicat += '###file###:{}<###TYPESPLIT###>{}<###splitter###>'.format(note.file, note.value)
-		elif note.msgtype == 4:
-			isicat += '###photo###:{}<###TYPESPLIT###>{}<###splitter###>'.format(note.file, note.value)
-		elif note.msgtype == 5:
-			isicat += '###audio###:{}<###TYPESPLIT###>{}<###splitter###>'.format(note.file, note.value)
-		elif note.msgtype == 6:
-			isicat += '###voice###:{}<###TYPESPLIT###>{}<###splitter###>'.format(note.file, note.value)
-		elif note.msgtype == 7:
-			isicat += '###video###:{}<###TYPESPLIT###>{}<###splitter###>'.format(note.file, note.value)
-		elif note.msgtype == 8:
-			isicat += '###video_note###:{}<###TYPESPLIT###>{}<###splitter###>'.format(note.file, note.value)
+		buttonlist = ""
+		note_tag = note.name
+		note_type = note.msgtype
+		getnote = notesql.get_note(chat_id, note.name)
+		if not note.value:
+			note_data = ""
 		else:
-			isicat += '{}<###splitter###>'.format(note.value)
-	for x in range(count):
-		notes['#{}'.format(namacat.split("<###splitter###>")[x])] = '{}'.format(isicat.split("<###splitter###>")[x])
+			tombol = notesql.get_buttons(chat_id, note_tag)
+			keyb = []
+			buttonlist = ""
+			for btn in tombol:
+				if btn.same_line:
+					buttonlist += "[{}](buttonurl:{}:same)\n".format(btn.name, btn.url)
+				else:
+					buttonlist += "[{}](buttonurl:{})\n".format(btn.name, btn.url)
+			note_data = "{}\n\n{}".format(note.value, buttonlist)
+		note_file = note.file
+		if not note_file:
+			note_file = ""
+		notes.append({"note_tag": note_tag, "note_data": note_data, "note_file": note_file, "note_type": note_type})
 	# Rules
 	rules = rulessql.get_rules(chat_id)
 	# Blacklist
