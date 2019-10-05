@@ -33,7 +33,6 @@ import tg_bot.modules.sql.welcome_sql as welcsql
 from tg_bot.modules.connection import connected
 
 from tg_bot.modules.helper_funcs.msg_types import Types
-from tg_bot.modules.languages import tl
 
 @run_async
 @user_admin
@@ -54,7 +53,7 @@ def import_data(bot: Bot, update):
 		chat_name = dispatcher.bot.getChat(conn).title
 	else:
 		if update.effective_message.chat.type == "private":
-			update.effective_message.reply_text(tl(update.effective_message, "Anda bisa lakukan command ini pada grup, bukan pada PM"))
+			update.effective_message.reply_text(update.effective_message, "Anda bisa lakukan command ini pada grup, bukan pada PM")
 			return ""
 		chat = update.effective_chat
 		chat_id = update.effective_chat.id
@@ -68,7 +67,7 @@ def import_data(bot: Bot, update):
 		try:
 			file_info = bot.get_file(msg.reply_to_message.document.file_id)
 		except BadRequest:
-			msg.reply_text(tl(update.effective_message, "Coba unduh dan unggah ulang file seperti Anda sendiri sebelum mengimpor - yang ini sepertinya rusak!"))
+			msg.reply_text(update.effective_message, "Coba unduh dan unggah ulang file seperti Anda sendiri sebelum mengimpor - yang ini sepertinya rusak!")
 			return
 
 		with BytesIO() as file:
@@ -77,7 +76,7 @@ def import_data(bot: Bot, update):
 			data = json.load(file)
 
 		try:
-			# If backup is from Monica
+			# If backup is from CTRL
 			if data.get('bot_base') == "CTRL":
 				imp_antiflood = False
 				imp_blacklist = False
@@ -129,20 +128,7 @@ def import_data(bot: Bot, update):
 							blacklistsql.add_to_blacklist(chat_id, x.lower())
 							imp_blacklist_count += 1
 
-				# Import blacklist sticker
-				if data.get('blstickers'):
-					imp_blsticker = True
-					blsticker_mode = data['blstickers'].get('blsticker_mode')
-					blsticker_duration = data['blstickers'].get('blsticker_duration')
-					blstickers = data['blstickers'].get('blstickers')
-
-					# Add to db
-					blackliststksql.set_blacklist_strength(chat_id, blsticker_mode, blsticker_duration)
-					if blstickers:
-						for x in blstickers:
-							blackliststksql.add_to_stickers(chat_id, x.lower())
-							imp_blsticker_count += 1
-
+				
 				# Import disabled
 				if data.get('disabled'):
 					candisable = disabledsql.get_disableable()
@@ -269,14 +255,6 @@ def import_data(bot: Bot, update):
 					welcsql.set_welcome_security(chat_id, bool(secenable), str(sectime), str(secbtn))
 					imp_greet_pref = True
 
-				# Import language
-				if data['greetings'].get('language'):
-					lang = data['language'].get('language')
-					if lang:
-						if lang in ('en', 'id'):
-							langsql.set_lang(chat_id, lang)
-							imp_lang = True
-
 				# Import Locks
 				if data.get('locks'):
 					if data['locks'].get('lock_warn'):
@@ -383,44 +361,40 @@ def import_data(bot: Bot, update):
 							imp_warn_chat += 1
 
 				if conn:
-					text = tl(update.effective_message, "Full backup returned on *{}*. Welcome backup! ").format(chat_name)
+					text = (update.effective_message, "Full backup returned on *{}*. Welcome backup! ").format(chat_name)
 				else:
-					text = tl(update.effective_message, "Backup fully restored.\nDone with welcome backup! ").format(chat_name)
+					text = (update.effective_message, "Backup fully restored.\nDone with welcome backup! ").format(chat_name)
 				text += tl(update.effective_message, "\n\n I've returned it:\n")
 				if imp_antiflood:
-					text += tl(update.effective_message, "- Antiflood Settings\n")
+					text += (update.effective_message, "- Antiflood Settings\n")
 				if imp_blacklist:
-					text += tl(update.effective_message, "- Blacklist settings\n")
+					text += (update.effective_message, "- Blacklist settings\n")
 				if imp_blacklist_count:
-					text += tl(update.effective_message, "- {} blacklists\n").format(imp_blacklist_count)
-				if imp_blsticker:
-					text += tl(update.effective_message, "- {} blacklist stickers\n").format(imp_blsticker_count)
+					text += (update.effective_message, "- {} blacklists\n").format(imp_blacklist_count)
 				if imp_disabled_count:
-					text += tl(update.effective_message, "- {} cmd disabled\n").format(imp_disabled_count)
+					text += (update.effective_message, "- {} cmd disabled\n").format(imp_disabled_count)
 				if imp_filters_count:
-					text += tl(update.effective_message, "- {} filters\n").format(imp_filters_count)
+					text += (update.effective_message, "- {} filters\n").format(imp_filters_count)
 				if imp_greet_pref:
-					text += tl(update.effective_message, "- Greeting settings\n")
+					text += (update.effective_message, "- Greeting settings\n")
 				if imp_greet:
-					text += tl(update.effective_message, "- Greetings message\n")
+					text += (update.effective_message, "- Greetings message\n")
 				if imp_gdbye:
-					text += tl(update.effective_message, "- Goodbye message\n")
+					text += (update.effective_message, "- Goodbye message\n")
 				if imp_locks:
-					text += tl(update.effective_message, "- Locking\n")
+					text += (update.effective_message, "- Locking\n")
 				if imp_notes:
-					text += tl(update.effective_message, "- {} Notes\n").format(imp_notes)
+					text += (update.effective_message, "- {} Notes\n").format(imp_notes)
 				if imp_report:
-					text += tl(update.effective_message, "- Reporting settings\n")
+					text += (update.effective_message, "- Reporting settings\n")
 				if imp_rules:
-					text += tl(update.effective_message, "- Group rules message\n")
-				if imp_lang:
-					text += tl(update.effective_message, "- Language settings\n")
+					text += (update.effective_message, "- Group rules message\n")
 				if imp_warn:
-					text += tl(update.effective_message, "- Warning settings\n")
+					text += (update.effective_message, "- Warning settings\n")
 				if imp_warn_chat:
-					text += tl(update.effective_message, "- {} Warning user\n").format(imp_warn_chat)
+					text += (update.effective_message, "- {} Warning user\n").format(imp_warn_chat)
 				if imp_warn_filter:
-					text += tl(update.effective_message, "- {} filter warnings\n").format(imp_warn_filter)
+					text += (update.effective_message, "- {} filter warnings\n").format(imp_warn_filter)
 				try:
 					msg.reply_text(text, parse_mode="markdown")
 				except BadRequest:
@@ -433,7 +407,7 @@ def import_data(bot: Bot, update):
 					os.remove("{}-notimported.txt".format(chat_id))
 				return
 		except Exception as err:
-			msg.reply_text(tl(update.effective_message, "An error has occurred getting CTRL backup!\nGo, ping [my owner](https://t.me/refundisillegal) and ask if any solution of it!\n\nMaybe they can resolve your issue!"), parse_mode="markdown")
+			msg.reply_text(update.effective_message, "An error has occurred getting CTRL backup!\nGo, ping [my owner](https://t.me/refundisillegal) and ask if any solution of it!\n\nMaybe they can resolve your issue!", parse_mode="markdown")
 			LOGGER.exception("An error when importing from CTRL base!")
 			return
 
@@ -452,7 +426,6 @@ def import_data(bot: Bot, update):
 				imp_notes = 0
 				imp_report = False
 				imp_rules = False
-				imp_lang = False
 				imp_warn = False
 				NOT_IMPORTED = "This cannot be imported because from other bot."
 				NOT_IMPORTED_INT = 0
@@ -594,13 +567,6 @@ def import_data(bot: Bot, update):
 						if contrules:
 							rulessql.set_rules(chat_id, contrules.replace("\\", ""))
 							imp_rules = True
-					# Import current lang
-					if data['data'].get('translations'):
-						lang = data['data']['translations'].get('lang')
-						if lang:
-							if lang in ('en', 'id'):
-								langsql.set_lang(chat_id, lang)
-								imp_lang = True
 					# Import warn
 					if data['data'].get('warns'):
 						action = data['data']['warns'].get('action')
@@ -616,36 +582,34 @@ def import_data(bot: Bot, update):
 							warnssql.set_warn_mode(chat_id, 3)
 							imp_warn = True
 					if conn:
-						text = tl(update.effective_message, "Backup is fully restored in*{}*. Welcome backup! :3").format(chat_name)
+						text = (update.effective_message, "Backup is fully restored in*{}*. Welcome backup! :3").format(chat_name)
 					else:
-						text = tl(update.effective_message, "Backup fully recovered! \n it's it easy for me?!").format(chat_name)
-					text += tl(update.effective_message, "\n\nWhat I return:\n")
+						text = (update.effective_message, "Backup fully recovered! \n it's it easy for me?!").format(chat_name)
+					text += (update.effective_message, "\n\nWhat I return:\n")
 					if imp_antiflood:
-						text += tl(update.effective_message, "- Antiflood settings\n")
+						text += (update.effective_message, "- Antiflood settings\n")
 					if imp_blacklist:
-						text += tl(update.effective_message, "- Blacklist settings\n")
+						text += (update.effective_message, "- Blacklist settings\n")
 					if imp_blacklist_count:
-						text += tl(update.effective_message, "- {} blacklists\n").format(imp_blacklist_count)
+						text += (update.effective_message, "- {} blacklists\n").format(imp_blacklist_count)
 					if imp_disabled_count:
-						text += tl(update.effective_message, "- {} cmd disabled\n").format(imp_disabled_count)
+						text += (update.effective_message, "- {} cmd disabled\n").format(imp_disabled_count)
 					if imp_filters_count:
-						text += tl(update.effective_message, "- {} filters\n").format(imp_filters_count)
+						text += (update.effective_message, "- {} filters\n").format(imp_filters_count)
 					if imp_greet_pref:
-						text += tl(update.effective_message, "- Greeting setting.\n")
+						text += (update.effective_message, "- Greeting setting.\n")
 					if imp_greet:
-						text += tl(update.effective_message, "- Greeting message\n")
+						text += (update.effective_message, "- Greeting message\n")
 					if imp_gdbye:
-						text += tl(update.effective_message, "- Goodbye message\n")
+						text += (update.effective_message, "- Goodbye message\n")
 					if imp_notes:
-						text += tl(update.effective_message, "- {} Notes\n").format(imp_notes)
+						text += (update.effective_message, "- {} Notes\n").format(imp_notes)
 					if imp_report:
-						text += tl(update.effective_message, "- Report Settings\n")
+						text += (update.effective_message, "- Report Settings\n")
 					if imp_rules:
-						text += tl(update.effective_message, "- Chat rules.\n")
-					if imp_lang:
-						text += tl(update.effective_message, "- Language Settings.\n")
+						text += (update.effective_message, "- Chat rules.\n")
 					if imp_warn:
-						text += tl(update.effective_message, "- Warnings\n")
+						text += (update.effective_message, "- Warnings\n")
 					try:
 						msg.reply_text(text, parse_mode="markdown")
 					except BadRequest:
@@ -658,7 +622,7 @@ def import_data(bot: Bot, update):
 						os.remove("{}-notimported.txt".format(chat_id))
 					return
 		except Exception as err:
-			msg.reply_text(tl(update.effective_message, "An error occurred when importing Rose backup!\nGo, ping [my owner](https://t.me/Kingofelephants) and ask if any solution of it!\n\nMaybe they can resolve your goddamn issue!"), parse_mode="markdown")
+			msg.reply_text(update.effective_message, "An error occurred when importing Rose backup!\nGo, ping [my owner](https://t.me/Kingofelephants) and ask if any solution of it!\n\nMaybe they can resolve your goddamn issue!", parse_mode="markdown")
 			LOGGER.exception("An error when importing from Rose base!")
 			return
 
@@ -672,9 +636,9 @@ def import_data(bot: Bot, update):
 		try:
 			if data.get(str(chat_id)) == None:
 				if conn:
-					text = tl(update.effective_message, "Backup originates from another chat, I can't return another chat to this chat *{}*").format(chat_name)
+					text = (update.effective_message, "Backup originates from another chat, I can't return another chat to this chat *{}*").format(chat_name)
 				else:
-					text = tl(update.effective_message, "F, Backup originates are from another chat, I can't return another chat to this chat!")
+					text = (update.effective_message, "F, Backup originates are from another chat, I can't return another chat to this chat!")
 				return msg.reply_text(text, parse_mode="markdown")
 		except:
 			return msg.reply_text(tl(update.effective_message, "An error has occurred in checking the data, please report it to my author"
@@ -708,9 +672,9 @@ def import_data(bot: Bot, update):
 		# TODO: some of that link logic
 		# NOTE: consider default permissions stuff?
 		if conn:
-			text = tl(update.effective_message, "Backup is funny restored in *{}*. Welcome back!").format(chat_name)
+			text = (update.effective_message, "Backup is funny restored in *{}*. Welcome back!").format(chat_name)
 		else:
-			text = tl(update.effective_message, "Backup has fully recovered. \n welcome back! ").format(chat_name)
+			text = (update.effective_message, "Backup has fully recovered. \n welcome back! ").format(chat_name)
 		msg.reply_text(text, parse_mode="markdown")
 
 
@@ -734,7 +698,7 @@ def export_data(bot: Bot, update: Update, chat_data):
 		chat_name = dispatcher.bot.getChat(conn).title
 	else:
 		if update.effective_message.chat.type == "private":
-			update.effective_message.reply_text(tl(update.effective_message, "Anda bisa lakukan command ini pada grup, bukan pada PM"))
+			update.effective_message.reply_text(update.effective_message, "Anda bisa lakukan command ini pada grup, bukan pada PM")
 			return ""
 		chat = update.effective_chat
 		chat_id = update.effective_chat.id
@@ -773,11 +737,6 @@ def export_data(bot: Bot, update: Update, chat_data):
 	all_blacklisted = blacklistsql.get_chat_blacklist(chat_id)
 	blacklist_mode, blacklist_duration = blacklistsql.get_blacklist_setting(chat.id)
 	blacklists = {'blacklist_mode': blacklist_mode, 'blacklist_duration': blacklist_duration, 'blacklists': all_blacklisted}
-
-	# Backuping blacklists sticker
-	all_blsticker = blackliststksql.get_chat_stickers(chat_id)
-	blsticker_mode, blsticker_duration = blacklistsql.get_blacklist_setting(chat.id)
-	blstickers = {'blsticker_mode': blsticker_mode, 'blsticker_duration': blsticker_duration, 'blstickers': all_blsticker}
 
 	# Backuping disabled
 	cmd_disabled = disabledsql.get_all_disabled(chat_id)
