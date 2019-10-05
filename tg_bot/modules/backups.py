@@ -22,7 +22,6 @@ import tg_bot.modules.sql.blacklist_sql as blacklistsql
 
 from tg_bot.modules.sql import disable_sql as disabledsql
 from tg_bot.modules.sql import cust_filters_sql as filtersql
-from tg_bot.modules.sql import languages_sql as langsql
 import tg_bot.modules.sql.locks_sql as locksql
 from tg_bot.modules.locks import LOCK_TYPES, RESTRICTION_TYPES
 from tg_bot.modules.sql import notes_sql as notesql
