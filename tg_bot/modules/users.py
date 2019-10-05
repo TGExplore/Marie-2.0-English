@@ -11,6 +11,7 @@ from telegram.ext.dispatcher import run_async
 
 import tg_bot.modules.sql.users_sql as sql
 from tg_bot import SUDO_USERS
+from tg_bot import escape_markdown
 from tg_bot import dispatcher, OWNER_ID, LOGGER
 from tg_bot.modules.helper_funcs.filters import CustomFilters
 
