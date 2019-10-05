@@ -679,10 +679,6 @@ def import_data(bot: Bot, update):
 def export_data(bot: Bot, update: Update, chat_data):
 	msg = update.effective_message  # type: Optional[Message]
 	user = update.effective_user  # type: Optional[User]
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id, update.effective_message)
-	if spam == True:
-		return
-
 	chat_id = update.effective_chat.id
 	chat = update.effective_chat
 	current_chat_id = update.effective_chat.id
