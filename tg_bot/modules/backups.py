@@ -41,10 +41,6 @@ def import_data(bot: Bot, update):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	# TODO: allow uploading doc with command, not just as reply
-	# only work with a doc
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id, update.effective_message)
-	if spam == True:
-		return
 
 	conn = connected(bot, update, chat, user.id, need_admin=True)
 	if conn:
