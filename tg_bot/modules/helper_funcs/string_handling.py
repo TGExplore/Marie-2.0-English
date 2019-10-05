@@ -256,3 +256,14 @@ def extract_time(message, time_val):
     else:
         message.reply_text("Invalid time type specified. Expected m,h, or d, got: {}".format(time_val[-1]))
         return ""
+
+def make_time(time_val):
+    if int(time_val) == 0:
+        return "0"
+    if int(time_val) <= 3600:
+        bantime = str(int(time_val / 60)) + "m"
+    elif int(time_val) >= 3600 and time_val <= 86400:
+        bantime = str(int(time_val / 60 / 60)) + "h"
+    elif int(time_val) >= 86400:
+        bantime = str(int(time_val / 24 / 60 / 60)) + "d"
+    return bantime
