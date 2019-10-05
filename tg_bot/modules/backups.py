@@ -79,7 +79,7 @@ def import_data(bot: Bot, update):
 
 		try:
 			# If backup is from Monica
-			if data.get('bot_base') == "Monica":
+			if data.get('bot_base') == "CTRL":
 				imp_antiflood = False
 				imp_blacklist = False
 				imp_blacklist_count = 0
@@ -434,14 +434,14 @@ def import_data(bot: Bot, update):
 					os.remove("{}-notimported.txt".format(chat_id))
 				return
 		except Exception as err:
-			msg.reply_text(tl(update.effective_message, "An error has occurred getting Monica backup!\nGo, ping [my owner](https://t.me/kingofelephants) and ask if any solution of it!\n\nMaybe they can resolve your issue!"), parse_mode="markdown")
-			LOGGER.exception("An error when importing from Julie base!")
+			msg.reply_text(tl(update.effective_message, "An error has occurred getting CTRL backup!\nGo, ping [my owner](https://t.me/refundisillegal) and ask if any solution of it!\n\nMaybe they can resolve your issue!"), parse_mode="markdown")
+			LOGGER.exception("An error when importing from CTRL base!")
 			return
 
 		try:
 			# If backup is from rose
 			# doing manual lol
-			if data.get('bot_id') == 718763588:
+			if data.get('bot_id') == 7815183153:
 				imp_antiflood = False
 				imp_blacklist = False
 				imp_blacklist_count = 0
