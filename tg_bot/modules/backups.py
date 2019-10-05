@@ -875,7 +875,7 @@ def export_data(bot: Bot, update: Update, chat_data):
 
 
 	# Parsing backups
-	backup = {"bot_id": bot_id, "bot_base": bot_base, "antiflood": antiflood, "blacklists": blacklists, "blstickers": blstickers, "disabled": disabled, "filters": filters, "greetings": greetings, "language": language, "locks": locks, "notes": notes, "report": report, "rules": rules, "warns": warns, "version": backup_ver}
+	backup = {"bot_id": bot_id, "bot_base": bot_base, "antiflood": antiflood, "blacklists": blacklists, "disabled": disabled, "filters": filters, "greetings": greetings,  "locks": locks, "notes": notes, "report": report, "rules": rules, "warns": warns, "version": backup_ver}
 
 
 	all_backups = json.dumps(backup, indent=4, cls=SetEncoder)
@@ -888,10 +888,10 @@ def export_data(bot: Bot, update: Update, chat_data):
 		bot.sendMessage(TEMPORARY_DATA, "*Successfully backed up for:*\nNama chat: `{}`\nID chat: `{}`\non: `{}`".format(chat.title, chat_id, tgl), parse_mode=ParseMode.MARKDOWN)
 	except BadRequest:
 		pass
-	send = bot.sendDocument(current_chat_id, document=open('{}-Julie.backup'.format(chat_id), 'rb'), caption=tl(update.effective_message, "*Successfully backed up for:*\nChat Name: `{}`\nID chat: `{}`\non: `{}`\n\nNote: cadangan ini khusus untuk bot ini, jika di import ke bot lain maka catatan dokumen, video, audio, voice, dan lain-lain akan hilang").format(chat.title, chat_id, tgl), timeout=360, reply_to_message_id=msg.message_id, parse_mode=ParseMode.MARKDOWN)
+	send = bot.sendDocument(current_chat_id, document=open('{}-Julie.backup'.format(chat_id), 'rb'), caption=(update.effective_message, "*Successfully backed up for:*\nChat Name: `{}`\nID chat: `{}`\non: `{}`\n\nNote: cadangan ini khusus untuk bot ini, jika di import ke bot lain maka catatan dokumen, video, audio, voice, dan lain-lain akan hilang").format(chat.title, chat_id, tgl), timeout=360, reply_to_message_id=msg.message_id, parse_mode=ParseMode.MARKDOWN)
 	try:
 		# Send to temp data for prevent unexpected issue
-		bot.sendDocument(TEMPORARY_DATA, document=send.document.file_id, caption=tl(update.effective_message, "*Successfully backed up for:*\nChat Name: `{}`\nID chat: `{}`\non: `{}`\n\nNote: cadangan ini khusus untuk bot ini, jika di import ke bot lain maka catatan dokumen, video, audio, voice, dan lain-lain akan hilang").format(chat.title, chat_id, tgl), timeout=360, parse_mode=ParseMode.MARKDOWN)
+		bot.sendDocument(TEMPORARY_DATA, document=send.document.file_id, caption=(update.effective_message, "*Successfully backed up for:*\nChat Name: `{}`\nID chat: `{}`\non: `{}`\n\nNote: cadangan ini khusus untuk bot ini, jika di import ke bot lain maka catatan dokumen, video, audio, voice, dan lain-lain akan hilang").format(chat.title, chat_id, tgl), timeout=360, parse_mode=ParseMode.MARKDOWN)
 	except BadRequest:
 		pass
 	os.remove("{}-Julie.backup".format(chat_id)) # Cleaning file
