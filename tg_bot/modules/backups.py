@@ -281,7 +281,7 @@ def export_data(bot: Bot, update: Update, chat_data):
 		bot.sendMessage(MESSAGE_DUMP, "*Successfully imported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`".format(chat.title, chat_id, tgl), parse_mode=ParseMode.MARKDOWN)
 	except BadRequest:
 		pass
-	bot.sendDocument(current_chat_id, document=open('Ctrl{}.backup'.format(chat_id), 'rb'), caption="*Successfully imported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `Monica's Backup` is specially made for notes.".format(chat.title, chat_id, tgl), timeout=360, reply_to_message_id=msg.message_id, parse_mode=ParseMode.MARKDOWN)
+	bot.sendDocument(current_chat_id, document=open('Ctrl{}.backup'.format(chat_id), 'rb'), caption="*Successfully imported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `Ctrl's Backup` is specially made for notes.".format(chat.title, chat_id, tgl), timeout=360, reply_to_message_id=msg.message_id, parse_mode=ParseMode.MARKDOWN)
 	os.remove("CTRL{}.backup".format(chat_id)) # Cleaning file
 
 
@@ -310,7 +310,7 @@ __help__ = """
  - /import: reply to the backup file for the butler / emilia group to import as much as possible, making transfers very easy! \
  Note that files / photos cannot be imported due to telegram restrictions.
  - /export: export group data, which will be exported are: rules, notes (documents, images, music, video, audio, voice, text, text buttons) \
-This module is still in beta! Report bugs in @HarukaAyaGroup !
+This module is still in beta!
 """
 
 IMPORT_HANDLER = CommandHandler("import", import_data)
