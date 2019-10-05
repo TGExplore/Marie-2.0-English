@@ -72,13 +72,10 @@ def import_data(bot: Bot, update):
 			data = json.load(file)
 
 		try:
-			# If backup is from CTRL
-			if data.get('bot_base') == "CTRL":
-				imp_antiflood = False
+			# If backup is from Monica
+			if data.get('bot_base') == "Monica":
 				imp_blacklist = False
 				imp_blacklist_count = 0
-				imp_blsticker = False
-				imp_blsticker_count = 0
 				imp_disabled_count = 0
 				imp_filters_count = 0
 				imp_greet = False
@@ -88,7 +85,6 @@ def import_data(bot: Bot, update):
 				imp_notes = 0
 				imp_report = False
 				imp_rules = False
-				imp_lang = False
 				imp_warn = False
 				imp_warn_chat = 0
 				imp_warn_filter = 0
@@ -99,17 +95,6 @@ def import_data(bot: Bot, update):
 					is_self = True
 				else:
 					is_self = False
-				# Import antiflood
-				if data.get('antiflood'):
-					imp_antiflood = True
-					flood_limit = data['antiflood'].get('flood_limit')
-					flood_mode = data['antiflood'].get('flood_mode')
-					flood_duration = data['antiflood'].get('flood_duration')
-
-					# Add to db
-					antifloodsql.set_flood(chat_id, int(flood_limit))
-					antifloodsql.set_flood_strength(chat_id, flood_mode, flood_duration)
-
 				# Import blacklist
 				if data.get('blacklists'):
 					imp_blacklist = True
@@ -361,8 +346,6 @@ def import_data(bot: Bot, update):
 				else:
 					text = (update.effective_message, "Backup fully restored.\nDone with welcome backup! ").format(chat_name)
 				text += tl(update.effective_message, "\n\n I've returned it:\n")
-				if imp_antiflood:
-					text += (update.effective_message, "- Antiflood Settings\n")
 				if imp_blacklist:
 					text += (update.effective_message, "- Blacklist settings\n")
 				if imp_blacklist_count:
@@ -426,22 +409,6 @@ def import_data(bot: Bot, update):
 				NOT_IMPORTED = "This cannot be imported because from other bot."
 				NOT_IMPORTED_INT = 0
 				if data.get('data'):
-					# Import antiflood
-					if data['data'].get('antiflood'):
-						floodlimit = data['data']['antiflood'].get('flood_limit')
-						action = data['data']['antiflood'].get('action')
-						actionduration = data['data']['antiflood'].get('action_duration')
-						act_dur = make_time(int(actionduration))
-						antifloodsql.set_flood(chat_id, int(floodlimit))
-						if action == "ban":
-							antifloodsql.set_flood_strength(chat_id, 1, str(act_dur))
-							imp_antiflood = True
-						elif action == "kick":
-							antifloodsql.set_flood_strength(chat_id, 2, str(act_dur))
-							imp_antiflood = True
-						elif action == "mute":
-							antifloodsql.set_flood_strength(chat_id, 3, str(act_dur))
-							imp_antiflood = True
 					# Import blacklist
 					if data['data'].get('blacklists'):
 						action = data['data']['blacklists'].get('action')
@@ -582,8 +549,6 @@ def import_data(bot: Bot, update):
 					else:
 						text = (update.effective_message, "Backup fully recovered! \n it's it easy for me?!").format(chat_name)
 					text += (update.effective_message, "\n\nWhat I return:\n")
-					if imp_antiflood:
-						text += (update.effective_message, "- Antiflood settings\n")
 					if imp_blacklist:
 						text += (update.effective_message, "- Blacklist settings\n")
 					if imp_blacklist_count:
@@ -720,11 +685,6 @@ def export_data(bot: Bot, update: Update, chat_data):
 	# Make sure this backup is for this bot
 	bot_id = bot.id
 
-	# Backuping antiflood
-	flood_mode, flood_duration = antifloodsql.get_flood_setting(chat_id)
-	flood_limit = antifloodsql.get_flood_limit(chat_id)
-	antiflood = {'flood_mode': flood_mode, 'flood_duration': flood_duration, 'flood_limit': flood_limit}
-
 	# Backuping blacklists
 	all_blacklisted = blacklistsql.get_chat_blacklist(chat_id)
 	blacklist_mode, blacklist_duration = blacklistsql.get_blacklist_setting(chat.id)
@@ -783,10 +743,6 @@ def export_data(bot: Bot, update: Update, chat_data):
 
 	getcur, cur_value, cust_text = welcsql.welcome_security(chat_id)
 	greetings["security"] = {"enable": getcur, "text": cust_text, "time": cur_value}
-
-	# Backuping chat language
-	getlang = langsql.get_lang(chat_id)
-	language = {"language": getlang}
 
 	# Backuping locks
 	curr_locks = locksql.get_locks(chat_id)
