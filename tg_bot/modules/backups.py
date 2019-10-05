@@ -17,17 +17,12 @@ from tg_bot.modules.rules import get_rules
 from tg_bot.modules.helper_funcs.string_handling import button_markdown_parser, make_time
 
 # SQL
-import tg_bot.modules.sql.antiflood_sql as antifloodsql
-import tg_bot.modules.sql.blacklist_sql as blacklistsql
 
-from tg_bot.modules.sql import disable_sql as disabledsql
 from tg_bot.modules.sql import cust_filters_sql as filtersql
 import tg_bot.modules.sql.locks_sql as locksql
 from tg_bot.modules.locks import LOCK_TYPES, RESTRICTION_TYPES
 from tg_bot.modules.sql import notes_sql as notesql
-from tg_bot.modules.sql import reporting_sql as reportsql
 import tg_bot.modules.sql.rules_sql as rulessql
-from tg_bot.modules.sql import warns_sql as warnssql
 import tg_bot.modules.sql.welcome_sql as welcsql
 
 from tg_bot.modules.connection import connected
@@ -74,20 +69,13 @@ def import_data(bot: Bot, update):
 		try:
 			# If backup is from Monica
 			if data.get('bot_base') == "Monica":
-				imp_blacklist = False
-				imp_blacklist_count = 0
-				imp_disabled_count = 0
 				imp_filters_count = 0
 				imp_greet = False
 				imp_gdbye = False
 				imp_greet_pref = False
 				imp_locks = False
 				imp_notes = 0
-				imp_report = False
 				imp_rules = False
-				imp_warn = False
-				imp_warn_chat = 0
-				imp_warn_filter = 0
 				NOT_IMPORTED = "This cannot be imported because from other bot."
 				NOT_IMPORTED_INT = 0
 				# If backup is from this bot, import all files
@@ -95,30 +83,6 @@ def import_data(bot: Bot, update):
 					is_self = True
 				else:
 					is_self = False
-				# Import blacklist
-				if data.get('blacklists'):
-					imp_blacklist = True
-					blacklist_mode = data['blacklists'].get('blacklist_mode')
-					blacklist_duration = data['blacklists'].get('blacklist_duration')
-					blacklisted = data['blacklists'].get('blacklists')
-
-					# Add to db
-					blacklistsql.set_blacklist_strength(chat_id, blacklist_mode, blacklist_duration)
-					if blacklisted:
-						for x in blacklisted:
-							blacklistsql.add_to_blacklist(chat_id, x.lower())
-							imp_blacklist_count += 1
-
-				
-				# Import disabled
-				if data.get('disabled'):
-					candisable = disabledsql.get_disableable()
-					if data['disabled'].get('disabled'):
-						for listdisabled in data['disabled'].get('disabled'):
-							if listdisabled in candisable:
-								disabledsql.disable_command(chat_id, listdisabled)
-								imp_disabled_count += 1
-
 				# Import filters
 				if data.get('filters'):
 					NOT_IMPORTED += "\n\nFilters:\n"
@@ -300,12 +264,6 @@ def import_data(bot: Bot, update):
 								NOT_IMPORTED += "- {}\n".format(x['name'])
 								NOT_IMPORTED_INT += 1
 
-				# Import reports
-				if data.get('report'):
-					reporting = data['report'].get('report')
-					reportsql.set_chat_setting(chat_id, bool(reporting))
-					imp_report = True
-
 				# Import rules
 				if data.get('rules'):
 					contrules = data['rules'].get('rules')
@@ -313,45 +271,11 @@ def import_data(bot: Bot, update):
 						rulessql.set_rules(chat_id, contrules)
 						imp_rules = True
 
-				# Import warn config
-				if data.get('warns'):
-					warn_limit = data['warns'].get('warn_limit')
-					if warn_limit >= 3:
-						warnssql.set_warn_limit(chat_id, int(warn_limit))
-
-					warn_mode = data['warns'].get('warn_mode')
-					if warn_mode:
-						if warn_mode <= 3:
-							warnssql.set_warn_mode(chat_id, int(warn_mode))
-							imp_warn = True
-
-					# Import all warn filters
-					if data['warns'].get('warn_filters'):
-						for x in data['warns'].get('warn_filters'):
-							warnssql.add_warn_filter(chat_id, x['name'], x['reason'])
-							imp_warn_filter += 1
-
-					# Import all warn from backup chat, reset first for prevent overwarn
-					if data['warns'].get('chat_warns'):
-						for x in data['warns'].get('chat_warns'):
-							# If this invaild
-							if x['warns'] > warn_limit:
-								break
-							warnssql.reset_warns(x['user_id'], chat_id)
-							warnssql.import_warns(x['user_id'], chat_id, int(x['warns']), x['reasons'])
-							imp_warn_chat += 1
-
 				if conn:
 					text = (update.effective_message, "Full backup returned on *{}*. Welcome backup! ").format(chat_name)
 				else:
 					text = (update.effective_message, "Backup fully restored.\nDone with welcome backup! ").format(chat_name)
-				text += tl(update.effective_message, "\n\n I've returned it:\n")
-				if imp_blacklist:
-					text += (update.effective_message, "- Blacklist settings\n")
-				if imp_blacklist_count:
-					text += (update.effective_message, "- {} blacklists\n").format(imp_blacklist_count)
-				if imp_disabled_count:
-					text += (update.effective_message, "- {} cmd disabled\n").format(imp_disabled_count)
+				text += (update.effective_message, "\n\n I've returned it:\n")
 				if imp_filters_count:
 					text += (update.effective_message, "- {} filters\n").format(imp_filters_count)
 				if imp_greet_pref:
@@ -364,16 +288,8 @@ def import_data(bot: Bot, update):
 					text += (update.effective_message, "- Locking\n")
 				if imp_notes:
 					text += (update.effective_message, "- {} Notes\n").format(imp_notes)
-				if imp_report:
-					text += (update.effective_message, "- Reporting settings\n")
 				if imp_rules:
 					text += (update.effective_message, "- Group rules message\n")
-				if imp_warn:
-					text += (update.effective_message, "- Warning settings\n")
-				if imp_warn_chat:
-					text += (update.effective_message, "- {} Warning user\n").format(imp_warn_chat)
-				if imp_warn_filter:
-					text += (update.effective_message, "- {} filter warnings\n").format(imp_warn_filter)
 				try:
 					msg.reply_text(text, parse_mode="markdown")
 				except BadRequest:
@@ -394,66 +310,15 @@ def import_data(bot: Bot, update):
 			# If backup is from rose
 			# doing manual lol
 			if data.get('bot_id') == 7815183153:
-				imp_antiflood = False
-				imp_blacklist = False
-				imp_blacklist_count = 0
-				imp_disabled_count = 0
 				imp_filters_count = 0
 				imp_greet = False
 				imp_gdbye = False
 				imp_greet_pref = False
 				imp_notes = 0
-				imp_report = False
 				imp_rules = False
-				imp_warn = False
 				NOT_IMPORTED = "This cannot be imported because from other bot."
 				NOT_IMPORTED_INT = 0
 				if data.get('data'):
-					# Import blacklist
-					if data['data'].get('blacklists'):
-						action = data['data']['blacklists'].get('action')
-						actionduration = data['data']['blacklists'].get('action_duration')
-						act_dur = make_time(int(actionduration))
-						strengthdone = False
-						if action == "del":
-							strengthdone = True
-							blacklistsql.set_blacklist_strength(chat_id, 1, str(act_dur))
-							imp_blacklist = True
-						elif action == "warn":
-							strengthdone = True
-							blacklistsql.set_blacklist_strength(chat_id, 2, str(act_dur))
-							imp_blacklist = True
-						elif action == "mute":
-							strengthdone = True
-							blacklistsql.set_blacklist_strength(chat_id, 3, str(act_dur))
-							imp_blacklist = True
-						elif action == "kick":
-							strengthdone = True
-							blacklistsql.set_blacklist_strength(chat_id, 4, str(act_dur))
-							imp_blacklist = True
-						elif action == "ban":
-							strengthdone = True
-							blacklistsql.set_blacklist_strength(chat_id, 5, str(act_dur))
-							imp_blacklist = True
-						else:
-							if not strengthdone:
-								action = data['data']['blacklists'].get('should_delete')
-								if action:
-									blacklistsql.set_blacklist_strength(chat_id, 1, "0")
-									imp_blacklist = True
-						blacklisted = data['data']['blacklists'].get('filters')
-						if blacklisted:
-							for x in blacklisted:
-								blacklistsql.add_to_blacklist(chat_id, x['name'].lower())
-								imp_blacklist_count += 1
-					# Import disabled
-					if data['data'].get('disabled'):
-						if data['data']['disabled'].get('disabled'):
-							candisable = disabledsql.get_disableable()
-							for listdisabled in data['data']['disabled'].get('disabled'):
-								if listdisabled in candisable:
-									disabledsql.disable_command(chat_id, listdisabled)
-									imp_disabled_count += 1
 					# Import filters
 					if data['data'].get('filters'):
 						NOT_IMPORTED += "\n\nFilters:\n"
@@ -516,45 +381,17 @@ def import_data(bot: Bot, update):
 							else:
 								NOT_IMPORTED += "- {}\n".format(x['name'])
 								NOT_IMPORTED_INT += 1
-					# Import reports
-					if data['data'].get('reports'):
-						if data['data']['reports'].get('disable_reports'):
-							reporting = False
-						else:
-							reporting = True
-						reportsql.set_chat_setting(chat_id, reporting)
-						imp_report = True
 					# Import rules
 					if data['data'].get('rules'):
 						contrules = data['data']['rules'].get('content')
 						if contrules:
 							rulessql.set_rules(chat_id, contrules.replace("\\", ""))
 							imp_rules = True
-					# Import warn
-					if data['data'].get('warns'):
-						action = data['data']['warns'].get('action')
-						# actionduration = data['data']['warns'].get('action_duration')
-						# act_dur = make_time(int(actionduration))
-						if action == "kick":
-							warnssql.set_warn_mode(chat_id, 1)
-							imp_warn = True
-						elif action == "ban":
-							warnssql.set_warn_mode(chat_id, 2)
-							imp_warn = True
-						elif action == "mute":
-							warnssql.set_warn_mode(chat_id, 3)
-							imp_warn = True
 					if conn:
 						text = (update.effective_message, "Backup is fully restored in*{}*. Welcome backup! :3").format(chat_name)
 					else:
 						text = (update.effective_message, "Backup fully recovered! \n it's it easy for me?!").format(chat_name)
 					text += (update.effective_message, "\n\nWhat I return:\n")
-					if imp_blacklist:
-						text += (update.effective_message, "- Blacklist settings\n")
-					if imp_blacklist_count:
-						text += (update.effective_message, "- {} blacklists\n").format(imp_blacklist_count)
-					if imp_disabled_count:
-						text += (update.effective_message, "- {} cmd disabled\n").format(imp_disabled_count)
 					if imp_filters_count:
 						text += (update.effective_message, "- {} filters\n").format(imp_filters_count)
 					if imp_greet_pref:
@@ -565,12 +402,8 @@ def import_data(bot: Bot, update):
 						text += (update.effective_message, "- Goodbye message\n")
 					if imp_notes:
 						text += (update.effective_message, "- {} Notes\n").format(imp_notes)
-					if imp_report:
-						text += (update.effective_message, "- Report Settings\n")
 					if imp_rules:
 						text += (update.effective_message, "- Chat rules.\n")
-					if imp_warn:
-						text += (update.effective_message, "- Warnings\n")
 					try:
 						msg.reply_text(text, parse_mode="markdown")
 					except BadRequest:
@@ -684,15 +517,6 @@ def export_data(bot: Bot, update: Update, chat_data):
 
 	# Make sure this backup is for this bot
 	bot_id = bot.id
-
-	# Backuping blacklists
-	all_blacklisted = blacklistsql.get_chat_blacklist(chat_id)
-	blacklist_mode, blacklist_duration = blacklistsql.get_blacklist_setting(chat.id)
-	blacklists = {'blacklist_mode': blacklist_mode, 'blacklist_duration': blacklist_duration, 'blacklists': all_blacklisted}
-
-	# Backuping disabled
-	cmd_disabled = disabledsql.get_all_disabled(chat_id)
-	disabled = {'disabled': cmd_disabled}
 
 	# Backuping filters
 	all_filters = filtersql.get_chat_triggers(chat_id)
@@ -808,34 +632,17 @@ def export_data(bot: Bot, update: Update, chat_data):
 			note_file = ""
 		notes.append({"note_tag": note_tag, "note_data": note_data, "note_file": note_file, "note_type": note_type})
 
-	# Backuping reports
-	get_report = reportsql.user_should_report(chat_id)
-	report = {'report': get_report}
-
 	# Backuping rules
 	getrules = rulessql.get_rules(chat_id)
 	rules = {"rules": getrules}
 
-	# Backuping warns config and warn filters
-	warn_limit, _, warn_mode = warnssql.get_warn_setting(chat_id)
-	all_handlers = warnssql.get_chat_warn_triggers(chat_id)
-	all_warn_filter = []
-	for x in all_handlers:
-		warnreply = warnssql.get_warn_filter(chat_id, x)
-		all_warn_filter.append({'name': x, 'reason': warnreply.reply})
-	if not warn_mode:
-		warn_mode = ""
-	# Get all warnings in current chat
-	allwarns = warnssql.get_allwarns(chat_id)
-	warns = {"warn_limit": warn_limit, "warn_mode": warn_mode, "warn_filters": all_warn_filter, "chat_warns": allwarns}
-
 
 	# Parsing backups
-	backup = {"bot_id": bot_id, "bot_base": bot_base, "antiflood": antiflood, "blacklists": blacklists, "disabled": disabled, "filters": filters, "greetings": greetings,  "locks": locks, "notes": notes, "report": report, "rules": rules, "warns": warns, "version": backup_ver}
+	backup = {"bot_id": bot_id, "bot_base": bot_base, "filters": filters, "greetings": greetings,  "locks": locks, "notes": notes, "rules": rules, "version": backup_ver}
 
 
 	all_backups = json.dumps(backup, indent=4, cls=SetEncoder)
-	f = open("{}-Emilia.backup".format(chat_id), "w")
+	f = open("{}-Monica.backup".format(chat_id), "w")
 	f.write(str(all_backups))
 	f.close()
 	bot.sendChatAction(current_chat_id, "upload_document")
