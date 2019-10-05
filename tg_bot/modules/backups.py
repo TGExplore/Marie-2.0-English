@@ -14,6 +14,7 @@ from tg_bot.modules.helper_funcs.chat_status import user_admin
 from tg_bot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from tg_bot.modules.helper_funcs.msg_types import get_note_type
 from tg_bot.modules.rules import get_rules
+from tg_bot.modules.sql import notes_sql as notesql
 import tg_bot.modules.sql.rules_sql as rulessql
 from tg_bot.modules.sql import warns_sql as warnssql
 import tg_bot.modules.sql.blacklist_sql as blacklistsql
