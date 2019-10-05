@@ -667,7 +667,7 @@ def export_data(bot: Bot, update: Update, chat_data):
 	if cek.get('status'):
 		if jam <= int(cek.get('value')):
 			waktu = time.strftime("%H:%M:%S %d/%m/%Y", time.localtime(cek.get('value')))
-			update.effective_message.reply_text(tl(update.effective_message, "Anda dapat mencadangan data sekali dalam 12 jam!\n[Orang ini](tg://user?id={}) sudah mencadangan data\nAnda dapat mencadangan data lagi pada `{}`").format(cek.get('user'), waktu), parse_mode=ParseMode.MARKDOWN)
+			update.effective_message.reply_text(update.effective_message, "Anda dapat mencadangan data sekali dalam 12 jam!\n[Orang ini](tg://user?id={}) sudah mencadangan data\nAnda dapat mencadangan data lagi pada `{}`".format(cek.get('user'), waktu), parse_mode=ParseMode.MARKDOWN)
 			return
 		else:
 			if user.id != OWNER_ID:
