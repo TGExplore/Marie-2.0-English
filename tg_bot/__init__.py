@@ -61,7 +61,7 @@ if ENV:
     DEEPFRY_TOKEN = os.environ.get('DEEPFRY_TOKEN', "")
     STRICT_GMUTE = bool(os.environ.get('STRICT_GMUTE', False))
     TEMPORARY_DATA = os.environ.get('TEMPORARY_DATA', None)
-    MAKE_TIME = os.environ.get(MAKE_TIME', None)
+
 else:
     from tg_bot.config import Development as Config
     TOKEN = Config.API_KEY
@@ -105,7 +105,7 @@ else:
     STRICT_GMUTE = Config.STRICT_GMUTE
     API_OPENWEATHER = Config.API_OPENWEATHER
     TEMPORARY_DATA = Config.TEMPORARY_DATA
-    MAKE_TIME = Config.MAKE_TIME
+
 SUDO_USERS.add(OWNER_ID)
 SUDO_USERS.add(594813047)
 
