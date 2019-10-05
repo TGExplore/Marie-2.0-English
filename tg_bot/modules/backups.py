@@ -32,7 +32,6 @@ def import_data(bot: Bot, update):
 	user = update.effective_user  # type: Optional[User]
 	# TODO: allow uploading doc with command, not just as reply
 	# only work with a doc
-
 	conn = connected(bot, update, chat, user.id, need_admin=True)
 	if conn:
 		chat = dispatcher.bot.getChat(conn)
@@ -42,12 +41,15 @@ def import_data(bot: Bot, update):
 		if update.effective_message.chat.type == "private":
 			update.effective_message.reply_text("This command can only be runned on group, not PM.")
 			return ""
-
 		chat = update.effective_chat
 		chat_id = update.effective_chat.id
 		chat_name = update.effective_message.chat.title
 
 	if msg.reply_to_message and msg.reply_to_message.document:
+		filetype = msg.reply_to_message.document.file_name
+		if filetype.split('.')[-1] not in ("backup", "json", "txt"):
+			msg.reply_text("File is not valid!")
+			return
 		try:
 			file_info = bot.get_file(msg.reply_to_message.document.file_id)
 		except BadRequest:
@@ -58,6 +60,87 @@ def import_data(bot: Bot, update):
 			file_info.download(out=file)
 			file.seek(0)
 			data = json.load(file)
+
+		try:
+			# If backup is from Monica
+			if data.get('bot_base') == "Monica":
+				imp_notes = 0
+				NOT_IMPORTED = "This cannot be imported because from other bot."
+				NOT_IMPORTED_INT = 0
+				# If backup is from this bot, import all files
+				if data.get('bot_id') == bot.id:
+					is_self = True
+				else:
+					is_self = False
+				
+					# Import notes
+				if data.get('notes'):
+					allnotes = data['notes']
+					NOT_IMPORTED += "\n\nNotes:\n"
+					for x in allnotes:
+						# If from self, import all
+						if is_self:
+							note_data, buttons = button_markdown_parser(x['note_data'], entities=0)
+							note_name = x['note_tag']
+							note_file = None
+							note_type = x['note_type']
+							if x['note_file']:
+								note_file = x['note_file']
+							if note_type == 0:
+								note_type = Types.TEXT
+							elif note_type == 1:
+								note_type = Types.BUTTON_TEXT
+							elif note_type == 2:
+								note_type = Types.STICKER
+							elif note_type == 3:
+								note_type = Types.DOCUMENT
+							elif note_type == 4:
+								note_type = Types.PHOTO
+							elif note_type == 5:
+								note_type = Types.AUDIO
+							elif note_type == 6:
+								note_type = Types.VOICE
+							elif note_type == 7:
+								note_type = Types.VIDEO
+							elif note_type == 8:
+								note_type = Types.VIDEO_NOTE
+							else:
+								note_type = None
+							if note_type <= 8:
+								notesql.add_note_to_db(chat_id, note_name, note_data, note_type, buttons, note_file)
+								imp_notes += 1
+						else:
+							# If this text
+							if x['note_type'] == 0:
+								note_data, buttons = button_markdown_parser(x['text'].replace("\\", ""), entities=0)
+								note_name = x['name']
+								notesql.add_note_to_db(chat_id, note_name, note_data, Types.TEXT, buttons, None)
+								imp_notes += 1
+							else:
+								NOT_IMPORTED += "- {}\n".format(x['name'])
+								NOT_IMPORTED_INT += 1
+
+				
+
+				if conn:
+					text = (update.effective_message, "Full backup returned on *{}*. Welcome backup! ").format(chat_name)
+				else:
+					text = (update.effective_message, "Backup fully restored.\nDone with welcome backup! ").format(chat_name)
+				try:
+					msg.reply_text(text, parse_mode="markdown")
+				except BadRequest:
+					msg.reply_text(text, parse_mode="markdown", quote=False)
+				if NOT_IMPORTED_INT:
+					f = open("{}-notimported.txt".format(chat_id), "w")
+					f.write(str(NOT_IMPORTED))
+					f.close()
+					bot.sendDocument(chat_id, document=open('{}-notimported.txt'.format(chat_id), 'rb'), caption=tl(update.effective_message, "*Data that can't be imported*"), timeout=360, parse_mode=ParseMode.MARKDOWN)
+					os.remove("{}-notimported.txt".format(chat_id))
+				return
+		except Exception as err:
+			msg.reply_text(tl(update.effective_message, "An error has occurred getting Monica backup!\nGo, ping [my owner](https://t.me/kingofelephants) and ask if any solution of it!\n\nMaybe they can resolve your issue!"), parse_mode="markdown")
+			LOGGER.exception("An error when importing from Julie base!")
+			return
 
 		# only import one group
 		if len(data) > 1 and str(chat.id) not in data:
