@@ -19,7 +19,7 @@ from tg_bot.modules.helper_funcs.string_handling import button_markdown_parser, 
 # SQL
 import tg_bot.modules.sql.antiflood_sql as antifloodsql
 import tg_bot.modules.sql.blacklist_sql as blacklistsql
-import tg_bot.modules.sql.blsticker_sql as blackliststksql
+
 from tg_bot.modules.sql import disable_sql as disabledsql
 from tg_bot.modules.sql import cust_filters_sql as filtersql
 from tg_bot.modules.sql import languages_sql as langsql
