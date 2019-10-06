@@ -398,6 +398,30 @@ def clean_welcome(bot: Bot, update: Update, args: List[str]) -> str:
         return ""
 
 
+
+@run_async
+@user_admin
+def security(bot: Bot, update: Update, args: List[str]) -> str:
+    chat = update.effective_chat  # type: Optional[Chat]
+    if len(args) >= 1:
+        var = args[0]
+        print(var)
+        if (var == "no" or var == "off"):
+            sql.set_welcome_security(chat.id, False)
+            update.effective_message.reply_text("Disabled welcome security")
+        elif(var == "soft"):
+            sql.set_welcome_security(chat.id, "soft")
+            update.effective_message.reply_text("I will restrict user's permission to send media for 24 hours")
+        elif(var == "hard"):
+            sql.set_welcome_security(chat.id, "hard")
+            update.effective_message.reply_text("New users will be muted if they do not click on the button")
+        else:
+            update.effective_message.reply_text("Please enter `off`/`no`/`soft`/`hard`!", parse_mode=ParseMode.MARKDOWN)
+    else:
+        status = sql.welcome_security(chat.id)
+        update.effective_message.reply_text(status)
+
+    
 WELC_HELP_TXT = "Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages" \
                 " to be individually generated, like the default welcome message is, you can use *these* variables:\n" \
                 " - `{{first}}`: this represents the user's *first* name\n" \
@@ -481,6 +505,7 @@ RESET_WELCOME = CommandHandler("resetwelcome", reset_welcome, filters=Filters.gr
 RESET_GOODBYE = CommandHandler("resetgoodbye", reset_goodbye, filters=Filters.group)
 CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, pass_args=True, filters=Filters.group)
 WELCOME_HELP = CommandHandler("welcomehelp", welcome_help)
+SECURITY_HANDLER = CommandHandler("welcomesecurity", security, pass_args=True, filters=Filters.group)
 
 dispatcher.add_handler(NEW_MEM_HANDLER)
 dispatcher.add_handler(LEFT_MEM_HANDLER)
@@ -492,3 +517,4 @@ dispatcher.add_handler(RESET_WELCOME)
 dispatcher.add_handler(RESET_GOODBYE)
 dispatcher.add_handler(CLEAN_WELCOME)
 dispatcher.add_handler(WELCOME_HELP)
+dispatcher.add_handler(SECURITY_HANDLER)
