@@ -60,7 +60,7 @@ REPO_HANDLER = DisableAbleCommandHandler("repo", repo, pass_args=True, admin_ok=
 
 
 dispatcher.add_handler(github_handle)
-dispactcher.add_handler(REPO_HANDLER)
+dispatcher.add_handler(REPO_HANDLER)
 
 
 
