@@ -46,6 +46,10 @@ def repo(bot: Bot, update: Update, args: [str]):
     for i in range(len(usr)):
         reply_text += f"[{usr[i]['name']}]({usr[i]['html_url']})\n"
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+"""
+    else:
+        reply_text = "User not found. Make sure you entered valid username!"
+    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
 __help__ = """
  - /git:{GitHub username} Returns info about a GitHub user or organization.
