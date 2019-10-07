@@ -49,9 +49,10 @@ def repo(bot: Bot, update: Update, args: [str]):
 
 __help__ = """
  - /git:{GitHub username} Returns info about a GitHub user or organization.
+ - /repo: Return the GitHub user or organization repository list (Limited at 40)
 """
 
-__mod_name__ = "GitHub username info"
+__mod_name__ = "GitHub Module"
 
 github_handle = DisableAbleCommandHandler("git", github)
 REPO_HANDLER = DisableAbleCommandHandler("repo", repo, pass_args=True, admin_ok=True)
