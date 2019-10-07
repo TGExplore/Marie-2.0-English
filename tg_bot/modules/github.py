@@ -36,6 +36,17 @@ def github(bot: Bot, update: Update):
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
 
+
+@run_async
+def repo(bot: Bot, update: Update, args: List[str]):
+    message = update.effective_message
+    text = message.text[len('/repo '):]
+    usr = get(f'https://api.github.com/users/{text}/repos?per_page=40').json()
+    reply_text = "*Repo*\n"
+    for i in range(len(usr)):
+        reply_text += f"[{usr[i]['name']}]({usr[i]['html_url']})\n"
+    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+
 __help__ = """
  - /git:{GitHub username} Returns info about a GitHub user or organization.
 """
@@ -43,5 +54,19 @@ __help__ = """
 __mod_name__ = "GitHub username info"
 
 github_handle = DisableAbleCommandHandler("git", github)
+REPO_HANDLER = DisableAbleCommandHandler("repo", repo, pass_args=True, admin_ok=True)
+
+
+
 
 dispatcher.add_handler(github_handle)
+dispactcher.add_handler(REPO_HANDLER)
+
+
+
+
+
+
+
+
+
