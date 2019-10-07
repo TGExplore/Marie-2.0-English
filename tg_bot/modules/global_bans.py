@@ -307,11 +307,11 @@ you and your groups by removing spam flooders as quickly as possible. They can b
 
 __mod_name__ = "Global Bans"
 
-GBAN_HANDLER = DisableAbleDisableAbleCommandHandler("gban", gban, pass_args=True,
+GBAN_HANDLER = DisableAbleCommandHandler("gban", gban, pass_args=True,
                               filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
-UNGBAN_HANDLER = CommandHandler("ungban", ungban, pass_args=True,
+UNGBAN_HANDLER = DisableAbleCommandHandler("ungban", ungban, pass_args=True,
                                 filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
-GBAN_LIST = DisableAbleDisableAbleCommandHandler("gbanlist", gbanlist,
+GBAN_LIST = DisableAbleCommandHandler("gbanlist", gbanlist,
                            filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
 
 GBAN_STATUS = DisableAbleCommandHandler("gbanstat", gbanstat, pass_args=True, filters=Filters.group)
