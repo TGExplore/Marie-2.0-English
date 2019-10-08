@@ -10,6 +10,10 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 ABUSE_STRINGS = (
     "Fuck off",
     "Stfu go fuck yourself",
+    "Jaa na lawde",
+    "Teri maa ki chut",
+    "Bhag madharchod",
+    "MUH ME LEGA KYA BSDK",
     "Ur mum gey",
     "Ur dad lesbo",
     "Bsdk",
