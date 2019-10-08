@@ -100,6 +100,34 @@ def leavechat(bot: Bot, update: Update, args: List[int]):
         bot.leaveChat(chat_id)
     else:
         update.effective_message.reply_text("You don't seem to be referring to a chat")
+     
+@run_async
+def slist(bot: Bot, update: Update):
+    message = update.effective_message
+    text1 = "My sudo users are:"
+    text2 = "My support users are:"
+    for user_id in SUDO_USERS:
+        try:
+            user = bot.get_chat(user_id)
+            name = "[{}](tg://user?id={})".format(user.first_name + (user.last_name or ""), user.id)
+            if user.username:
+                name = escape_markdown("@" + user.username)
+            text1 += "\n - `{}`".format(name)
+        except BadRequest as excp:
+            if excp.message == 'Chat not found':
+                text1 += "\n - ({}) - not found".format(user_id)
+    for user_id in SUPPORT_USERS:
+        try:
+            user = bot.get_chat(user_id)
+            name = "[{}](tg://user?id={})".format(user.first_name + (user.last_name or ""), user.id)
+            if user.username:
+                name = escape_markdown("@" + user.username)
+            text2 += "\n - `{}`".format(name)
+        except BadRequest as excp:
+            if excp.message == 'Chat not found':
+                text2 += "\n - ({}) - not found".format(user_id)
+    message.reply_text(text1 + "\n", parse_mode=ParseMode.MARKDOWN)
+    message.reply_text(text2 + "\n", parse_mode=ParseMode.MARKDOWN)
 
 __help__ = """
 **Owner only:**
@@ -135,6 +163,8 @@ QUICKSCOPE_HANDLER = CommandHandler("quickscope", quickscope, pass_args=True, fi
 QUICKUNBAN_HANDLER = CommandHandler("quickunban", quickunban, pass_args=True, filters=CustomFilters.sudo_filter)
 GETLINK_HANDLER = CommandHandler("getlink", getlink, pass_args=True, filters=Filters.user(OWNER_ID))
 LEAVECHAT_HANDLER = CommandHandler("leavechat", leavechat, pass_args=True, filters=Filters.user(OWNER_ID))
+SLIST_HANDLER = CommandHandler("slist", slist,
+                           filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
 
 dispatcher.add_handler(SNIPE_HANDLER)
 dispatcher.add_handler(BANALL_HANDLER)
@@ -142,3 +172,4 @@ dispatcher.add_handler(QUICKSCOPE_HANDLER)
 dispatcher.add_handler(QUICKUNBAN_HANDLER)
 dispatcher.add_handler(GETLINK_HANDLER)
 dispatcher.add_handler(LEAVECHAT_HANDLER)
+dispatcher.add_handler(SLIST_HANDLER)
