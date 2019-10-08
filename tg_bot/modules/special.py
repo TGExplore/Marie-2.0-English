@@ -6,6 +6,7 @@ from telegram import Update, Bot
 from telegram.error import BadRequest
 from telegram.ext import MessageHandler, Filters, CommandHandler
 from telegram.ext.dispatcher import run_async
+from telegram.utils.helpers import escape_markdown
 from tg_bot.modules.helper_funcs.chat_status import is_user_ban_protected, bot_admin
 
 import tg_bot.modules.sql.users_sql as sql
