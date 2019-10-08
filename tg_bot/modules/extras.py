@@ -263,9 +263,11 @@ __help__ = """
  - /tts <any text> : Converts text to speech
  - /bluetext : check urself :V
  - /roll : Roll a dice.
+ 
+
  - /rlg : Join ears,nose,mouth and create an emo ;-;
  - /zal <any text> : zalgofy! your text
- Lyrics Plugin will take some moar time to come up.
+ 
 """
 
 __mod_name__ = "Extras"
@@ -276,6 +278,7 @@ SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug)
 BLUETEXT_HANDLER = DisableAbleCommandHandler("bluetext", bluetext)
 RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
+ABUSE_HANDLER = DisableAbleCommandHandler("abuse", abuse)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 
 dispatcher.add_handler(ROLL_HANDLER)
@@ -285,3 +288,4 @@ dispatcher.add_handler(BLUETEXT_HANDLER)
 dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
+dispatcher.add_handler(ABUSE_HANDLER)
