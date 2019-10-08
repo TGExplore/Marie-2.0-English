@@ -102,33 +102,7 @@ def chats(bot: Bot, update: Update):
                                                 caption="Here is the list of chats in my database.")
 
   
-@run_async
-def slist(bot: Bot, update: Update):
-    message = update.effective_message
-    text1 = "My sudo users are:"
-    text2 = "My support users are:"
-    for user_id in SUDO_USERS:
-        try:
-            user = bot.get_chat(user_id)
-            name = "[{}](tg://user?id={})".format(user.first_name + (user.last_name or ""), user.id)
-            if user.username:
-                name = escape_markdown("@" + user.username)
-            text1 += "\n - `{}`".format(name)
-        except BadRequest as excp:
-            if excp.message == 'Chat not found':
-                text1 += "\n - ({}) - not found".format(user_id)
-    for user_id in SUPPORT_USERS:
-        try:
-            user = bot.get_chat(user_id)
-            name = "[{}](tg://user?id={})".format(user.first_name + (user.last_name or ""), user.id)
-            if user.username:
-                name = escape_markdown("@" + user.username)
-            text2 += "\n - `{}`".format(name)
-        except BadRequest as excp:
-            if excp.message == 'Chat not found':
-                text2 += "\n - ({}) - not found".format(user_id)
-    message.reply_text(text1 + "\n" + text2 + "\n", parse_mode=ParseMode.MARKDOWN)
-    #message.reply_text(text2 + "\n", parse_mode=ParseMode.MARKDOWN)
+
         
 
 def __user_info__(user_id):
@@ -153,10 +127,10 @@ __mod_name__ = "Users"
 BROADCAST_HANDLER = CommandHandler("broadcast", broadcast, filters=Filters.user(OWNER_ID))
 USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
 CHATLIST_HANDLER = CommandHandler("chatlist", chats, filters=CustomFilters.sudo_filter)
-SLIST_HANDLER = CommandHandler("slist", slist,
-                           filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
+
+
 
 dispatcher.add_handler(USER_HANDLER, USERS_GROUP)
 dispatcher.add_handler(BROADCAST_HANDLER)
 dispatcher.add_handler(CHATLIST_HANDLER)
-dispatcher.add_handler(SLIST_HANDLER)
+
