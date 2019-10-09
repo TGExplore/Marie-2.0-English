@@ -84,14 +84,15 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
           "\n<b>Admin:</b> {}" \
           "\n<b>User:</b> {}".format(html.escape(chat.title), mention_html(user.id, user.first_name),
                                      mention_html(member.user.id, member.user.first_name))
+    
+    reply = "{} Banned!".format(mention_html(member.user.id, member.user.first_name))
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
-
+        
     try:
         chat.kick_member(user_id)
-        bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         keyboard = []
-        reply = "{} Banned!".format(mention_html(member.user.id, member.user.first_name))
+        bot.send_sticker(update.effective_chat.id, BAN_STICKER)
         message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
         return log
 
