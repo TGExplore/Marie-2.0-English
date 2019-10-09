@@ -3,11 +3,11 @@ from PIL import Image
 from io import BytesIO
 import base64
 from spongemock import spongemock
-
-from deeppyer import deepfry
 import os
 from pathlib import Path
 import glob
+
+
 
 import nltk # shitty lib, but it does work
 nltk.download('punkt')
@@ -261,22 +261,25 @@ KIM_HANDLER = DisableAbleCommandHandler("kim", kimtext, admin_ok=True)
 MAFIA_HANDLER = DisableAbleCommandHandler("mafia", mafiatext, admin_ok=True)
 PIDOR_HANDLER = DisableAbleCommandHandler("pidor", pidortext, admin_ok=True)
 HITLER_HANDLER = DisableAbleCommandHandler("hitler", hitlertext, admin_ok=True)
-ZALGO_HANDLER = DisableAbleCommandHandler("zalgofy", zalgotext)
 FORBES_HANDLER = DisableAbleCommandHandler("forbes", forbesify, admin_ok=True)
-DEEPFRY_HANDLER = DisableAbleCommandHandler("deepfry", deepfryer, admin_ok=True)
 
 
 
+
+
+dispatcher.add_handler(HITLER_HANDLER)
 dispatcher.add_handler(MAFIA_HANDLER)
 dispatcher.add_handler(PIDOR_HANDLER)
-dispatcher.add_handler(SHOUT_HANDLER)
+dispatcher.add_handler(KIM_HANDLER)
 dispatcher.add_handler(OWO_HANDLER)
 dispatcher.add_handler(STRETCH_HANDLER)
 dispatcher.add_handler(VAPOR_HANDLER)
 dispatcher.add_handler(MOCK_HANDLER)
-dispatcher.add_handler(ZALGO_HANDLER)
 dispatcher.add_handler(FORBES_HANDLER)
-dispatcher.add_handler(DEEPFRY_HANDLER)
-dispatcher.add_handler(KIM_HANDLER)
-dispatcher.add_handler(HITLER_HANDLER)
+
+
+
+
+
+
 
