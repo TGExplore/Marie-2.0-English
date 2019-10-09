@@ -125,7 +125,7 @@ def gandhitext(bot: Bot, update: Update):
     reply_text = spongemock.mock(data)
 
     randint = random.randint(1, 699)
-    magick = """convert gandhi.jpg -font Impact -pointsize 50 -size 400x300 -stroke black -strokewidth 1 -fill white -background none -gravity north caption:"{}" -flatten 4pdaed{}.jpg""".format(reply_text, randint)
+    magick = """convert gandhi.jpg -font Impact -pointsize 50 -size 400x300 -stroke black -strokewidth 1 -fill white -background none -gravity north caption:"{}" -flatten gandhied{}.jpg""".format(reply_text, randint)
     os.system(magick)
     with open('gandhied{}.jpg'.format(randint), 'rb') as mockedphoto:
         message.reply_to_message.reply_photo(photo=mockedphoto, reply=message.reply_to_message)
