@@ -127,9 +127,9 @@ def gandhitext(bot: Bot, update: Update):
     randint = random.randint(1, 699)
     magick = """convert gandhi.jpg -font Impact -pointsize 50 -size 400x300 -stroke black -strokewidth 1 -fill white -background none -gravity north caption:"{}" -flatten 4pdaed{}.jpg""".format(reply_text, randint)
     os.system(magick)
-    with open('gandhi{}.jpg'.format(randint), 'rb') as mockedphoto:
+    with open('gandhied{}.jpg'.format(randint), 'rb') as mockedphoto:
         message.reply_to_message.reply_photo(photo=mockedphoto, reply=message.reply_to_message)
-    os.remove('gandhi{}.jpg'.format(randint))
+    os.remove('gandhied{}.jpg'.format(randint))
 
 
 @run_async
