@@ -18,6 +18,7 @@ telegram
 Pillow>=4.2.0
 translations
 zalgo_text
+nltk
 pynewtonmath
 bs4
 telegraph
