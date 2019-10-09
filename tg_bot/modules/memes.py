@@ -3,7 +3,7 @@ from PIL import Image
 from io import BytesIO
 import base64
 from spongemock import spongemock
-from zalgo_text import zalgo
+
 from deeppyer import deepfry
 import os
 from pathlib import Path
@@ -18,8 +18,8 @@ from telegram import Message, Update, Bot, User
 from telegram import MessageEntity
 from telegram.ext import Filters, MessageHandler, run_async
 
-from haruka import dispatcher, DEEPFRY_TOKEN
-from haruka.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
+from tg_bot import dispatcher, DEEPFRY_TOKEN
+from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
 
 WIDE_MAP = dict((i, i + 0xFEE0) for i in range(0x21, 0x7F))
 WIDE_MAP[0x20] = 0x3000
@@ -201,16 +201,7 @@ def spongemocktext(bot: Bot, update: Update):
     os.remove('mocked{}.jpg'.format(randint))
 
 
-@run_async
-def zalgotext(bot: Bot, update: Update):
-    message = update.effective_message
-    if message.reply_to_message:
-        data = message.reply_to_message.text
-    else:
-        data = str('Insolant human, you must reply to something to zalgofy it!')
 
-    reply_text = zalgo.zalgo().zalgofy(data)
-    message.reply_text(reply_text)
 
 # Less D A N K modules by @skittles9823 # holi fugg I did some maymays ^^^
 # shitty maymay modules made by @divadsn vvv
@@ -243,74 +234,7 @@ def forbesify(bot: Bot, update: Update):
     message.reply_to_message.reply_text(reply_text)
 
 
-@run_async
-def deepfryer(bot: Bot, update: Update):
-    message = update.effective_message
-    if message.reply_to_message:
-        data = message.reply_to_message.photo
-        data2 = message.reply_to_message.sticker
-    else:
-        data = []
-        data2 = []
 
-    # check if message does contain media and cancel when not
-    if not data and not data2:
-        message.reply_text("What am I supposed to do with this?!")
-        return
-
-    # download last photo (highres) as byte array
-    if data:
-        photodata = data[len(data) - 1].get_file().download_as_bytearray()
-        image = Image.open(io.BytesIO(photodata))
-    elif data2:
-        sticker = bot.get_file(data2.file_id)
-        sticker.download('sticker.png')
-        image = Image.open("sticker.png")
-
-    # the following needs to be executed async (because dumb lib)
-    loop = asyncio.new_event_loop()
-    loop.run_until_complete(process_deepfry(image, message.reply_to_message, bot))
-    loop.close()
-
-
-async def process_deepfry(image: Image, reply: Message, bot: Bot):
-    # DEEPFRY IT
-    image = await deepfry(
-        img=image,
-        token=DEEPFRY_TOKEN,
-        url_base='westeurope'
-    )
-
-    bio = BytesIO()
-    bio.name = 'image.jpeg'
-    image.save(bio, 'JPEG')
-
-    # send it back
-    bio.seek(0)
-    reply.reply_photo(bio)
-    if Path("sticker.png").is_file():
-        os.remove("sticker.png")
-
-# shitty maymay modules made by @divadsn ^^^
-
-
-@run_async
-def shout(bot: Bot, update: Update, args):
-    if len(args) == 0:
-        update.effective_message.reply_text("Where is text?")
-        return
-
-    msg = "```"
-    text = " ".join(args)
-    result = []
-    result.append(' '.join([s for s in text]))
-    for pos, symbol in enumerate(text[1:]):
-        result.append(symbol + ' ' + '  ' * pos + symbol)
-    result = list("\n".join(result))
-    result[0] = text[0]
-    result = "".join(result)
-    msg = "```\n" + result + "```"
-    return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
 
 
 # no help string
@@ -340,7 +264,7 @@ HITLER_HANDLER = DisableAbleCommandHandler("hitler", hitlertext, admin_ok=True)
 ZALGO_HANDLER = DisableAbleCommandHandler("zalgofy", zalgotext)
 FORBES_HANDLER = DisableAbleCommandHandler("forbes", forbesify, admin_ok=True)
 DEEPFRY_HANDLER = DisableAbleCommandHandler("deepfry", deepfryer, admin_ok=True)
-SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout, pass_args=True)
+
 
 
 dispatcher.add_handler(MAFIA_HANDLER)
