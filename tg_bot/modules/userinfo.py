@@ -84,6 +84,9 @@ def set_about_bio(bot: Bot, update: Update):
         elif user_id == bot.id and sender.id not in SUDO_USERS:
             message.reply_text(" Only SUDO USERS can change my information.")
             return
+        elif user_id == OWNER_ID:
+            message.reply_text("You ain't setting my master bio LMAO😂.")
+            return
 
         text = message.text
         bio = text.split(None, 1)  # use python's maxsplit to only remove the cmd, hence keeping newlines.
