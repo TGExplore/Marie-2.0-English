@@ -18,7 +18,7 @@ from tg_bot.modules.helper_funcs.misc import build_keyboard
 from tg_bot.modules.helper_funcs.string_handling import split_quotes, button_markdown_parser
 from tg_bot.modules.sql import cust_filters_sql as sql
 
-from tg_bot.modules.translations.strings import tld
+from tg_bot import tld
 
 from tg_bot.modules.connection import connected
 
