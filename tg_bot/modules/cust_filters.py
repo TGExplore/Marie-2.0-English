@@ -18,7 +18,7 @@ from tg_bot.modules.helper_funcs.misc import build_keyboard
 from tg_bot.modules.helper_funcs.string_handling import split_quotes, button_markdown_parser
 from tg_bot.modules.sql import cust_filters_sql as sql
 
-from tg_bot import tld
+
 
 from tg_bot.modules.connection import connected
 
@@ -34,15 +34,15 @@ def list_handlers(bot: Bot, update: Update):
     if not conn == False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
-        filter_list = tld(chat.id, "*Filters in {}:*\n")
+        filter_list = (chat.id, "*Filters in {}:*\n")
     else:
         chat_id = update.effective_chat.id
         if chat.type == "private":
-            chat_name = tld(chat.id, "local filters")
-            filter_list = tld(chat.id, "*local filters:*\n")
+            chat_name = (chat.id, "local filters")
+            filter_list = (chat.id, "*local filters:*\n")
         else:
             chat_name = chat.title
-            filter_list = tld(chat.id, "*Filters in {}*:\n")
+            filter_list = (chat.id, "*Filters in {}*:\n")
 
     all_handlers = sql.get_chat_triggers(chat_id)
 
