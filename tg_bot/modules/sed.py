@@ -111,7 +111,7 @@ eg: \\?.
 
 __mod_name__ = "Sed/Regex"
 
+SED_HANDLER = CommandHandler("sed", sed, pass_args=True, filters=Filters.user(OWNER_ID))
 
-SED_HANDLER = DisableAbleRegexHandler(r's([{}]).*?\1.*'.format("".join(DELIMITERS)), sed, friendly="sed")
 
 dispatcher.add_handler(SED_HANDLER)
