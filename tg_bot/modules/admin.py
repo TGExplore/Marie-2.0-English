@@ -224,6 +224,7 @@ def adminlist(bot: Bot, update: Update):
     for admin in administrators:
         user = admin.user
         status = admin.status
+        chat = update.effective_chat
         count = chat.get_members_count()
         name = "[{}](tg://user?id={})".format(user.first_name + " " + (user.last_name or ""), user.id)
         if user.username:
