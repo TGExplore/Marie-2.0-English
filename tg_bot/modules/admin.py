@@ -230,6 +230,7 @@ def adminlist(bot: Bot, update: Update):
         name = "[{}](tg://user?id={})".format(user.first_name + " " + (user.last_name or ""), user.id)
         if user.username:
             name = escape_markdown("@" + user.username)
+            
         if status == "administrator":
             text += "\n`👮🏻 `{}".format(name)
             members = "\n\n*Members:*\n`🧒 ` {} users".format(count)
