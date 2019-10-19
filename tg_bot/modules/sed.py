@@ -7,7 +7,7 @@ from telegram import Update, Bot
 from telegram.ext import run_async
 
 from tg_bot import dispatcher, LOGGER
-from tg_bot.modules.disable import DisableAbleRegexHandler
+from tg_bot.modules.disable import DisableAbleCommandHandler
 
 DELIMITERS = ("/", ":", "|", "_")
 
