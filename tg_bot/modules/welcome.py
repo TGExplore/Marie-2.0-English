@@ -89,14 +89,14 @@ def new_member(bot: Bot, update: Update):
         for new_mem in new_members:
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
-                update.effective_message.reply_text("Master is in the houseeee, let's get this party started!")
+                update.effective_message.reply_text("My Master Is Here dude,Woah🤗!")
                 continue
 
             # Give start information when add bot to group
             elif new_mem.id == bot.id:
                 bot.send_message(
                     MESSAGE_DUMP,
-                    "I have been added to {} with ID: <pre>{}</pre>".format(chat.title, chat.id),
+                    "I have been added to this chat - {} with \nID: <pre>{}</pre>".format(chat.title, chat.id),
                     parse_mode=ParseMode.HTML
                 )
                 update.effective_message.reply_text("Thanks for adding me Sweetheart,CHECK @ctrlsupport!")
@@ -152,7 +152,7 @@ def new_member(bot: Bot, update: Update):
                 #Add "I'm not bot button if enabled hard security"
                 if sql.welcome_security(chat.id) == "hard":
                     update.effective_message.reply_text("Hi {}, click on button below to prove you're human.".format(new_mem.first_name), 
-                         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="I'm not a bot!", 
+                         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="I'm not a BOT!", 
                          callback_data="check_bot_({})".format(new_mem.id)) ]]))
                     #Mute user
                     bot.restrict_chat_member(chat.id, new_mem.id, can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
@@ -204,7 +204,7 @@ def left_member(bot: Bot, update: Update):
 
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
-                update.effective_message.reply_text("I will miss you Master")
+                update.effective_message.reply_text("My Master Left ,miss you master🤒")
                 return
 
             # if media goodbye, use appropriate function for it
