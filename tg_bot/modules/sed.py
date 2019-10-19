@@ -4,7 +4,7 @@ import sre_constants
 
 import telegram
 from telegram import Update, Bot
-from telegram.ext import run_async
+from telegram.ext import run_async, Filters
 
 from tg_bot import dispatcher, LOGGER
 from tg_bot.modules.disable import DisableAbleCommandHandler
