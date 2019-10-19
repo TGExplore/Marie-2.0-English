@@ -25,7 +25,7 @@ Maintained by  [This guy](tg://user?id={}).
 
 Need any help then click  /help button...
 
-JOIN SUPPORTGROUP at @ctrlsupport\nNOTE:- **GMUTE** REMOVED(USELESS)
+JOIN SUPPORTGROUP at @ctrlsupport \n\nNOTE:- **GMUTE** REMOVED(coz no use kek)
 
 """
 
