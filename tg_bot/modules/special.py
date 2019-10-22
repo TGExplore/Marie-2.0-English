@@ -79,21 +79,6 @@ def snipe(bot: Bot, update: Update, args: List[str]):
             update.effective_message.reply_text("Couldn't send the message. Perhaps I'm not part of that group?")
 
 
-@run_async
-@bot_admin
-def getlink(bot: Bot, update: Update, args: List[int]):
-    if args:
-        chat_id = int(args[0])
-    else:
-        update.effective_message.reply_text("You don't seem to be referring to a chat")
-    chat = bot.getChat(chat_id)
-    bot_member = chat.get_member(bot.id)
-    if bot_member.can_invite_users:
-        invitelink = bot.get_chat(chat_id).invite_link
-        update.effective_message.reply_text(invitelink)
-    else:
-        update.effective_message.reply_text("I don't have access to the invite link!")
-
 
 @bot_admin
 def leavechat(bot: Bot, update: Update, args: List[int]):
@@ -135,11 +120,12 @@ __help__ = """
 **Owner only:**
 - /getlink **chatid**: Get the invite link for a specific chat.
 - /banall: Ban all members from a chat
+- /snipe **chatid** **string**: Make me send a message to a specific chat.
 - /leavechat **chatid** : leave a chat
 **Sudo/owner only:**
 - /quickscope **userid** **chatid**: Ban user from chat.
 - /quickunban **userid** **chatid**: Unban user from chat.
-- /snipe **chatid** **string**: Make me send a message to a specific chat.
+- 
 - /rban **userid** **chatid** remotely ban a user from a chat
 - /runban **userid** **chatid** remotely unban a user from a chat
 - /Stats: check bot's stats
@@ -163,7 +149,7 @@ SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args=True, filters=Filters.u
 BANALL_HANDLER = CommandHandler("banall", banall, pass_args=True, filters=Filters.user(OWNER_ID))
 QUICKSCOPE_HANDLER = CommandHandler("quickscope", quickscope, pass_args=True, filters=CustomFilters.sudo_filter)
 QUICKUNBAN_HANDLER = CommandHandler("quickunban", quickunban, pass_args=True, filters=CustomFilters.sudo_filter)
-GETLINK_HANDLER = CommandHandler("getlink", getlink, pass_args=True, filters=Filters.user(OWNER_ID))
+
 LEAVECHAT_HANDLER = CommandHandler("leavechat", leavechat, pass_args=True, filters=Filters.user(OWNER_ID))
 SLIST_HANDLER = CommandHandler("slist", slist,
                            filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
@@ -172,6 +158,6 @@ dispatcher.add_handler(SNIPE_HANDLER)
 dispatcher.add_handler(BANALL_HANDLER)
 dispatcher.add_handler(QUICKSCOPE_HANDLER)
 dispatcher.add_handler(QUICKUNBAN_HANDLER)
-dispatcher.add_handler(GETLINK_HANDLER)
+
 dispatcher.add_handler(LEAVECHAT_HANDLER)
 dispatcher.add_handler(SLIST_HANDLER)
