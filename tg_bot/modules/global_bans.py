@@ -164,10 +164,10 @@ def gban(bot: Bot, update: Update, args: List[str]):
     send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
                    "{} has been successfully gbanned :)".format(mention_html(user_chat.id, user_chat.first_name or "Deleted Account")),
                    html=True)  
-    text13 = f" User {} Gbanned :)".format(mention_html(user_chat.id, user_chat.first_name or "Deleted Account")),
-                   html=True)  
-    update.effective_message.reply_text(text13, parse_mode=ParseMode.HTML)
+    text13 = f" User {ok123} Gbanned."
+update.effective_message.reply_text(text13, parse_mode=ParseMode.HTML)
 
+    
 @run_async
 def ungban(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message  # type: Optional[Message]
