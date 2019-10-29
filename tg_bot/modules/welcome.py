@@ -7,6 +7,7 @@ from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import BadRequest
 from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, CallbackQueryHandler
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
+from html import escape
 
 import tg_bot.modules.sql.welcome_sql as sql
 from tg_bot import dispatcher, OWNER_ID, LOGGER, MESSAGE_DUMP
@@ -30,6 +31,8 @@ ENUM_FUNC_MAP = {
     sql.Types.VIDEO.value: dispatcher.bot.send_video
 }
 
+def escape_html(word):
+    return escape(word)
 
 # do not async
 def send(update, message, keyboard, backup_message):
@@ -115,9 +118,9 @@ def new_member(bot: Bot, update: Update):
                     else:
                         fullname = first_name
                     count = chat.get_members_count()
-                    mention = mention_markdown(new_mem.id, first_name)
+                    mention = mention_html(new_mem.id, first_name)
                     if new_mem.username:
-                        username = "@" + escape_markdown(new_mem.username)
+                        username = "@" + escape_html(new_mem.username)
                     else:
                         username = mention
 
