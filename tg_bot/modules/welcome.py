@@ -222,9 +222,9 @@ def left_member(bot: Bot, update: Update):
                 else:
                     fullname = first_name
                 count = chat.get_members_count()
-                mention = mention_markdown(left_mem.id, first_name)
+                mention = mention_html(left_mem.id, first_name)
                 if left_mem.username:
-                    username = "@" + escape_markdown(left_mem.username)
+                    username = "@" + escape_html(left_mem.username)
                 else:
                     username = mention
 
