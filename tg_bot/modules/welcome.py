@@ -125,10 +125,10 @@ def new_member(bot: Bot, update: Update):
                         username = mention
 
                     valid_format = escape_invalid_curly_brackets(cust_welcome, VALID_WELCOME_FORMATTERS)
-                    res = valid_format.format(first=escape_markdown(first_name),
-                                              last=escape_markdown(new_mem.last_name or first_name),
-                                              fullname=escape_markdown(fullname), username=username, mention=mention,
-                                              count=count, chatname=escape_markdown(chat.title), id=new_mem.id)
+                    res = valid_format.format(first=escape_html(first_name),
+                                              last=escape_html(new_mem.last_name or first_name),
+                                              fullname=escape_html(fullname), username=username, mention=mention,
+                                              count=count, chatname=escape_html(chat.title), id=new_mem.id)
                     buttons = sql.get_welc_buttons(chat.id)
                     keyb = build_keyboard(buttons)
                 else:
@@ -229,10 +229,10 @@ def left_member(bot: Bot, update: Update):
                     username = mention
 
                 valid_format = escape_invalid_curly_brackets(cust_goodbye, VALID_WELCOME_FORMATTERS)
-                res = valid_format.format(first=escape_markdown(first_name),
-                                          last=escape_markdown(left_mem.last_name or first_name),
-                                          fullname=escape_markdown(fullname), username=username, mention=mention,
-                                          count=count, chatname=escape_markdown(chat.title), id=left_mem.id)
+                res = valid_format.format(first=escape_html(first_name),
+                                          last=escape_html(left_mem.last_name or first_name),
+                                          fullname=escape_html(fullname), username=username, mention=mention,
+                                          count=count, chatname=escape_html(chat.title), id=left_mem.id)
                 buttons = sql.get_gdbye_buttons(chat.id)
                 keyb = build_keyboard(buttons)
 
