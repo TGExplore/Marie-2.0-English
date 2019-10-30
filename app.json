@@ -73,7 +73,7 @@
     },
     "BAN_STICKER": {
       "description": "Which sticker to use when banning people. Use https://telegram.dog/ShowJsonBot to get the file_id",
-      "value": "CAADAgADsggAAgi3GQITL8y1531UoRYE"
+      "value": "CAADBAAD6AMAAkJ_EQNu_RjOszbmnxYE"
     }
   },
   "addons": [
