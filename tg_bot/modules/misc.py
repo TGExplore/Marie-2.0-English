@@ -16,6 +16,10 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.extraction import extract_user
 from tg_bot.modules.helper_funcs.filters import CustomFilters
 
+def escape_html(word):
+    return escape(word)
+
+
 RUN_STRINGS = (
     "Where do you think you're going?",
     "Huh? what? did they get away?",
