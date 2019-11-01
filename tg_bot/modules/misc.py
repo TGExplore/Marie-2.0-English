@@ -337,7 +337,6 @@ def gdpr(bot: Bot, update: Update):
                                         "the case for the aforementioned pieces of data.",
                                         parse_mode=ParseMode.MARKDOWN)
 
-
 MARKDOWN_HELP = """
 Markdown is a very powerful formatting tool supported by telegram. {} has some enhancements, to make sure that \
 saved messages are correctly parsed, and to allow you to create buttons.
@@ -398,7 +397,7 @@ def getsticker(bot: Bot, update: Update):
         update.effective_message.reply_text("Hello " + "[{}](tg://user?id={})".format(msg.from_user.first_name,
                                             msg.from_user.id) + ", Please check the file you requested below."
                                             "\nPlease use this feature wisely!",
-                                            parse_mode=ParseMode.MARKDOWN)
+                                            parse_mode=ParseMode.HTML)
         bot.sendChatAction(chat_id, "upload_document")
         file_id = msg.reply_to_message.sticker.file_id
         newFile = bot.get_file(file_id)
@@ -411,7 +410,7 @@ def getsticker(bot: Bot, update: Update):
         bot.sendChatAction(chat_id, "typing")
         update.effective_message.reply_text("Hello " + "[{}](tg://user?id={})".format(msg.from_user.first_name,
                                             msg.from_user.id) + ", Please reply to sticker message to get sticker image",
-                                            parse_mode=ParseMode.MARKDOWN)
+                                            parse_mode=ParseMode.HTML)
 
 # /ip is for private use
 __help__ = """
