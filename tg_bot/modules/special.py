@@ -19,6 +19,10 @@ from tg_bot.modules.helper_funcs.filters import CustomFilters
 USERS_GROUP = 4
 
 
+def escape_html(word):
+    return escape(word)
+
+
 @run_async
 def quickscope(bot: Bot, update: Update, args: List[int]):
     if args:
