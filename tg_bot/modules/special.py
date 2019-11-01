@@ -8,6 +8,7 @@ from telegram import ParseMode
 from telegram.ext import MessageHandler, Filters, CommandHandler
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown
+from html import escape
 from tg_bot.modules.helper_funcs.chat_status import is_user_ban_protected, bot_admin
 
 import tg_bot.modules.sql.users_sql as sql
@@ -98,7 +99,7 @@ def slist(bot: Bot, update: Update):
             user = bot.get_chat(user_id)
             name = "[{}](tg://user?id={})".format(user.first_name + (user.last_name or ""), user.id)
             if user.username:
-                name = escape_markdown("@" + user.username)
+                name = escape_html("@" + user.username)
             text1 += "\n - `{}`".format(name)
         except BadRequest as excp:
             if excp.message == 'Chat not found':
@@ -108,7 +109,7 @@ def slist(bot: Bot, update: Update):
             user = bot.get_chat(user_id)
             name = "[{}](tg://user?id={})".format(user.first_name + (user.last_name or ""), user.id)
             if user.username:
-                name = escape_markdown("@" + user.username)
+                name = escape_html("@" + user.username)
             text2 += "\n - `{}`".format(name)
         except BadRequest as excp:
             if excp.message == 'Chat not found':
@@ -126,18 +127,18 @@ __help__ = """
 - /quickscope **userid** **chatid**: Ban user from chat.
 - /quickunban **userid** **chatid**: Unban user from chat.
 - 
-- /rban **userid** **chatid** remotely ban a user from a chat
-- /runban **userid** **chatid** remotely unban a user from a chat
+- 
+- 
 - /Stats: check bot's stats
 - /chatlist: get chatlist
 - /gbanlist: get gbanned users list
-- /gmutelist: get gmuted users list
+
 - Chat bans via /restrict chat_id and /unrestrict chat_id commands
 **Support user:**
 - /Gban : Global ban a user
 - /Ungban : Ungban a user
-- /Gmute : Gmute a user
-- /Ungmute : Ungmute a user
+- 
+- 
 Sudo/owner can use these commands too.
 **Users:**
 - /slist Gives a list of sudo and support users
