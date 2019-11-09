@@ -23,9 +23,7 @@ Hey {}, my name is **{}**! Im a group management Bot...
 
 Maintained by  [This guy](tg://user?id={}).
 
-Need any help then click  /help button...
-
-JOIN SUPPORTGROUP at @ctrlsupport \n\nNOTE:- **GMUTE** REMOVED(coz no use kek)
+Press /help for all available commands !👍
 
 """
 
