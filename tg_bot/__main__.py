@@ -142,8 +142,11 @@ def start(bot: Bot, update: Update, args: List[str]):
             first_name = update.effective_user.first_name
             update.effective_message.reply_text(
                 PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID),
-                parse_mode=ParseMode.MARKDOWN)
+                parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Join Support Group",
+                                                                       url="t.me/ctrlsupport".format(bot.username))]]))
     else:
+                
+    
         update.effective_message.reply_text("Yo,I'm alive👩")
 
 
