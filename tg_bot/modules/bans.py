@@ -90,7 +90,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
           "\n<b>User:</b> {}".format(html.escape(chat.title), mention_html(user.id, user.first_name),
                                      mention_html(member.user.id, member.user.first_name))
     
-    reply = "{} Banned!".format(mention_html(member.user.id, member.user.first_name), html.escape(chat.title)), parse_mode=ParseMode.HTML)
+    reply = "{} Banned!".format(mention_html(member.user.id, member.user.first_name))
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
         
