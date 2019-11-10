@@ -295,8 +295,12 @@ def unban(bot: Bot, update: Update, args: List[str]) -> str:
         message.reply_text("Why are you trying to unban someone that's already in the chat?")
         return ""
 
+    
     chat.unban_member(user_id)
-    message.reply_text("Yep, this user can join!")
+    message.reply_text("Yep, {} can join back in {}!".format(mention_html(member.user.id, member.user.first_name), html.escape(chat.title)), parse_mode=ParseMode.HTML)
+
+
+
 
     log = "<b>{}:</b>" \
           "\n#UNBANNED" \
