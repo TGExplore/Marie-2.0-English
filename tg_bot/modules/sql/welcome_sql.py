@@ -1,5 +1,7 @@
 import threading
 
+from typing import Union
+
 from sqlalchemy import Column, String, Boolean, UnicodeText, Integer, BigInteger
 
 from tg_bot.modules.helper_funcs.msg_types import Types
