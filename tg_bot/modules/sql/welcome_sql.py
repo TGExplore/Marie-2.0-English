@@ -79,6 +79,9 @@ class GoodbyeButtons(BASE):
 Welcome.__table__.create(checkfirst=True)
 WelcomeButtons.__table__.create(checkfirst=True)
 GoodbyeButtons.__table__.create(checkfirst=True)
+CleanServiceSetting.__table__.create(checkfirst=True)
+WelcomeSecurity.__table__.create(checkfirst=True)
+
 
 INSERTION_LOCK = threading.RLock()
 WELC_BTN_LOCK = threading.RLock()
@@ -86,6 +89,25 @@ CS_LOCK = threading.RLock()
 LEAVE_BTN_LOCK = threading.RLock()
 
 
+def welcome_security(chat_id):
+    try:
+        security = SESSION.query(WelcomeSecurity).get(str(chat_id))
+        if security:
+            return security.security
+        return False
+    finally:
+        SESSION.close()
+
+
+def set_welcome_security(chat_id, security):
+    with WS_LOCK:
+        prev = SESSION.query(WelcomeSecurity).get((str(chat_id)))
+        if prev:
+            SESSION.delete(prev)
+        welcome_s = WelcomeSecurity(str(chat_id), security)
+        SESSION.add(welcome_s)
+        SESSION.commit()
+        
 def get_welc_pref(chat_id):
     welc = SESSION.query(Welcome).get(str(chat_id))
     SESSION.close()
