@@ -49,7 +49,7 @@ class WelcomeButtons(BASE):
         self.same_line = same_line
         
         
- class CleanServiceSetting(BASE):
+class CleanServiceSetting(BASE):
     __tablename__ = "clean_service"
     chat_id = Column(String(14), primary_key=True)
     clean_service = Column(Boolean, default=True)
