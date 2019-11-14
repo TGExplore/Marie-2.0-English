@@ -47,6 +47,18 @@ class WelcomeButtons(BASE):
         self.name = name
         self.url = url
         self.same_line = same_line
+        
+        
+ class CleanServiceSetting(BASE):
+    __tablename__ = "clean_service"
+    chat_id = Column(String(14), primary_key=True)
+    clean_service = Column(Boolean, default=True)
+
+    def __init__(self, chat_id):
+        self.chat_id = str(chat_id)
+
+    def __repr__(self):
+        return "<Chat used clean service ({})>".format(self.chat_id)
 
 
 class GoodbyeButtons(BASE):
