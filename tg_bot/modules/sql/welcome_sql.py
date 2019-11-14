@@ -1,22 +1,19 @@
 import threading
-import random
-from typing import Union
 
 from sqlalchemy import Column, String, Boolean, UnicodeText, Integer, BigInteger
 
 from tg_bot.modules.helper_funcs.msg_types import Types
 from tg_bot.modules.sql import SESSION, BASE
 
-DEFAULT_WELCOME = random.choice(["I'm glad you joined, {first}!", "Cheers, love! {first}'s here!", "Enjoy your stay, {first}!", "Hey {first}, how are you?!", "Swooooosh.{first} just landed."])
-
-DEFAULT_GOODBYE = random.choice(["Nice knowing you dear, {first}!", "bye,bye {first}", "I’ll miss you until we meet again, {first}"])
+DEFAULT_WELCOME = "Hey {first}, how are you?"
+DEFAULT_GOODBYE = "Nice knowing ya!"
 
 
 class Welcome(BASE):
     __tablename__ = "welcome_pref"
     chat_id = Column(String(14), primary_key=True)
     should_welcome = Column(Boolean, default=True)
-    should_goodbye = Column(Boolean, default=False)
+    should_goodbye = Column(Boolean, default=True)
 
     custom_welcome = Column(UnicodeText, default=DEFAULT_WELCOME)
     welcome_type = Column(Integer, default=Types.TEXT.value)
@@ -25,7 +22,7 @@ class Welcome(BASE):
     leave_type = Column(Integer, default=Types.TEXT.value)
 
     clean_welcome = Column(BigInteger)
-    
+
     def __init__(self, chat_id, should_welcome=True, should_goodbye=True):
         self.chat_id = chat_id
         self.should_welcome = should_welcome
@@ -65,80 +62,13 @@ class GoodbyeButtons(BASE):
         self.same_line = same_line
 
 
-class CleanServiceSetting(BASE):
-    __tablename__ = "clean_service"
-    chat_id = Column(String(14), primary_key=True)
-    clean_service = Column(Boolean, default=True)
-
-    def __init__(self, chat_id):
-        self.chat_id = str(chat_id)
-
-    def __repr__(self):
-        return "<Chat used clean service ({})>".format(self.chat_id)
-
-
-class WelcomeSecurity(BASE):
-    __tablename__ = "welcome_security"
-    chat_id = Column(String(14), primary_key=True)
-    security = Column(UnicodeText)
-
-    def __init__(self, chat_id, security):
-        self.chat_id = str(chat_id) # ensure string
-        self.security = security
-
-
 Welcome.__table__.create(checkfirst=True)
 WelcomeButtons.__table__.create(checkfirst=True)
 GoodbyeButtons.__table__.create(checkfirst=True)
-CleanServiceSetting.__table__.create(checkfirst=True)
-WelcomeSecurity.__table__.create(checkfirst=True)
 
 INSERTION_LOCK = threading.RLock()
 WELC_BTN_LOCK = threading.RLock()
 LEAVE_BTN_LOCK = threading.RLock()
-CS_LOCK = threading.RLock()
-WS_LOCK = threading.RLock()
-
-
-def welcome_security(chat_id):
-    try:
-        security = SESSION.query(WelcomeSecurity).get(str(chat_id))
-        if security:
-            return security.security
-        return False
-    finally:
-        SESSION.close()
-
-
-def set_welcome_security(chat_id, security):
-    with WS_LOCK:
-        prev = SESSION.query(WelcomeSecurity).get((str(chat_id)))
-        if prev:
-            SESSION.delete(prev)
-        welcome_s = WelcomeSecurity(str(chat_id), security)
-        SESSION.add(welcome_s)
-        SESSION.commit()
-
-
-def clean_service(chat_id: Union[str, int]) -> bool:
-    try:
-        chat_setting = SESSION.query(CleanServiceSetting).get(str(chat_id))
-        if chat_setting:
-            return chat_setting.clean_service
-        return False
-    finally:
-        SESSION.close()
-        
-
-def set_clean_service(chat_id: Union[int, str], setting: bool):
-    with CS_LOCK:
-        chat_setting = SESSION.query(CleanServiceSetting).get(str(chat_id))
-        if not chat_setting:
-            chat_setting = CleanServiceSetting(chat_id)
-
-        chat_setting.clean_service = setting
-        SESSION.add(chat_setting)
-        SESSION.commit()
 
 
 def get_welc_pref(chat_id):
@@ -158,7 +88,7 @@ def get_gdbye_pref(chat_id):
         return welc.should_goodbye, welc.custom_leave, welc.leave_type
     else:
         # Welcome by default.
-        return False, DEFAULT_GOODBYE, Types.TEXT
+        return True, DEFAULT_GOODBYE, Types.TEXT
 
 
 def set_clean_welcome(chat_id, clean_welcome):
