@@ -252,3 +252,25 @@ def migrate_chat(old_chat_id, new_chat_id):
                 btn.chat_id = str(new_chat_id)
 
         SESSION.commit()
+        
+        
+ 
+def clean_service(chat_id: Union[str, int]) -> bool:
+    try:
+        chat_setting = SESSION.query(CleanServiceSetting).get(str(chat_id))
+        if chat_setting:
+            return chat_setting.clean_service
+        return False
+    finally:
+        SESSION.close()
+
+
+def set_clean_service(chat_id: Union[int, str], setting: bool):
+    with CS_LOCK:
+        chat_setting = SESSION.query(CleanServiceSetting).get(str(chat_id))
+        if not chat_setting:
+            chat_setting = CleanServiceSetting(chat_id)
+
+        chat_setting.clean_service = setting
+        SESSION.add(chat_setting)
+        SESSION.commit()
