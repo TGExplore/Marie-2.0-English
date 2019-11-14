@@ -628,7 +628,6 @@ CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, pass_args=True, fi
 SECURITY_MUTE_HANDLER = CommandHandler("welcomemutetime", security_mute, pass_args=True, filters=Filters.group)
 SECURITY_BUTTONTXT_HANDLER = CommandHandler("setmutetext", security_text, pass_args=True, filters=Filters.group)
 SECURITY_BUTTONRESET_HANDLER = CommandHandler("resetmutetext", security_text_reset, filters=Filters.group)
-
 SECURITY_HANDLER = CommandHandler("welcomesecurity", security, pass_args=True, filters=Filters.group)
 CLEAN_SERVICE_HANDLER = CommandHandler("cleanservice", cleanservice, pass_args=True, filters=Filters.group)
 
@@ -647,8 +646,5 @@ dispatcher.add_handler(SECURITY_HANDLER)
 dispatcher.add_handler(SECURITY_MUTE_HANDLER)
 dispatcher.add_handler(SECURITY_BUTTONTXT_HANDLER)
 dispatcher.add_handler(SECURITY_BUTTONRESET_HANDLER)
-
 dispatcher.add_handler(CLEAN_SERVICE_HANDLER)
-
-
 dispatcher.add_handler(help_callback_handler)
