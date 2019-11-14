@@ -472,6 +472,60 @@ def security(bot: Bot, update: Update, args: List[str]) -> str:
     else:
         status = sql.welcome_security(chat.id)
         update.effective_message.reply_text(status)
+        
+        
+ 
+@run_async
+@user_admin
+def security_mute(bot: Bot, update: Update, args: List[str]) -> str:
+    chat = update.effective_chat  # type: Optional[Chat]
+    message = update.effective_message  # type: Optional[Message]
+    getcur, cur_value, cust_text = sql.welcome_security(chat.id)
+    if len(args) >= 1:
+        var = args[0]
+        if var[:1] == "0":
+            mutetime = "0"
+            sql.set_welcome_security(chat.id, getcur, "0", cust_text)
+            text = "Every new member will be mute forever until they press the welcome button!"
+        else:
+            mutetime = extract_time(message, var)
+            if mutetime == "":
+                return
+            sql.set_welcome_security(chat.id, getcur, str(var), cust_text)
+            text = "Every new member will be muted for {} until they press the welcome button!".format(var)
+        update.effective_message.reply_text(text)
+    else:
+        if str(cur_value) == "0":
+            update.effective_message.reply_text("Current settings: New members will be mute forever until they press the button!")
+        else:
+            update.effective_message.reply_text("Current settings: New members will be mute for {} until they press the button!".format(cur_value))
+
+
+@run_async
+@user_admin
+def security_text(bot: Bot, update: Update, args: List[str]) -> str:
+    chat = update.effective_chat  # type: Optional[Chat]
+    message = update.effective_message  # type: Optional[Message]
+    getcur, cur_value, cust_text = sql.welcome_security(chat.id)
+    if len(args) >= 1:
+        text = " ".join(args)
+        sql.set_welcome_security(chat.id, getcur, cur_value, text)
+        text = "The text of button have been changed to: `{}`".format(text)
+        update.effective_message.reply_text(text, parse_mode="markdown")
+    else:
+        update.effective_message.reply_text("The current security button text is: `{}`".format(cust_text), parse_mode="markdown")
+
+
+@run_async
+@user_admin
+def security_text_reset(bot: Bot, update: Update):
+    chat = update.effective_chat  # type: Optional[Chat]
+    message = update.effective_message  # type: Optional[Message]
+    getcur, cur_value, cust_text = sql.welcome_security(chat.id)
+    sql.set_welcome_security(chat.id, getcur, cur_value, "Click here to prove you're human!")
+    update.effective_message.reply_text(" The text of security button has been reset to: `Click here to prove you're human!`", parse_mode="markdown")
+
+
 
 
 @run_async
@@ -553,6 +607,10 @@ replying to the desired media, and calling /setwelcome.
  - /cleanwelcome <on/off>: On new member, try to delete the previous welcome message to avoid spamming the chat.
  - /cleanservice <on/off/yes/no>: deletes all service message; those are the annoying "x joined the group" you see when people join.
  - /welcomesecurity <off/soft/hard>: soft - restrict user's permission to send media files for 24 hours, hard - restict user's permission to send messages until they click on the button \"I'm not a bot\"
+ - /welcomemutetime <Xw/d/h/m>: if a user hasnt pressed the "unmute" button in the welcome message after a certain this time, they'll get unmuted automatically after this period of time.
+ Note: if you want to reset the mute time to be forever, use /welcomemutetime 0m. 0 == eternal!
+ - /setmutetext <new text>: Customise the "click here to prove you're human" button obtained from enabling welcomemutes.
+ - /resetmutetext: resets the mute button to the default text.
 """.format(dispatcher.bot.username)
 
 
@@ -567,6 +625,9 @@ SET_GOODBYE = CommandHandler("setgoodbye", set_goodbye, filters=Filters.group)
 RESET_WELCOME = CommandHandler("resetwelcome", reset_welcome, filters=Filters.group)
 RESET_GOODBYE = CommandHandler("resetgoodbye", reset_goodbye, filters=Filters.group)
 CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, pass_args=True, filters=Filters.group)
+SECURITY_MUTE_HANDLER = CommandHandler("welcomemutetime", security_mute, pass_args=True, filters=Filters.group)
+SECURITY_BUTTONTXT_HANDLER = CommandHandler("setmutetext", security_text, pass_args=True, filters=Filters.group)
+SECURITY_BUTTONRESET_HANDLER = CommandHandler("resetmutetext", security_text_reset, filters=Filters.group)
 
 SECURITY_HANDLER = CommandHandler("welcomesecurity", security, pass_args=True, filters=Filters.group)
 CLEAN_SERVICE_HANDLER = CommandHandler("cleanservice", cleanservice, pass_args=True, filters=Filters.group)
@@ -583,6 +644,11 @@ dispatcher.add_handler(RESET_WELCOME)
 dispatcher.add_handler(RESET_GOODBYE)
 dispatcher.add_handler(CLEAN_WELCOME)
 dispatcher.add_handler(SECURITY_HANDLER)
+dispatcher.add_handler(SECURITY_MUTE_HANDLER)
+dispatcher.add_handler(SECURITY_BUTTONTXT_HANDLER)
+dispatcher.add_handler(SECURITY_BUTTONRESET_HANDLER)
+
 dispatcher.add_handler(CLEAN_SERVICE_HANDLER)
+
 
 dispatcher.add_handler(help_callback_handler)
