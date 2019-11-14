@@ -82,6 +82,7 @@ GoodbyeButtons.__table__.create(checkfirst=True)
 
 INSERTION_LOCK = threading.RLock()
 WELC_BTN_LOCK = threading.RLock()
+CS_LOCK = threading.RLock()
 LEAVE_BTN_LOCK = threading.RLock()
 
 
