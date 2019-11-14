@@ -59,6 +59,16 @@ class CleanServiceSetting(BASE):
 
     def __repr__(self):
         return "<Chat used clean service ({})>".format(self.chat_id)
+    
+class WelcomeSecurity(BASE):
+    __tablename__ = "welcome_security"
+    chat_id = Column(String(14), primary_key=True)
+    security = Column(UnicodeText)
+
+    def __init__(self, chat_id, security):
+        self.chat_id = str(chat_id) # ensure string
+        self.security = security
+
 
 
 class GoodbyeButtons(BASE):
