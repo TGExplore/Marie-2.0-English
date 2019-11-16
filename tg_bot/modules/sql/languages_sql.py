@@ -3,7 +3,7 @@ from typing import Union
 
 from sqlalchemy import Column, Integer, String, UnicodeText
 
-from emilia.modules.sql import SESSION, BASE
+from tg_bot.modules.sql import SESSION, BASE
 
 
 class UserLanguage(BASE):
