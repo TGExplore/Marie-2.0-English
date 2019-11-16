@@ -161,7 +161,7 @@ Contoh nilai waktu: 4m = 4 menit, 3h = 3 jam, 6d = 6 hari, 5w = 5 minggu.""")
             settypeflood = (update.effective_message, 'bisukan sementara selama {}').format(args[1])
             sql.set_flood_strength(chat_id, 5, str(args[1]))
         else:
-            msg.reply_text(update.effective_message, "I understand only ban/kick/mute/tban/tmute!"))
+            msg.reply_text(update.effective_message, "I understand only ban/kick/mute/tban/tmute"))
             return
         if conn:
             text = (update.effective_message, "Terlalu banyak mengirim pesan sekarang akan menghasilkan `{}` pada *{}*!").format(settypeflood, chat_name)
