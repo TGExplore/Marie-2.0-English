@@ -5,6 +5,7 @@ from telegram import Message, Chat, Update, Bot, User
 from telegram.error import BadRequest
 from telegram.ext import Filters, MessageHandler, CommandHandler, run_async
 from telegram.utils.helpers import mention_html
+from tg_bot.modules.helper_funcs.string_handling import extract_time
 from tg_bot.modules.helper_funcs.extraction import extract_user_and_text 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, User, CallbackQuery
 
@@ -110,7 +111,87 @@ def flood(bot: Bot, update: Update):
         update.effective_message.reply_text(tld(chat.id,
             "I'm currently Muting users if they send more than {} consecutive messages.").format(limit))
 
+@run_async
+@user_admin
+def set_flood_mode(bot: Bot, update: Update, args: List[str]):
+    spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id, update.effective_message)
+    if spam == True:
+        return
+    chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user  # type: Optional[User]
+    msg = update.effective_message  # type: Optional[Message]
 
+    conn = connected(bot, update, chat, user.id, need_admin=True)
+    if conn:
+        chat = dispatcher.bot.getChat(conn)
+        chat_id = conn
+        chat_name = dispatcher.bot.getChat(conn).title
+    else:
+        if update.effective_message.chat.type == "private":
+            update.effective_message.reply_text(tl(update.effective_message, "Anda bisa lakukan command ini pada grup, bukan pada PM"))
+            return ""
+        chat = update.effective_chat
+        chat_id = update.effective_chat.id
+        chat_name = update.effective_message.chat.title
+
+    if args:
+        if args[0].lower() == 'ban':
+            settypeflood = (update.effective_message, 'blokir')
+            sql.set_flood_strength(chat_id, 1, "0")
+        elif args[0].lower() == 'kick':
+            settypeflood = (update.effective_message, 'tendang')
+            sql.set_flood_strength(chat_id, 2, "0")
+        elif args[0].lower() == 'mute':
+            settypeflood = (update.effective_message, 'bisukan')
+            sql.set_flood_strength(chat_id, 3, "0")
+        elif args[0].lower() == 'tban':
+            if len(args) == 1:
+                teks = (update.effective_message, """Sepertinya Anda mencoba menetapkan nilai sementara untuk anti-banjir, tetapi belum menentukan waktu; gunakan `/setfloodmode tban <timevalue>`.
+Contoh nilai waktu: 4m = 4 menit, 3h = 3 jam, 6d = 6 hari, 5w = 5 minggu.""")
+                msg.reply_text(teks, parse_mode="markdown")
+                return
+            settypeflood = (update.effective_message, "blokir sementara selama {}").format(args[1])
+            sql.set_flood_strength(chat_id, 4, str(args[1]))
+        elif args[0].lower() == 'tmute':
+            if len(args) == 1:
+                teks = (update.effective_message, """Sepertinya Anda mencoba menetapkan nilai sementara untuk anti-banjir, tetapi belum menentukan waktu; gunakan `/setfloodmode tban <timevalue>`.
+Contoh nilai waktu: 4m = 4 menit, 3h = 3 jam, 6d = 6 hari, 5w = 5 minggu.""")
+                msg.reply_text(teks, parse_mode="markdown")
+                return
+            settypeflood = (update.effective_message, 'bisukan sementara selama {}').format(args[1])
+            sql.set_flood_strength(chat_id, 5, str(args[1]))
+        else:
+            msg.reply_text(update.effective_message, "Saya hanya mengerti ban/kick/mute/tban/tmute!"))
+            return
+        if conn:
+            text = (update.effective_message, "Terlalu banyak mengirim pesan sekarang akan menghasilkan `{}` pada *{}*!").format(settypeflood, chat_name)
+        else:
+            text = (update.effective_message, "Terlalu banyak mengirim pesan sekarang akan menghasilkan `{}`!").format(settypeflood)
+        msg.reply_text(text, parse_mode="markdown")
+        return "<b>{}:</b>\n" \
+                "<b>Admin:</b> {}\n" \
+                "Has changed antiflood mode. User will {}.".format(settypeflood, html.escape(chat.title),
+                                                                            mention_html(user.id, user.first_name))
+    else:
+        getmode, getvalue = sql.get_flood_setting(chat.id)
+        if getmode == 1:
+            settypeflood = (update.effective_message, 'blokir')
+        elif getmode == 2:
+            settypeflood = (update.effective_message, 'tendang')
+        elif getmode == 3:
+            settypeflood = (update.effective_message, 'bisukan')
+        elif getmode == 4:
+            settypeflood = (update.effective_message, 'blokir sementara selama {}').format(getvalue)
+        elif getmode == 5:
+            settypeflood = (update.effective_message, 'bisukan sementara selama {}').format(getvalue)
+        if conn:
+            text = (update.effective_message, "Jika member mengirim pesan beruntun, maka dia akan *di {}* pada *{}*.").format(settypeflood, chat_name)
+        else:
+            text = (update.effective_message, "Jika member mengirim pesan beruntun, maka dia akan *di {}*.").format(settypeflood)
+        msg.reply_text(text, parse_mode=ParseMode.MARKDOWN)
+    return ""
+   
+        
 def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
@@ -135,7 +216,9 @@ __mod_name__ = "AntiFlood"
 FLOOD_BAN_HANDLER = MessageHandler(Filters.all & ~Filters.status_update & Filters.group, check_flood)
 SET_FLOOD_HANDLER = CommandHandler("setflood", set_flood, pass_args=True, filters=Filters.group)
 FLOOD_HANDLER = CommandHandler("flood", flood, filters=Filters.group)
+SET_FLOOD_MODE_HANDLER = CommandHandler("setfloodmode", set_flood_mode, pass_args=True)#, filters=Filters.group)
 
 dispatcher.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
 dispatcher.add_handler(SET_FLOOD_HANDLER)
 dispatcher.add_handler(FLOOD_HANDLER)
+dispatcher.add_handler(SET_FLOOD_MODE_HANDLER)
