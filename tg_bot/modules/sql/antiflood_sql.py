@@ -2,7 +2,7 @@ import threading
 
 from sqlalchemy import String, Column, Integer, UnicodeText
 
-from tg_bot.modules.sql import SESSION, BASE
+from emilia.modules.sql import SESSION, BASE
 
 DEF_COUNT = 0
 DEF_LIMIT = 0
@@ -136,26 +136,5 @@ def __load_flood_settings():
         SESSION.close()
 
 
-__load_flood_settings()mit = CHAT_FLOOD.get(str(chat_id), DEF_OBJ)
-
-        if limit == 0:  # no antiflood
-            return False
-
-        if user_id != curr_user_id or user_id is None:  # other user
-            CHAT_FLOOD[str(chat_id)] = (user_id, DEF_COUNT, limit)
-            return False
-
-        count += 1
-        if count > limit:  # too many msgs, kick
-            CHAT_FLOOD[str(chat_id)] = (None, DEF_COUNT, limit)
-            return True
-
-        # default -> update
-        CHAT_FLOOD[str(chat_id)] = (user_id, count, limit)
-        return False
-
-
-def get_flood_limit(chat_id):
-    return CHAT_FLOOD.get(str(chat_id), DEF_OBJ)[2]
-
+__load_flood_settings()
 
