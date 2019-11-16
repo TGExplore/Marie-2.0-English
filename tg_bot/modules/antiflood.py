@@ -13,7 +13,7 @@ from tg_bot.modules.log_channel import loggable
 from tg_bot.modules.sql import antiflood_sql as sql
 from tg_bot.modules.connection import connected
 
-from emilia.modules.languages import tl
+from tg_bot.modules.languages import tl
 
 FLOOD_GROUP = 3
 
