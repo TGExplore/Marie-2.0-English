@@ -128,7 +128,7 @@ def set_flood_mode(bot: Bot, update: Update, args: List[str]):
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         if update.effective_message.chat.type == "private":
-            update.effective_message.reply_text(tl(update.effective_message, "Anda bisa lakukan command ini pada grup, bukan pada PM"))
+            update.effective_message.reply_text(tl(update.effective_message, "Use This Command in Groups,NOT in PM"))
             return ""
         chat = update.effective_chat
         chat_id = update.effective_chat.id
@@ -136,13 +136,13 @@ def set_flood_mode(bot: Bot, update: Update, args: List[str]):
 
     if args:
         if args[0].lower() == 'ban':
-            settypeflood = (update.effective_message, 'blokir')
+            settypeflood = (update.effective_message, 'Banned')
             sql.set_flood_strength(chat_id, 1, "0")
         elif args[0].lower() == 'kick':
-            settypeflood = (update.effective_message, 'tendang')
+            settypeflood = (update.effective_message, 'Kicked')
             sql.set_flood_strength(chat_id, 2, "0")
         elif args[0].lower() == 'mute':
-            settypeflood = (update.effective_message, 'bisukan')
+            settypeflood = (update.effective_message, 'Muted')
             sql.set_flood_strength(chat_id, 3, "0")
         elif args[0].lower() == 'tban':
             if len(args) == 1:
