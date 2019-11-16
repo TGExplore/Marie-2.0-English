@@ -122,7 +122,8 @@ def start(bot: Bot, update: Update, args: List[str]):
     if update.effective_chat.type == "private":
         if len(args) >= 1:
             if args[0].lower() == "help":
-                send_help(update.effective_chat.id, HELP_STRINGS)
+                send_help(update.effective_chat.id, tld(chat.id, "send-help").format(""if not ALLOW_EXCL else tld(chat.id, "\nAll commands can either be used with `/` or `!`.\n")))
+
 
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
@@ -135,6 +136,7 @@ def start(bot: Bot, update: Update, args: List[str]):
 
             elif args[0][1:].isdigit() and "rules" in IMPORTED:
                 IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
+                
 
         else:
             first_name = update.effective_user.first_name
@@ -143,8 +145,9 @@ def start(bot: Bot, update: Update, args: List[str]):
                 parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Join Support Group",
                                                                        url="t.me/ctrlsupport".format(bot.username))]]))
     else:
+            send_start(bot, update)
                 
-    
+    else:
         update.effective_message.reply_text("Yo,I'm alive👩")
 
 
