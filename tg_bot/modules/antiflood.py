@@ -121,7 +121,7 @@ def set_flood_mode(bot: Bot, update: Update, args: List[str]):
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message  # type: Optional[Message]
 
-    conn = connected(bot, update, chat, user.id, need_admin=True)
+    conn = (bot, update, chat, user.id, need_admin=True)
     if conn:
         chat = dispatcher.bot.getChat(conn)
         chat_id = conn
