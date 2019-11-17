@@ -114,7 +114,7 @@ def flood(bot: Bot, update: Update):
 @run_async
 @user_admin
 def set_flood_mode(bot: Bot, update: Update, args: List[str]):
-    spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id, update.effective_message)
+    spam = (update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id, update.effective_message)
     if spam == True:
         return
     chat = update.effective_chat  # type: Optional[Chat]
