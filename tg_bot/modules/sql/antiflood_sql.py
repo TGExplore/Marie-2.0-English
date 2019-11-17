@@ -22,10 +22,26 @@ class FloodControl(BASE):
     def __repr__(self):
         return "<flood control for %s>" % self.chat_id
 
+class FloodSettings(BASE):
+    __tablename__ = "antiflood_settings"
+    chat_id = Column(String(14), primary_key=True)
+    flood_type = Column(Integer, default=1)
+    value = Column(UnicodeText, default="0")
+
+    def __init__(self, chat_id, flood_type=1, value="0"):
+        self.chat_id = str(chat_id)
+        self.flood_type = flood_type
+        self.value = value
+
+    def __repr__(self):
+        return "<{} will executing {} for flood.>".format(self.chat_id, self.flood_type)
+
 
 FloodControl.__table__.create(checkfirst=True)
+FloodSettings.__table__.create(checkfirst=True)
 
 INSERTION_LOCK = threading.RLock()
+INSERTION_FLOOD_SETTINGS_LOCK = threading.RLock()
 
 CHAT_FLOOD = {}
 
@@ -55,6 +71,18 @@ def update_flood(chat_id: str, user_id) -> bool:
         if user_id != curr_user_id or user_id is None:  # other user
             CHAT_FLOOD[str(chat_id)] = (user_id, DEF_COUNT + 1, limit)
             return False
+
+def get_flood_setting(chat_id):
+    try:
+        setting = SESSION.query(FloodSettings).get(str(chat_id))
+        if setting:
+            return setting.flood_type, setting.value
+        else:
+            return 1, "0"
+
+    finally:
+        SESSION.close()
+        
 
         count += 1
         if count > limit:  # too many msgs, kick
