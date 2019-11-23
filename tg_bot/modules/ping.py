@@ -26,7 +26,7 @@ def ping(bot: Bot, update: Update):
     requests.get('https://api.telegram.org')
     end_time = time.time()
     ping_time = round((end_time - start_time), 3)
-    update.effective_message.reply_text("Pong Speed Was!!\n`{}s`".format(ping_time), parse_mode=ParseMode.MARKDOWN)
+    update.effective_message.reply_text("Pong Reply Took!!\n☄`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN)
 
 
 __mod_name__ = "Ping"
