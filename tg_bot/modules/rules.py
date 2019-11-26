@@ -58,11 +58,8 @@ def set_rules(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     chat_name = dispatcher.bot.getChat
     
-    conn = connected(bot, update, chat, user.id)
-    if not conn == False:
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat
-      
+
+     
     msg = update.effective_message  # type: Optional[Message]
     raw_text = msg.text
     args = raw_text.split(None, 1)  # use python's maxsplit to separate cmd and args
