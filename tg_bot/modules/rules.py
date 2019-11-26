@@ -55,6 +55,7 @@ def send_rules(update, chat_id, from_pm=False):
 @user_admin
 def set_rules(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
+    chat_name = dispatcher.bot.getChat(conn).title
     msg = update.effective_message  # type: Optional[Message]
     raw_text = msg.text
     args = raw_text.split(None, 1)  # use python's maxsplit to separate cmd and args
@@ -64,7 +65,7 @@ def set_rules(bot: Bot, update: Update):
         markdown_rules = markdown_parser(txt, entities=msg.parse_entities(), offset=offset)
 
         sql.set_rules(chat_id, markdown_rules)
-        update.effective_message.reply_text("Successfully set rules for the *{}*.".format(chat_name), parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text("Successfully set rules for the {}!").format(chat_name))
 
 
 @run_async
