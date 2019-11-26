@@ -69,7 +69,7 @@ def set_rules(bot: Bot, update: Update):
         markdown_rules = markdown_parser(txt, entities=msg.parse_entities(), offset=offset)
 
         sql.set_rules(chat_id, markdown_rules)
-        update.effective_message.reply_text(tld(chat.id, "Successfully SetRules For *{}*.").format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+        update.effective_message.reply_text(tld(chat.id, "Successfully SetRules For This Chat.")
 
 
 @run_async
