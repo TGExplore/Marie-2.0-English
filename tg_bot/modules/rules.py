@@ -8,6 +8,7 @@ from telegram.utils.helpers import escape_markdown
 
 import tg_bot.modules.sql.rules_sql as sql
 from tg_bot import dispatcher
+from tg_bot.modules.connection import connected
 from tg_bot.modules.helper_funcs.chat_status import user_admin
 from tg_bot.modules.helper_funcs.string_handling import markdown_parser
 from tg_bot.modules.translations.strings import tld
@@ -56,6 +57,12 @@ def send_rules(update, chat_id, from_pm=False):
 def set_rules(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     chat_name = dispatcher.bot.getChat(conn).title
+    
+    conn = connected(bot, update, chat, user.id)
+    if not conn == False:
+        chat_id = conn
+        chat_name = dispatcher.bot.getChat(conn).title
+      
     msg = update.effective_message  # type: Optional[Message]
     raw_text = msg.text
     args = raw_text.split(None, 1)  # use python's maxsplit to separate cmd and args
