@@ -10,7 +10,7 @@ import tg_bot.modules.sql.rules_sql as sql
 from tg_bot import dispatcher
 from tg_bot.modules.helper_funcs.chat_status import user_admin
 from tg_bot.modules.helper_funcs.string_handling import markdown_parser
-
+from tg_bot.modules.translations.strings import tld
 
 @run_async
 def get_rules(bot: Bot, update: Update):
@@ -65,7 +65,7 @@ def set_rules(bot: Bot, update: Update):
         markdown_rules = markdown_parser(txt, entities=msg.parse_entities(), offset=offset)
 
         sql.set_rules(chat_id, markdown_rules)
-        update.effective_message.reply_text("Successfully set rules for the {}!").format(chat_name))
+        update.effective_message.reply_text(tld(chat.id, "Successfully SetRules For *{}*.").format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 @run_async
