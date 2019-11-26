@@ -61,7 +61,7 @@ def set_rules(bot: Bot, update: Update):
     conn = connected(bot, update, chat, user.id)
     if not conn == False:
         chat_id = conn
-        chat_name = dispatcher.bot.getChat.title
+        chat_name = dispatcher.bot.getChat
       
     msg = update.effective_message  # type: Optional[Message]
     raw_text = msg.text
