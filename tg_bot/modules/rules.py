@@ -56,7 +56,7 @@ def send_rules(update, chat_id, from_pm=False):
 @user_admin
 def set_rules(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
-    chat_name = dispatcher.bot.getChat.title
+    chat_name = dispatcher.bot.getChat
     
     conn = connected(bot, update, chat, user.id)
     if not conn == False:
