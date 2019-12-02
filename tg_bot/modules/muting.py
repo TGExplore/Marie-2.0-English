@@ -447,6 +447,16 @@ def muteme(bot: Bot, update: Update, args: List[str]) -> str:
         update.effective_message.reply_text("Huh? I can't :/")
 
 
+__help__ = """
+*Admin only:*
+ - /mute <userhandle>: silences a user. Can also be used as a reply, muting the replied to user.
+ - /tmute <userhandle> x(m/h/d): mutes a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
+ - /unmute <userhandle>: unmutes a user. Can also be used as a reply, muting the replied to user.
+ - /muteme : To muteyourself.
+"""
+
+__mod_name__ = "Muting"
+
 MUTE_HANDLER = DisableAbleCommandHandler("mute", mute, pass_args=True, admin_ok=True)
 UNMUTE_HANDLER = DisableAbleCommandHandler("unmute", unmute, pass_args=True, admin_ok=True)
 TEMPMUTE_HANDLER = DisableAbleCommandHandler(["tmute", "tempmute"], temp_mute, pass_args=True, admin_ok=True)
