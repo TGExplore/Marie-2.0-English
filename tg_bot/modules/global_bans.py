@@ -165,7 +165,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
                    "{} has been successfully gbanned :)".format(mention_html(user_chat.id, user_chat.first_name or "Deleted Account")),
                    html=True)  
     
-    effective_message.reply_text(text13, parse_mode=ParseMode.HTML)
+
 
     
 @run_async
