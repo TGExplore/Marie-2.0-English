@@ -29,6 +29,6 @@ wikipedia
 pyowm
 PyLyrics
 spongemock
-
+psutil
 translator
 googletrans
