@@ -96,6 +96,25 @@ def can_restrict(func):
     return promote_rights
 
 
+def sudo_user(func):
+    @wraps(func)
+    def is_admin(bot: Bot, update: Update, *args, **kwargs):
+        user = update.effective_user  # type: Optional[User]
+        if user.id in SUDO_USERS:
+            return func(bot, update, *args, **kwargs)
+
+         elif not user:
+            pass
+
+         elif DEL_CMDS and " " not in update.effective_message.text:
+            update.effective_message.delete()
+
+         else:
+            update.effective_message.reply_text("This command is restricted to my sudo users only.")
+
+     return is_admin
+
+
 def bot_admin(func):
     @wraps(func)
     def is_admin(bot: Bot, update: Update, *args, **kwargs):
