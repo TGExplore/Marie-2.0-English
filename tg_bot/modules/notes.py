@@ -245,26 +245,88 @@ def list_notes(bot: Bot, update: Update):
         update.effective_message.reply_text(msg.format(chat_name), parse_mode=ParseMode.MARKDOWN)
 
 
+
 def __import_data__(chat_id, data):
-    failures = []
-    for notename, notedata in data.get('extra', {}).items():
-        match = FILE_MATCHER.match(notedata)
+	failures = []
+	for notename, notedata in data.get('extra', {}).items():
+		match = FILE_MATCHER.match(notedata)
+		matchsticker = STICKER_MATCHER.match(notedata)
+		matchbtn = BUTTON_MATCHER.match(notedata)
+		matchfile = MYFILE_MATCHER.match(notedata)
+		matchphoto = MYPHOTO_MATCHER.match(notedata)
+		matchaudio = MYAUDIO_MATCHER.match(notedata)
+		matchvoice = MYVOICE_MATCHER.match(notedata)
+		matchvideo = MYVIDEO_MATCHER.match(notedata)
+		matchvn = MYVIDEONOTE_MATCHER.match(notedata)
 
-        if match:
-            failures.append(notename)
-            notedata = notedata[match.end():].strip()
-            if notedata:
-                sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
-        else:
-            sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
+		if match:
+			failures.append(notename)
+			notedata = notedata[match.end():].strip()
+			if notedata:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
+		elif matchsticker:
+			content = notedata[matchsticker.end():].strip()
+			if content:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.STICKER, file=content)
+		elif matchbtn:
+			parse = notedata[matchbtn.end():].strip()
+			notedata = parse.split("<###button###>")[0]
+			buttons = parse.split("<###button###>")[1]
+			buttons = ast.literal_eval(buttons)
+			if buttons:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.BUTTON_TEXT, buttons=buttons)
+		elif matchfile:
+			file = notedata[matchfile.end():].strip()
+			file = file.split("<###TYPESPLIT###>")
+			notedata = file[1]
+			content = file[0]
+			if content:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.DOCUMENT, file=content)
+		elif matchphoto:
+			photo = notedata[matchphoto.end():].strip()
+			photo = photo.split("<###TYPESPLIT###>")
+			notedata = photo[1]
+			content = photo[0]
+			if content:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.PHOTO, file=content)
+		elif matchaudio:
+			audio = notedata[matchaudio.end():].strip()
+			audio = audio.split("<###TYPESPLIT###>")
+			notedata = audio[1]
+			content = audio[0]
+			if content:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.AUDIO, file=content)
+		elif matchvoice:
+			voice = notedata[matchvoice.end():].strip()
+			voice = voice.split("<###TYPESPLIT###>")
+			notedata = voice[1]
+			content = voice[0]
+			if content:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.VOICE, file=content)
+		elif matchvideo:
+			video = notedata[matchvideo.end():].strip()
+			video = video.split("<###TYPESPLIT###>")
+			notedata = video[1]
+			content = video[0]
+			if content:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.VIDEO, file=content)
+		elif matchvn:
+			video_note = notedata[matchvn.end():].strip()
+			video_note = video_note.split("<###TYPESPLIT###>")
+			notedata = video_note[1]
+			content = video_note[0]
+			if content:
+				sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.VIDEO_NOTE, file=content)
+		else:
+			sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
 
-    if failures:
-        with BytesIO(str.encode("\n".join(failures))) as output:
-            output.name = "failed_imports.txt"
-            dispatcher.bot.send_document(chat_id, document=output, filename="failed_imports.txt",
-                                         caption="These files/photos failed to import due to originating "
-                                                 "from another bot. This is a telegram API restriction, and can't "
-                                                 "be avoided. Sorry for the inconvenience!")
+	if failures:
+		with BytesIO(str.encode("\n".join(failures))) as output:
+			output.name = "failed_imports.txt"
+			dispatcher.bot.send_document(chat_id, document=output, filename="failed_imports.txt",
+										 caption="These files/photos failed to import due to originating "
+												 "from another bot. This is a telegram API restriction, and can't "
+												 "be avoided. Sorry for the inconvenience!")
 
 
 def __stats__():
