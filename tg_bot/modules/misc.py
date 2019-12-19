@@ -7,6 +7,11 @@ from typing import Optional, List
 import requests
 from telegram import Message, Chat, Update, Bot, MessageEntity
 from telegram import ParseMode
+
+
+
+
+from telegram import ParseMode, ReplyKeyboardRemove, ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
 
@@ -372,6 +377,28 @@ def markdown_help(bot: Bot, update: Update):
                                         "[URL](example.com) [button](buttonurl:github.com) "
                                         "[button2](buttonurl://google.com:same)")
 
+@run_async
+def reply_keyboard_remove(bot: Bot, update: Update):
+    reply_keyboard = []
+    reply_keyboard.append([
+        ReplyKeyboardRemove(
+            remove_keyboard=True
+        )
+    ])
+    reply_markup = ReplyKeyboardRemove(
+        remove_keyboard=True
+    )
+    old_message = bot.send_message(
+        chat_id=update.message.chat_id,
+        text='Hmmm, Trying...',
+        reply_markup=reply_markup,
+        reply_to_message_id=update.message.message_id
+    )
+    bot.delete_message(
+        chat_id=update.message.chat_id,
+        message_id=old_message.message_id
+    )
+
 
 @run_async
 def stats(bot: Bot, update: Update):
@@ -423,6 +450,7 @@ __help__ = """
  - /info: get information about a user.
  - /gdpr: deletes your information from the bot's database. Private chats only.
  - /markdownhelp: quick summary of how markdown works in telegram - ge only be called in private chats.
+ - /removebotkeyboard: Got a nasty bot keyboard stuck in your group try this!
 """
 
 
@@ -460,3 +488,4 @@ dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(GDPR_HANDLER)
 dispatcher.add_handler(STICKERID_HANDLER)
 dispatcher.add_handler(GETSTICKER_HANDLER)
+dispatcher.add_handler(DisableAbleCommandHandler("removebotkeyboard", reply_keyboard_remove))
