@@ -90,10 +90,21 @@ def snipe(bot: Bot, update: Update, args: List[str]):
 def leavechat(bot: Bot, update: Update, args: List[int]):
     if args:
         chat_id = int(args[0])
-        bot.leaveChat(chat_id)
     else:
-        update.effective_message.reply_text("You don't seem to be referring to a chat")
-     
+        update.effective_message.reply_text("You do not seem to be referring to a chat!")
+    try:
+        chat = bot.getChat(chat_id)
+        titlechat = bot.get_chat(chat_id).title
+        bot.sendMessage(chat_id, "`I Go Away!`")
+        bot.leaveChat(chat_id)
+        update.effective_message.reply_text("I left group {}".format(titlechat))
+
+    except BadRequest as excp:
+        if excp.message == "Chat not found":
+            update.effective_message.reply_text("It looks like I've been kicked out of the group :p")
+        else:
+            return
+
 @run_async
 def slist(bot: Bot, update: Update):
     message = update.effective_message
