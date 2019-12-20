@@ -63,7 +63,7 @@ def kang(bot: Bot, update: Update, args: List[str]):
         except TelegramError as e:
             if e.message == "Stickerset_invalid":
                 packname_found = 1
-    stolensticker = "kangsticker.png"
+    kangsticker = "kangsticker.png"
     if msg.reply_to_message:
         if msg.reply_to_message.sticker:
             file_id = msg.reply_to_message.sticker.file_id
