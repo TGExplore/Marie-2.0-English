@@ -95,15 +95,22 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
         return
 
-    message.reply_text("Starting a global ban for {}".format(mention_html(user_chat.id, user_chat.first_name)),
+    message.reply_text("Initiating global ban for {}".format(mention_html(user_chat.id, user_chat.first_name)),
                        parse_mode=ParseMode.HTML)
 
     banner = update.effective_user  # type: Optional[User]
-    send_to_list(bot, SUDO_USERS,
-                 "{} is gbanning user {} "
-                 "because:\n{}".format(mention_html(banner.id, banner.first_name),
-                                       mention_html(user_chat.id, user_chat.first_name), reason or "No reason given"),
-                 html=True)
+    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
+                     "<b>Emendation of Global Ban</b>" \
+                     "\n#GBAN" \
+                     "\n<b>Status:</b> <code>Amended</code>" \
+                     "\n<b>Admin:</b> {}" \
+                     "\n<b>User:</b> {}" \
+                     "\n<b>ID:</b> <code>{}</code>" \
+                     "\n<b>Previous Reason:</b> {}" \
+                     "\n<b>Amended Reason:</b> {}".format(mention_html(banner.id, banner.first_name),
+                                              mention_html(user_chat.id, user_chat.first_name or "Deleted Account"),  
+                                                           user_chat.id, old_reason, new_reason), 
+                    html=True)
 
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
 
@@ -161,10 +168,16 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     message.reply_text("I'll give {} a second chance, globally.".format(mention_html(user_chat.id, user_chat.first_name)),
                        parse_mode=ParseMode.HTML)
 
-    send_to_list(bot, SUDO_USERS,
-                 "{} has ungbanned user {}".format(mention_html(banner.id, banner.first_name),
-                                                   mention_html(user_chat.id, user_chat.first_name)),
-                 html=True)
+    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
+                 "<b>Regression of Global Ban</b>" \
+                 "\n#UNGBAN" \
+                 "\n<b>Status:</b> <code>Ceased</code>" \
+                 "\n<b>Admin:</b> {}" \
+                 "\n<b>User:</b> {}" \
+                 "\n<b>ID:</b> <code>{}</code>".format(mention_html(banner.id, banner.first_name),
+                                                       mention_html(user_chat.id, user_chat.first_name or "Deleted Account"), 
+                                                                    user_chat.id),
+                html=True)
 
     chats = get_all_chats()
     for chat in chats:
