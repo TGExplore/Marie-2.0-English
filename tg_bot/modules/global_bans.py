@@ -294,7 +294,7 @@ def gbanstat(bot: Bot, update: Update, args: List[str]):
             sql.disable_gbans(update.effective_chat.id)
             update.effective_message.reply_text("I've disabled gbans in this Group. GBans wont affect your users "
                                                 "anymore. You'll be less protected from any trolls and spammers "
-                                                "though".
+                                                "though!")
     else:
         update.effective_message.reply_text("Give me some arguments to choose a setting! on/off, yes/no!\n\n"
                                             "Your current setting is: {}\n"
