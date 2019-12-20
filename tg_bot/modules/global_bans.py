@@ -100,18 +100,16 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
     banner = update.effective_user  # type: Optional[User]
     send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
-                     "<b>Emendation of Global Ban</b>" \
-                     "\n#GBAN" \
-                     "\n<b>Status:</b> <code>Amended</code>" \
-                     "\n<b>Admin:</b> {}" \
-                     "\n<b>User:</b> {}" \
-                     "\n<b>ID:</b> <code>{}</code>" \
-                     "\n<b>Previous Reason:</b> {}" \
-                     "\n<b>Amended Reason:</b> {}".format(mention_html(banner.id, banner.first_name),
+                 "<b>Global Ban</b>" \
+                 "\n#GBAN" \
+                 "\n<b>Status:</b> <code>Enforcing</code>" \
+                 "\n<b>Admin:</b> {}" \
+                 "\n<b>User:</b> {}" \
+                 "\n<b>ID:</b> <code>{}</code>" \
+                 "\n<b>Reason:</b> {}".format(mention_html(banner.id, banner.first_name),
                                               mention_html(user_chat.id, user_chat.first_name or "Deleted Account"),  
-                                                           user_chat.id, old_reason, new_reason), 
-                    html=True)
-
+                                                           user_chat.id, reason or "No reason given"), 
+                html=True)
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
 
     chats = get_all_chats()
