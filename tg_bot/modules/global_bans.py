@@ -99,7 +99,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
                        parse_mode=ParseMode.HTML)
 
     banner = update.effective_user  # type: Optional[User]
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS + MESSAGE_DUMP,
+    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
                  "<b>Global Ban</b>" \
                  "\n#GBAN" \
                  "\n<b>Status:</b> <code>Enforcing</code>" \
@@ -166,7 +166,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     message.reply_text("I'll give {} a second chance, globally.".format(mention_html(user_chat.id, user_chat.first_name)),
                        parse_mode=ParseMode.HTML)
 
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS + MESSAGE_DUMP,
+    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
                  "<b>Regression of Global Ban</b>" \
                  "\n#UNGBAN" \
                  "\n<b>Status:</b> <code>Ceased</code>" \
