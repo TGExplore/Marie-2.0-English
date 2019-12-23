@@ -1,6 +1,6 @@
 import re
 from typing import Optional
-
+import html
 import telegram
 from telegram import ParseMode, InlineKeyboardMarkup, Message, Chat
 from telegram import Update, Bot
@@ -22,6 +22,11 @@ from tg_bot.modules.translations.strings import tld
 from tg_bot.modules.connection import connected
 
 HANDLER_GROUP = 10
+
+
+
+def escape_html(word):
+    return escape(word)
 
 
 @run_async
@@ -50,14 +55,14 @@ def list_handlers(bot: Bot, update: Update):
         return
 
     for keyword in all_handlers:
-        entry = " • `{}`\n".format(escape_markdown(keyword))
+        entry = " • `{}`\n".format(escape_html(keyword))
         if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
-            update.effective_message.reply_text(filter_list.format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+            update.effective_message.reply_text(filter_list.format(chat_name), parse_mode=telegram.ParseMode.HTML)
             filter_list = entry
         else:
             filter_list += entry
 
-    update.effective_message.reply_text(filter_list.format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+    update.effective_message.reply_text(filter_list.format(chat_name), parse_mode=telegram.ParseMode.HTML)
 
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
 @user_admin
