@@ -56,14 +56,14 @@ def list_handlers(bot: Bot, update: Update):
         return
 
     for keyword in all_handlers:
-        entry = " • `{}`\n".format(escape_html(keyword))
+        entry = " • `{}`\n".format(escape_markdown(keyword))
         if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(filter_list.format(chat_name), parse_mode=telegram.ParseMode.HTML)
             filter_list = entry
         else:
             filter_list += entry
 
-    update.effective_message.reply_text(filter_list.format(chat_name), parse_mode=telegram.ParseMode.HTML)
+    update.effective_message.reply_text(filter_list.format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
 
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
 @user_admin
