@@ -54,9 +54,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         message.reply_text("You don't seem to be referring to a user.")
         return
 
-    if (user_id) in OWNER_ID:
-        message.reply_text("I cant Gban My OWNER dude?😏")
-    
+
     if int(user_id) in SUDO_USERS:
         message.reply_text("I cant't Gban Sudo Users :V")
         return
