@@ -46,8 +46,8 @@ def gkick(bot: Bot, update: Update, args: List[str]):
     if not user_id:
         message.reply_text("You do not seems to be referring to a user")
         return
-    if int(user_id) in SUDO_USERS or int(user_id) in SUPPORT_USERS:
-        message.reply_text("OHHH! Someone's trying to gkick a sudo/support user! *Grabs popcorn*")
+    if int(user_id) in SUDO_USERS:
+        message.reply_text("OHHH! Someone's trying to gkick a sudo user! *Grabs popcorn*")
         return
     if int(user_id) == OWNER_ID:
         message.reply_text("Wow! Someone's so noob that he want to gkick my owner! *Grabs Potato Chips*")
