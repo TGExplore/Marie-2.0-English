@@ -52,7 +52,7 @@ def gkick(bot: Bot, update: Update, args: List[str]):
     if int(user_id) in SUPPORT_USERS:
         message.reply_text("OHHH!bruh Can't gkick a support user! *still he can gban*")
         return
-    if int(user_id) == OWNER_ID:
+    if int(user_id) in OWNER_ID:
         message.reply_text("Wow! Someone's so noob that he want to gkick my owner! *Grabs Potato Chips*")
         return
     if int(user_id) == bot.id:
