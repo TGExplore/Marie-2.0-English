@@ -229,16 +229,21 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
 
     res = chat.unban_member(user_id)  # unban on current user = kick
     if res:
-        bot.send_sticker(update.effective_chat.id, BAN_STICKER)
-        message.reply_text("Kicked!")
         log = "<b>{}:</b>" \
               "\n#KICKED" \
-              "\n<b>Admin:</b> {}" \
-              "\n<b>User:</b> {}".format(html.escape(chat.title),
-                                         mention_html(user.id, user.first_name),
-                                         mention_html(member.user.id, member.user.first_name))
+              "\n<b>• Admin:</b> {}" \
+              "\n<b>• User:</b> {}" \
+              "\n<b>• ID:</b> <code>{}</code>".format(html.escape(chat.title),
+                                                      mention_html(user.id, user.first_name),
+                                                      mention_html(member.user.id, member.user.first_name), user_id)
+        keyboard = []
+        reply = "{} has been kicked by {}!"..format(mention_html(member.user.id, member.user.first_name), mention_html(user.id, user.first_name))
         if reason:
-            log += "\n<b>Reason:</b> {}".format(reason)
+            log += "\n<b>• Reason:</b> {}".format(reason)
+            reply += "\n<b>Reason:</b> <i>{}</i>".format(reason)
+            
+        bot.send_sticker(chat.id, BAN_STICKER)  # banhammer hercules sticker
+        message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
 
         return log
 
