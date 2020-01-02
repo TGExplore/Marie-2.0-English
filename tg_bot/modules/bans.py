@@ -237,7 +237,7 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
                                                       mention_html(user.id, user.first_name),
                                                       mention_html(member.user.id, member.user.first_name), user_id)
         keyboard = []
-        reply = "{} has been kicked by {}!"..format(mention_html(member.user.id, member.user.first_name), mention_html(user.id, user.first_name))
+        reply = "{} has been kicked by {}!".format(mention_html(member.user.id, member.user.first_name), mention_html(user.id, user.first_name))
         if reason:
             log += "\n<b>• Reason:</b> {}".format(reason)
             reply += "\n<b>Reason:</b> <i>{}</i>".format(reason)
