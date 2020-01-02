@@ -115,7 +115,7 @@ def kang(bot: Bot, update: Update, args: List[str]):
             if e.message == "Stickerset_invalid":
                 makepack_internal(msg, user, open('kangsticker.png', 'rb'), sticker_emoji, bot, packname, packnum)
             elif e.message == "Sticker_png_dimensions":
-                im.save(stolensticker, "PNG")
+                im.save(kangsticker, "PNG")
                 bot.add_sticker_to_set(user_id=user.id, name=packname,
                                         png_sticker=open('kangsticker.png', 'rb'), emojis=sticker_emoji)
                 msg.reply_text(f"Sticker successfully added to [pack](t.me/addstickers/{packname})" +
