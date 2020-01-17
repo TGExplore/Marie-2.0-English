@@ -38,10 +38,6 @@ if ENV:
     except ValueError:
         raise Exception("Your support users list does not contain valid integers.")
 
-    try:
-	SPAMMERS_ID = set(int(x) for x in os.environ.get("SPAMMERS_ID", "").split())
-    except ValueError:
-	raise Exception("Your spammers users list does not contain valid integers.")
 
     try:
         WHITELIST_USERS = set(int(x) for x in os.environ.get("WHITELIST_USERS", "").split())
@@ -89,11 +85,6 @@ else:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
-	SPAMMERS_ID = set(int(x) for x in Config.SPAMMERS or [])
-    except ValueError:
-	raise Exception("Your spammers users list does not contain valid integers.")
-
-    try:
         WHITELIST_USERS = set(int(x) for x in Config.WHITELIST_USERS or [])
     except ValueError:
         raise Exception("Your whitelisted users list does not contain valid integers.")
@@ -130,8 +121,8 @@ dispatcher = updater.dispatcher
 
 SUDO_USERS = list(SUDO_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
-SPAMMERS_ID = list(SPAMMERS_ID)
 SUPPORT_USERS = list(SUPPORT_USERS)
+
 
 # Load at end to ensure all prev variables have been set
 from tg_bot.modules.helper_funcs.handlers import CustomCommandHandler, CustomRegexHandler
