@@ -105,7 +105,7 @@ def new_fed(bot: Bot, update: Update):
 											"\n\nUse the command below to join the federation:"
 											"\n`/joinfed {}`".format(fed_name, fed_id, fed_id), parse_mode=ParseMode.MARKDOWN)
 		try:
-			bot.send_message(GBAN_LOGS,
+			bot.send_message(MESSAGE_DUMP,
 				"Federation <b>{}</b> has been created with ID: <pre>{}</pre>".format(fed_name, fed_id), parse_mode=ParseMode.HTML)
 		except:
 			LOGGER.warning("Cannot send a message to GBAN_LOGS")
