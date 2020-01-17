@@ -47,6 +47,10 @@
       "description": "A space separated list of user_ids which should be considered support users (can gban/ungban, nothing else)",
       "value": "594813047"
     },
+    "SPAMMERS": {
+      "description": " List of Userid who are spammers",
+      "value": ""
+    },
     "WHITELIST_USERS": {
       "description": "A space separated list of user_ids which should be considered whitelisted - they can't be banned.",
       "value": "594813047"
