@@ -39,9 +39,9 @@ if ENV:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
-		SPAMMERS = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
-	except ValueError:
-		raise Exception("Your spammers users list does not contain valid integers.")
+	SPAMMERS = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
+    except ValueError:
+	raise Exception("Your spammers users list does not contain valid integers.")
 
     try:
         WHITELIST_USERS = set(int(x) for x in os.environ.get("WHITELIST_USERS", "").split())
@@ -89,9 +89,9 @@ else:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
-		SPAMMERS = set(int(x) for x in Config.SPAMMERS or [])
-	except ValueError:
-		raise Exception("Your spammers users list does not contain valid integers.")
+	SPAMMERS = set(int(x) for x in Config.SPAMMERS or [])
+    except ValueError:
+	raise Exception("Your spammers users list does not contain valid integers.")
 
     try:
         WHITELIST_USERS = set(int(x) for x in Config.WHITELIST_USERS or [])
