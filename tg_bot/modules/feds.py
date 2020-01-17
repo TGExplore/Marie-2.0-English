@@ -28,7 +28,7 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 import tg_bot.modules.sql.feds_sql as sql
 
 from tg_bot.modules.connection import connected
-from tg_bot.modules.helper_funcs.alternate import send_message
+from tg_bot.modules.helper_funcs.kek import send_message
 # Hello bot owner, I spended for feds many hours of my life, Please don't remove this if you still respect MrYacha and peaktogoo and AyraHikari too
 # Federation by MrYacha 2018-2019
 # Federation rework by Mizukito Akito 2019
