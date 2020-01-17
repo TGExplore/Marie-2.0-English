@@ -39,6 +39,11 @@ if ENV:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
+		SPAMMERS = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
+	except ValueError:
+		raise Exception("Your spammers users list does not contain valid integers.")
+
+    try:
         WHITELIST_USERS = set(int(x) for x in os.environ.get("WHITELIST_USERS", "").split())
     except ValueError:
         raise Exception("Your whitelisted users list does not contain valid integers.")
@@ -84,6 +89,11 @@ else:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
+		SPAMMERS = set(int(x) for x in Config.SPAMMERS or [])
+	except ValueError:
+		raise Exception("Your spammers users list does not contain valid integers.")
+
+    try:
         WHITELIST_USERS = set(int(x) for x in Config.WHITELIST_USERS or [])
     except ValueError:
         raise Exception("Your whitelisted users list does not contain valid integers.")
@@ -120,6 +130,7 @@ dispatcher = updater.dispatcher
 
 SUDO_USERS = list(SUDO_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
+SPAMMERS = list(SPAMMERS)
 SUPPORT_USERS = list(SUPPORT_USERS)
 
 # Load at end to ensure all prev variables have been set
@@ -130,3 +141,21 @@ tg.RegexHandler = CustomRegexHandler
 
 if ALLOW_EXCL:
     tg.CommandHandler = CustomCommandHandler
+
+    
+def spamfilters(text, user_id, chat_id, message):
+	# If msg from self, return True
+	if user_id == 692882995:
+		return False
+	print("{} | {} | {} | {}".format(text, user_id, message.chat.title, chat_id))
+	if antispam_module:
+		parsing_date = time.mktime(message.date.timetuple())
+		detecting = detect_user(user_id, chat_id, message, parsing_date)
+		if detecting:
+			return True
+		antispam_restrict_user(user_id, parsing_date)
+	if int(user_id) in SPAMMERS:
+		print("This user is spammer!")
+		return True
+	else:
+		return False
