@@ -39,7 +39,7 @@ if ENV:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
-	SPAMMERS_ID = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
+	SPAMMERS_ID = set(int(x) for x in os.environ.get("SPAMMERS_ID", "").split())
     except ValueError:
 	raise Exception("Your spammers users list does not contain valid integers.")
 
