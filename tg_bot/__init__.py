@@ -39,7 +39,7 @@ if ENV:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
-	SPAMMERS = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
+	SPAMMERS_ID = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
     except ValueError:
 	raise Exception("Your spammers users list does not contain valid integers.")
 
@@ -89,7 +89,7 @@ else:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
-	SPAMMERS = set(int(x) for x in Config.SPAMMERS or [])
+	SPAMMERS_ID = set(int(x) for x in Config.SPAMMERS or [])
     except ValueError:
 	raise Exception("Your spammers users list does not contain valid integers.")
 
@@ -130,7 +130,7 @@ dispatcher = updater.dispatcher
 
 SUDO_USERS = list(SUDO_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
-SPAMMERS = list(SPAMMERS)
+SPAMMERS_ID = list(SPAMMERS_ID)
 SUPPORT_USERS = list(SUPPORT_USERS)
 
 # Load at end to ensure all prev variables have been set
