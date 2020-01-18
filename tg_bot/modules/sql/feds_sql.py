@@ -1,7 +1,9 @@
 import threading
 
 from sqlalchemy import Column, String, UnicodeText, func, distinct, Integer, Boolean
+from telegram.error import BadRequest, TelegramError, Unauthorized
 
+from tg_bot import dispatcher
 from tg_bot.modules.sql import SESSION, BASE
 
 
@@ -11,18 +13,21 @@ class Federations(BASE):
 	fed_name = Column(UnicodeText)
 	fed_id = Column(UnicodeText, primary_key=True)
 	fed_rules = Column(UnicodeText)
+	fed_log = Column(UnicodeText)
 	fed_users = Column(UnicodeText)
 
-	def __init__(self, owner_id, fed_name, fed_id, fed_rules, fed_users):
+	def __init__(self, owner_id, fed_name, fed_id, fed_rules, fed_log, fed_users):
 		self.owner_id = owner_id
 		self.fed_name = fed_name
 		self.fed_id = fed_id
 		self.fed_rules = fed_rules
+		self.fed_log = fed_log
 		self.fed_users = fed_users
 
 class ChatF(BASE):
 	__tablename__ = "chat_feds"
 	chat_id = Column(String(14), primary_key=True)
+	chat_name = Column(UnicodeText)
 	fed_id = Column(UnicodeText)
 
 	def __init__(self, chat_id, chat_name, fed_id):
@@ -38,14 +43,16 @@ class BansF(BASE):
 	last_name = Column(UnicodeText)
 	user_name = Column(UnicodeText)
 	reason = Column(UnicodeText, default="")
+	time = Column(Integer, default=0)
 
-	def __init__(self, fed_id, user_id, first_name, last_name, user_name, reason):
+	def __init__(self, fed_id, user_id, first_name, last_name, user_name, reason, time):
 		self.fed_id = fed_id
 		self.user_id = user_id
 		self.first_name = first_name
 		self.last_name = last_name
 		self.user_name = user_name
 		self.reason = reason
+		self.time = time
 
 class FedsUserSettings(BASE):
 	__tablename__ = "feds_settings"
@@ -58,10 +65,24 @@ class FedsUserSettings(BASE):
 	def __repr__(self):
 		return "<Feds report settings ({})>".format(self.user_id)
 
+class FedSubs(BASE):
+	__tablename__ = "feds_subs"
+	fed_id = Column(UnicodeText, primary_key=True)
+	fed_subs = Column(UnicodeText, primary_key=True, nullable=False)
+
+	def __init__(self, fed_id, fed_subs):
+		self.fed_id = fed_id
+		self.fed_subs = fed_subs
+
+	def __repr__(self):
+		return "<Fed {} subscribes for {}>".format(self.fed_id, self.fed_subs)
+
 # Dropping db
 # Federations.__table__.drop()
 # ChatF.__table__.drop()
 # BansF.__table__.drop()
+# FedSubs.__table__.drop()
+
 
 Federations.__table__.create(checkfirst=True)
 ChatF.__table__.create(checkfirst=True)
