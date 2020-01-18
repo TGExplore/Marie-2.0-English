@@ -243,12 +243,12 @@ def del_fed(fed_id):
 			SESSION.commit()
 		return True
 
-def chat_join_fed(fed_id, chat_name, chat_id):
+def chat_join_fed(fed_id, chat_id):
 	with FEDS_LOCK:
 		global FEDERATION_CHATS, FEDERATION_CHATS_BYID
-		r = ChatF(chat_id, chat_name, fed_id)
+		r = ChatF(chat_id, fed_id)
 		SESSION.add(r)
-		FEDERATION_CHATS[str(chat_id)] = {'chat_name': chat_name, 'fid': fed_id}
+		FEDERATION_CHATS[str(chat_id)] = {'fid': fed_id}
 		checkid = FEDERATION_CHATS_BYID.get(fed_id)
 		if checkid == None:
 			FEDERATION_CHATS_BYID[fed_id] = []
