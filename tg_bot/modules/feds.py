@@ -397,8 +397,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
 	user_id, reason = extract_user_and_text(message, args)
 
-	fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user_id)
-
+	fban, fbanreason = sql.get_fban_user(fed_id, user_id)
 
 	if not user_id:
 		message.reply_text("You don't seem to be referring to a user.")
@@ -524,7 +523,6 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 			html=True)
 	message.reply_text("{} has been fbanned.".format(mention_html(user_chat.id, user_chat.first_name)),
 	parse_mode=ParseMode.HTML)
-
 
 @run_async
 def unfban(bot: Bot, update: Update, args: List[str]):
