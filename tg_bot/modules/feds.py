@@ -397,7 +397,8 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
 	user_id, reason = extract_user_and_text(message, args)
 
-	fban, fbanreason = sql.get_fban_user(fed_id, user_id)
+	fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user_id)
+
 
 	if not user_id:
 		message.reply_text("You don't seem to be referring to a user.")
