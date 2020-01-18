@@ -562,7 +562,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 	banner = update.effective_user  # type: Optional[User]
 
 	message.reply_text("I'll give {} a second chance in this federation".format(mention_html(user_chat.id, user_chat.first_name)),
-	parsemode=ParseMode.HTML)
+	parse_mode=ParseMode.HTML)
 
 	chat_list = sql.all_fed_chats(fed_id)
 
