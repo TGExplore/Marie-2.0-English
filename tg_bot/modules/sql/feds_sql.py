@@ -30,11 +30,10 @@ class ChatF(BASE):
 	chat_name = Column(UnicodeText)
 	fed_id = Column(UnicodeText)
 
-	def __init__(self, chat_id, chat_name, fed_id):
+	def __init__(self, chat_id, fed_id):
 		self.chat_id = chat_id
-		self.chat_name = chat_name
 		self.fed_id = fed_id
-
+		
 class BansF(BASE):
 	__tablename__ = "bans_feds"
 	fed_id = Column(UnicodeText, primary_key=True)
