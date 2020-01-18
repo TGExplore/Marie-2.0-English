@@ -102,7 +102,7 @@ def kang(bot: Bot, update: Update, args: List[str]):
             else:
                 im.thumbnail(maxsize)
             if not msg.reply_to_message.sticker:
-                im.save(stolensticker, "PNG")
+                im.save(kangsticker, "PNG")
             bot.add_sticker_to_set(user_id=user.id, name=packname,
                                     png_sticker=open('kangsticker.png', 'rb'), emojis=sticker_emoji)
             msg.reply_text(f"Sticker successfully added to [pack](t.me/addstickers/{packname})" +
