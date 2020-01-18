@@ -494,10 +494,9 @@ def get_fban_user(fed_id, user_id):
 			if I.fed_id == fed_id:
 				if int(I.user_id) == int(user_id):
 					reason = I.reason
-					time = I.time
-		return True, reason, time
+		return True, reason
 	else:
-		return False, None, None
+		return False, None
 
 
 def get_all_fban_users(fed_id):
