@@ -450,9 +450,10 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 		if not temp:
 			message.reply_text("Failed to update fban reason!")
 			return
-		x = sql.fban_user(fed_id, user_id, user_chat.first_name, user_chat.last_name, user_chat.username, reason)
+		
+		x = sql.fban_user(fed_id, fban_user_id, fban_user_name, fban_user_lname, fban_user_uname, reason, int(time.time()))
 		if not x:
-			message.reply_text("Failed to ban from the federation! If this problem persists, reach out to us @PhoenixSupport.")
+			message.reply_text("Failed to ban from the federation! If this problem persists, reach out to us @CtrlSupport.")
 			return
 
 		fed_chats = sql.all_fed_chats(fed_id)
