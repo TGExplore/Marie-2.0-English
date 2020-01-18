@@ -1016,15 +1016,15 @@ def del_fed_button(bot, update):
 	fed_id = query.data.split("_")[1]
 
 	if fed_id == 'cancel':
-		query.message.edit_text("Federation deletion has been cancelled.")
+		query.message.edit_text("Federation deletion cancelled")
 		return
 
 	getfed = sql.get_fed_info(fed_id)
 	if getfed:
 		delete = sql.del_fed(fed_id)
 		if delete:
-			query.message.edit_text("You have deleted your federation! Now all the groups that were connected with `{}` do not have a federation.".format(getfed['fname']), parse_mode='markdown')
-
+			query.message.edit_text("You have removed your Federation! Now all the Groups that are connected with `{}` do not have a Federation.".format(getfed['fname']), parse_mode='markdown')
+			
 
 def is_user_fed_admin(fed_id, user_id):
 	fed_admins = sql.all_fed_users(fed_id)
