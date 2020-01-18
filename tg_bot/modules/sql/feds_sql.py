@@ -92,6 +92,14 @@ def get_fed_info(fed_id):
 	return get
 
 
+def get_fed_name(chat_id):
+	get = FEDERATION_CHATS.get(str(chat_id))
+	if get == None:
+		return False
+	else:
+		return get['chat_name']
+
+
 def get_fed_id(chat_id):
 	get = FEDERATION_CHATS.get(str(chat_id))
 	if get == None:
