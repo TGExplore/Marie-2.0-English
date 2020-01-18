@@ -152,6 +152,7 @@ def fed_chat(bot: Bot, update: Update, args: List[str]):
 	text = "This chat is part of the following federation:"
 	text += "\n{} (ID: <code>{}</code>)".format(info['fname'], fed_id)
 
+
 	update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
