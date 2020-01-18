@@ -37,6 +37,8 @@ import tg_bot.modules.sql.feds_sql as sql
 
 LOGGER.info("Original federation module by MrYacha, reworked by Mizukito Akito (@RealAkito) on Telegram.")
 
+def escape_html(word):
+    return escape(word)
 
 FBAN_ERRORS = {
 	"User is an administrator of the chat",
