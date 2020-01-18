@@ -104,15 +104,15 @@ def del_fed(bot: Bot, update: Update, args: List[str]):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	if chat.type != "private":
-		update.effective_message.reply_text("Please run this command in my PM only!")
+		update.effective_message.reply_text("Delete your federation in my PM, not in the group.")
 		return
 	if args:
 		is_fed_id = args[0]
 		getinfo = sql.get_fed_info(is_fed_id)
 		if getinfo == False:
-			update.effective_message.reply_text("This federation doesn't exist.")
+			update.effective_message.reply_text("This federation is not found")
 			return
-		if int(getinfo['owner']) == int(user.id):
+		if int(getinfo['owner']) == int(user.id) or int(user.id) == OWNER_ID:
 			fed_id = is_fed_id
 		else:
 			update.effective_message.reply_text("Only federation owners can do this!")
@@ -122,12 +122,12 @@ def del_fed(bot: Bot, update: Update, args: List[str]):
 		return
 
 	if is_user_fed_owner(fed_id, user.id) == False:
-		update.effective_message.reply_text("Only the federation owner can do this!")
+		update.effective_message.reply_text("Only federation owners can do this!")
 		return
 
-	update.effective_message.reply_text("Are you sure you want to delete your federation? This action cannot be reversed, you will lose your entire ban list, and '{}' will be permanently lost.".format(getinfo['fname']),
+	update.effective_message.reply_text("Are you sure you want to delete your federation? This action cannot be canceled, you will lose your entire ban list, and '{}' will be permanently lost.".format(getinfo['fname']),
 			reply_markup=InlineKeyboardMarkup(
-						[[InlineKeyboardButton(text="⚠️ Delete Federation ⚠️", callback_data="rmfed_{}".format(fed_id))],
+						[[InlineKeyboardButton(text="⚠️ Remove Federation ⚠️", callback_data="rmfed_{}".format(fed_id))],
 						[InlineKeyboardButton(text="Cancel", callback_data="rmfed_cancel")]]))
 
 @run_async
