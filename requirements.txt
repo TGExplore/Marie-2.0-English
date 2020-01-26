@@ -32,3 +32,4 @@ spongemock
 psutil
 translator
 googletrans
+tswift
