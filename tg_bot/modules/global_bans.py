@@ -1,3 +1,4 @@
+import time
 import html
 from io import BytesIO
 from typing import Optional, List
@@ -278,6 +279,45 @@ def gbanstat(bot: Bot, update: Update, args: List[str]):
                                             "When False, they won't, leaving you at the possible mercy of "
                                             "spammers.".format(sql.does_chat_gban(update.effective_chat.id)))
 
+  
+
+@run_async
+def check_gbans(bot: Bot, update: Update):
+    '''By @TheRealPhoenix'''
+    banned = sql.get_gban_list()
+    deleted = 0
+    for user in banned:
+        id = user["user_id"]
+        time.sleep(0.1) # Reduce floodwait
+        try:
+            bot.get_chat(id)
+        except BadRequest:
+            deleted += 1
+    if deleted >= 1:
+        update.message.reply_text("`{}` deleted accounts found in the gbanlist! " \
+        "Run /cleangb to remove them from the database!".format(deleted),
+        parse_mode=ParseMode.MARKDOWN)
+    else:
+        update.message.reply_text("No deleted accounts in the gbanlist!")
+        
+ @run_async
+def clear_gbans(bot: Bot, update: Update):
+    '''Check and remove deleted accounts from gbanlist.
+    By @TheRealPhoenix'''
+    banned = sql.get_gban_list()
+    deleted = 0
+    for user in banned:
+        id = user["user_id"]
+        time.sleep(0.1) # Reduce floodwait
+        try:
+            bot.get_chat(id)
+        except BadRequest:
+            deleted += 1
+            sql.ungban_user(id)
+    update.message.reply_text("Done! `{}` deleted accounts were removed " \
+    "from the gbanlist.".format(deleted), parse_mode=ParseMode.MARKDOWN)
+    
+
 
 def __stats__():
     return "{} gbanned users.".format(sql.num_gbanned_users())
@@ -325,11 +365,16 @@ GBAN_LIST = CommandHandler("gbanlist", gbanlist,
 GBAN_STATUS = CommandHandler("gbanstat", gbanstat, pass_args=True, filters=Filters.group)
 
 GBAN_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gban)
+CHECK_GBAN_HANDLER = CommandHandler("checkgb", check_gbans, filters=Filters.user(OWNER_ID))
+CLEAN_GBAN_HANDLER = CommandHandler("cleangb", clear_gbans, filters=Filters.user(OWNER_ID))
+
 
 dispatcher.add_handler(GBAN_HANDLER)
 dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
+dispatcher.add_handler(CHECK_GBAN_HANDLER)
+dispatcher.add_handler(CLEAN_GBAN_HANDLER)
 
 if STRICT_GBAN:  # enforce GBANS if this is set
     dispatcher.add_handler(GBAN_ENFORCER, GBAN_ENFORCE_GROUP)  
