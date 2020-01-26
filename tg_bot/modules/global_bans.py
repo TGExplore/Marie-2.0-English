@@ -300,7 +300,7 @@ def check_gbans(bot: Bot, update: Update):
     else:
         update.message.reply_text("No deleted accounts in the gbanlist!")
         
- @run_async
+@run_async
 def clear_gbans(bot: Bot, update: Update):
     '''Check and remove deleted accounts from gbanlist.
     By @TheRealPhoenix'''
