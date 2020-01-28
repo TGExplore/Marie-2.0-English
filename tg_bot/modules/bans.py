@@ -7,7 +7,7 @@ from telegram.ext import run_async, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, User, CallbackQuery
 
-from tg_bot import dispatcher, BAN_STICKER, LOGGER, OWNER_ID
+from tg_bot import dispatcher, BAN_STICKER, KICK_STICKER, LOGGER, OWNER_ID
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_ban_protected, can_restrict, \
     is_user_admin, is_user_in_chat, is_bot_admin
@@ -242,7 +242,7 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
             log += "\n<b>• Reason:</b> {}".format(reason)
             reply += "\n<b>Reason:</b> <i>{}</i>".format(reason)
             
-        bot.send_sticker(chat.id, BAN_STICKER)  # banhammer hercules sticker
+        bot.send_sticker(chat.id, KICK_STICKER)  # STICKER FOR /KICK
         message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
 
         return log
