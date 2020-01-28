@@ -57,6 +57,7 @@ if ENV:
     STRICT_GBAN = bool(os.environ.get('STRICT_GBAN', False))
     WORKERS = int(os.environ.get('WORKERS', 8))
     BAN_STICKER = os.environ.get('BAN_STICKER', 'CAADAgADOwADPPEcAXkko5EB3YGYAg')
+    KICK_STICKER = os.environ.get('KICK_STICKER', False)
     ALLOW_EXCL = os.environ.get('ALLOW_EXCL', False)
     API_WEATHER =os.environ.get('API_OPENWEATHER',False) 
     DEEPFRY_TOKEN = os.environ.get('DEEPFRY_TOKEN', "")
@@ -102,6 +103,7 @@ else:
     STRICT_GBAN = Config.STRICT_GBAN
     WORKERS = Config.WORKERS
     BAN_STICKER = Config.BAN_STICKER
+    KICK_STICKER = Config.KICK_STICKER
     ALLOW_EXCL = Config.ALLOW_EXCL
     API_OPENWEATHER = Config.API_OPENWEATHER
     TEMPORARY_DATA = Config.TEMPORARY_DATA
