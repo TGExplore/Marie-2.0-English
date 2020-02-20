@@ -46,11 +46,8 @@ Hello! my name *{}*.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-It took lots of work for [my creator](t.me/SonOfLars) to get me to where I am now, and every donation helps \
-motivate him to make me even better. All the donation money will go to a better VPS to host me, and/or beer \
-(see his bio!). He's just a poor student, so every little helps!
-There are two ways of paying him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+DONATE_STRING = """Hey  you can Donate  to Marie Creator [Paul](t.me/sonoflars), as well as [AVATAR](t.me/Refundisillegal) for better server #ktnxbye."""
+
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -148,7 +145,7 @@ def start(bot: Bot, update: Update, args: List[str]):
 
     else:
         
-        update.effective_message.reply_text("Yo,I'm alive👩")
+        update.effective_message.reply_text("Yo, I'm alive👩")
 
 # for test purposes
 def error_callback(bot, update, error):
