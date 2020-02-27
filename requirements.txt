@@ -12,7 +12,7 @@ demjson
 PyLyrics
 wget
 gTTS
-telegram
+#telegram
 zalgo_text
 pynewtonmath
 bs4
