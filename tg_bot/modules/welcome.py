@@ -607,11 +607,12 @@ replying to the desired media, and calling /setwelcome.
  - /cleanwelcome <on/off>: On new member, try to delete the previous welcome message to avoid spamming the chat.
  - /cleanservice <on/off/yes/no>: deletes all service message; those are the annoying "x joined the group" you see when people join.
  - /welcomesecurity <off/soft/hard>: soft - restrict user's permission to send media files for 24 hours, hard - restict user's permission to send messages until they click on the button \"I'm not a bot\"
- - /welcomemutetime <Xw/d/h/m>: if a user hasnt pressed the "unmute" button in the welcome message after a certain this time, they'll get unmuted automatically after this period of time.
- Note: if you want to reset the mute time to be forever, use /welcomemutetime 0m. 0 == eternal!
- - /setmutetext <new text>: Customise the "click here to prove you're human" button obtained from enabling welcomemutes.
- - /resetmutetext: resets the mute button to the default text.
 """.format(dispatcher.bot.username)
+
+
+
+
+
 
 
 __mod_name__ = "Welcomes"
