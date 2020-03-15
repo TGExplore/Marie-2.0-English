@@ -103,6 +103,24 @@ def chats(bot: Bot, update: Update):
 
   
 
+@run_async
+def rem_chat(bot: Bot, update: Update):
+    msg = update.effective_message
+    chats = sql.get_all_chats()
+    kicked_chats = 0
+    for chat in chats:
+        id = chat.chat_id
+        sleep(0.1) # Reduce floodwait
+        try:
+            bot.get_chat(id, timeout=60)
+        except (BadRequest, Unauthorized):
+            kicked_chats += 1
+            sql.rem_chat(id)
+    if kicked_chats >= 1:
+        msg.reply_text("Done! {} chats were removed from the database!".format(kicked_chats))
+    else:
+        msg.reply_text("No chats had to be removed from the database!")
+
         
 
 def __user_info__(user_id):
@@ -127,10 +145,11 @@ __mod_name__ = "Users"
 BROADCAST_HANDLER = CommandHandler("broadcast", broadcast, filters=Filters.user(OWNER_ID))
 USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
 CHATLIST_HANDLER = CommandHandler("chatlist", chats, filters=CustomFilters.sudo_filter)
+DELETE_CHATS_HANDLER = CommandHandler("cleanchats", rem_chat, filters=Filters.user(OWNER_ID))
 
 
 
 dispatcher.add_handler(USER_HANDLER, USERS_GROUP)
 dispatcher.add_handler(BROADCAST_HANDLER)
 dispatcher.add_handler(CHATLIST_HANDLER)
-
+dispatcher.add_handler(DELETE_CHATS_HANDLER)
