@@ -170,3 +170,14 @@ def migrate_chat(old_chat_id, new_chat_id):
 
 
 ensure_bot_in_db()
+
+def rem_chat(chat_id):
+    with INSERTION_LOCK:
+        chat = SESSION.query(Chats).get(str(chat_id))
+        if chat:
+            SESSION.delete(chat)
+            SESSION.commit()
+        else:
+            SESSION.close()
+
+
