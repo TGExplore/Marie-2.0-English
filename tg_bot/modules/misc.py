@@ -269,6 +269,14 @@ def info(bot: Bot, update: Update, args: List[str]):
                 text += "\n\nThis person has been whitelisted! " \
                         "That means I'm not allowed to ban/kick them."
 
+            user_member = chat.get_member(user.id)
+    if user_member.status == 'administrator':
+        result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
+        result = result.json()["result"]
+        if "custom_title" in result.keys():
+            custom_title = result['custom_title']
+            text += f"\n\nThis user holds the title <b>{custom_title}</b> here."
+            
     for mod in USER_INFO:
         try:
             mod_info = mod.__user_info__(user.id).strip()
