@@ -33,3 +33,4 @@ psutil
 translator
 googletrans
 tswift
+speedtest-cli
