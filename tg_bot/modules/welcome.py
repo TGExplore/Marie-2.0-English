@@ -501,31 +501,6 @@ def security_mute(bot: Bot, update: Update, args: List[str]) -> str:
             update.effective_message.reply_text("Current settings: New members will be mute for {} until they press the button!".format(cur_value))
 
 
-@run_async
-@user_admin
-def security_text(bot: Bot, update: Update, args: List[str]) -> str:
-    chat = update.effective_chat  # type: Optional[Chat]
-    message = update.effective_message  # type: Optional[Message]
-    getcur, cur_value, cust_text = sql.welcome_security(chat.id)
-    if len(args) >= 1:
-        text = " ".join(args)
-        sql.set_welcome_security(chat.id, getcur, cur_value, text)
-        text = "The text of button have been changed to: `{}`".format(text)
-        update.effective_message.reply_text(text, parse_mode="markdown")
-    else:
-        update.effective_message.reply_text("The current security button text is: `{}`".format(cust_text), parse_mode="markdown")
-
-
-@run_async
-@user_admin
-def security_text_reset(bot: Bot, update: Update):
-    chat = update.effective_chat  # type: Optional[Chat]
-    message = update.effective_message  # type: Optional[Message]
-    getcur, cur_value, cust_text = sql.welcome_security(chat.id)
-    sql.set_welcome_security(chat.id, getcur, cur_value, "Click here to prove you're human!")
-    update.effective_message.reply_text(" The text of security button has been reset to: `Click here to prove you're human!`", parse_mode="markdown")
-
-
 
 
 @run_async
