@@ -1,5 +1,6 @@
 import importlib
 import re
+import html
 from typing import Optional, List
 
 from telegram import Message, Chat, Update, Bot, User
@@ -7,7 +8,9 @@ from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import Unauthorized, BadRequest, TimedOut, NetworkError, ChatMigrated, TelegramError
 from telegram.ext import CommandHandler, Filters, MessageHandler, CallbackQueryHandler
 from telegram.ext.dispatcher import run_async, DispatcherHandlerStop
-from telegram.utils.helpers import escape_markdown
+from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
+from html import escape
+
 
 from tg_bot import dispatcher, updater, TOKEN, WEBHOOK, OWNER_ID, DONATION_LINK, CERT_PATH, PORT, URL, LOGGER, \
     ALLOW_EXCL
@@ -16,7 +19,12 @@ from tg_bot import dispatcher, updater, TOKEN, WEBHOOK, OWNER_ID, DONATION_LINK,
 from tg_bot.modules import ALL_MODULES
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import is_user_admin
+from tg_bot.modules.translations.strings import tld, tld_help 
+from tg_bot.modules.connection import connected
 from tg_bot.modules.helper_funcs.misc import paginate_modules
+
+def escape_html(word):
+    return escape(word)
 
 PM_START_TEXT = """
 Hey {}, my name is **{}**! Im a group management Bot... 
@@ -116,36 +124,58 @@ def test(bot: Bot, update: Update):
 
 @run_async
 def start(bot: Bot, update: Update, args: List[str]):
+    chat = update.effective_chat  # type: Optional[Chat]
+    query = update.callback_query
     if update.effective_chat.type == "private":
         if len(args) >= 1:
             if args[0].lower() == "help":
-                send_help(update.effective_chat.id, HELP_STRINGS)
-
-
+                send_help(update.effective_chat.id, tld(chat.id, "send-help").format(""if not ALLOW_EXCL else tld(chat.id, "\nAll commands can either be used with `/` or `!`.\n")))
 
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
 
                 if is_user_admin(chat, update.effective_user.id):
-                    send_settings(match.group(1), update.effective_user.id, False)
+                    send_settings(match.group(1), update.effective_user.id, user=False)
                 else:
-                    send_settings(match.group(1), update.effective_user.id, True)
+                    send_settings(match.group(1), update.effective_user.id, user=True)
 
             elif args[0][1:].isdigit() and "rules" in IMPORTED:
                 IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
-                
 
         else:
-            first_name = update.effective_user.first_name
-            update.effective_message.reply_text(
-                PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID),
-                parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Join Support Group",
-                                                                       url="t.me/ctrlsupport".format(bot.username))]]))
-
+            send_start(bot, update)
     else:
-        
-        update.effective_message.reply_text("Yo, I'm alive👩")
+        update.effective_message.reply_text("Yo, whadup?")
+
+def send_start(bot, update):
+    #Try to remove old message
+    try:
+        query = update.callback_query
+        query.message.delete()
+    except:
+        pass
+
+    chat = update.effective_chat  # type: Optional[Chat]
+    first_name = update.effective_user.first_name 
+    text = PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID, parse_mode=ParseMode.MARKDOWN)
+                
+    keyboard = [[
+        InlineKeyboardButton(text=tld(chat.id, 'Support Group'),
+                             url="https://t.me/ctrlsupport")
+        ]]
+    keyboard += [[
+        InlineKeyboardButton(text=tld(chat.id, '❔ Help'), callback_data="help_back")
+    ]]
+
+    update.effective_message.reply_text(
+        text,
+        reply_markup=InlineKeyboardMarkup(keyboard),
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True)
+
+    
+
 
 # for test purposes
 def error_callback(bot, update, error):
