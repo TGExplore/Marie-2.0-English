@@ -14,7 +14,6 @@ wget
 geopy
 aiohttp>=2.2.5
 gTTS
-telegram
 Pillow>=4.2.0
 translations
 zalgo_text
@@ -34,3 +33,4 @@ translator
 googletrans
 tswift
 speedtest-cli
+
