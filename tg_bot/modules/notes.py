@@ -201,22 +201,36 @@ def clear(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def list_notes(bot: Bot, update: Update):
-    chat_id = update.effective_chat.id
+    chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user  # type: Optional[User]
+    conn = connected(bot, update, chat, user.id, need_admin=False)
+    if not conn == False:
+        chat_id = conn
+        chat_name = dispatcher.bot.getChat(conn).title
+        msg = "*Notes in {}:*\n"
+    else:
+        chat_id = update.effective_chat.id
+        if chat.type == "private":
+            chat_name = ""
+            msg = "*Local Notes:*\n"
+        else:
+            chat_name = chat.title
+            msg = "*Notes in {}:*\n"
+
     note_list = sql.get_all_chat_notes(chat_id)
 
-    msg = "*Notes in chat:*\n"
     for note in note_list:
-        note_name = escape_markdown(f" - {note.name}\n")
+        note_name = " • `{}`\n".format(note.name)
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
             msg = ""
         msg += note_name
 
-    if msg == "*Notes in chat:*\n":
+    if not note_list:
         update.effective_message.reply_text("No notes in this chat!")
 
     elif len(msg) != 0:
-        update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text(msg.format(chat_name), parse_mode=ParseMode.MARKDOWN)
 
 
 def __import_data__(chat_id, data):
