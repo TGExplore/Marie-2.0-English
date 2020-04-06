@@ -22,14 +22,12 @@ hoi {}, my name is {}! if you have any questions about how to use me please give
 
 im a group manager bot maintained by  [this person](tg://user?id={}).
 
-My future updates will be put into This Channel - @MarieChechi & My Support Group @InFoTelGroup.
-
-This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/TGExplore/Marie-2.0-English),
-you can create clone same like me..
+The bot creator :- @THExxKING .
+This bot will help you to manage group efficiently:)
 
 For more commands click /help...
 
-**Keep in mind that any changes you DO do to the source have to be on github, as per the license.**
+
 
 """
 
@@ -40,7 +38,7 @@ Hello! my name *{}*.
 *Main* available commands:
  - /start: Start the bot...
  - /help: help....
- - /donate: To find out more about donating!
+ - /donate: To find out more about donating[no need]!
  - /settings:
    - in PM: To find out what SETTINGS you have set....
    - in a group:
@@ -50,9 +48,9 @@ And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
-It took lots of work for [my creator](t.me/SonOfLars) to get me to where I am now, and every donation helps \
-motivate him to make me even better. All the donation money will go to a better VPS to host me, and/or beer \
-(see his bio!). He's just a poor student, so every little helps!
+no need to pay to me but It took lots of work for our special person helped to make my bot and every donation helps \
+motivate him to make even better. All the donation money will go to a better VPS to host him, and/or beer \
+Note:- no need to pay😂from RSB
 There are two ways of paying him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
 
 IMPORTED = {}
