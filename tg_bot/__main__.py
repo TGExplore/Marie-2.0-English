@@ -49,7 +49,7 @@ Hello! my name *{}*.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
-DONATE_STRING = """Don't use haruka."""
+DONATE_STRING = """You can donate me by not using shitty @Harukaayabot, most of her team is idiot."""
 
 IMPORTED = {}
 MIGRATEABLE = []
