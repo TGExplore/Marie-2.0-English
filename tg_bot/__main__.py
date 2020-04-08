@@ -26,7 +26,7 @@ My future updates will be in  [this group](t.me/melodytgsupport)
 
 For more commands write /help...
 
-**Keep in mind that any changes you DO do to the source have to be on github, as per the license.**
+[Source code](https://github.com/TGExplore/Marie-2.0-English)
 
 """
 
