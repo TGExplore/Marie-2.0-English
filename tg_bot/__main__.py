@@ -37,16 +37,16 @@ Hello! my name is Melody.
 *Main* available commands:
  - /start: Start the bot...
  - /help: help....
+ - /donate: a little help, not with money :)
  
  - /settings:
    - in PM: To find out what SETTINGS you have set....
    - in a group:
 
-{}
-And the following:
+You can use these following commands:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
-DONATE_STRING = """You can donate me by not using shitty @Harukaayabot, most of her team members are idiot. This bot also know as anti-Haruka aya, almost all of Haruka team members will have gban soon"""
+DONATE_STRING = """Just PM me and say thanks"""
 
 IMPORTED = {}
 MIGRATEABLE = []
