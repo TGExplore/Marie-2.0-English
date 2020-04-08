@@ -22,9 +22,9 @@ Hi {}, my name is Melody! if you have any questions about how to use me please g
 
 im a group manager bot maintained by  [this person](t.me/Blanccy).
 
-My future updates will be in [here](t.me/melodytgsupport)
+My future updates will be in  [this group](t.me/melodytgsupport)
 
-For more commands click /help...
+For more commands write /help...
 
 **Keep in mind that any changes you DO do to the source have to be on github, as per the license.**
 
@@ -46,7 +46,7 @@ Hello! my name is Melody.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
-DONATE_STRING = """You can donate me by not using shitty @Harukaayabot, most of her team members are idiot."""
+DONATE_STRING = """You can donate me by not using shitty @Harukaayabot, most of her team members are idiot. This bot also know as anti-Haruka aya, almost all of Haruka team members will have gban soon"""
 
 IMPORTED = {}
 MIGRATEABLE = []
