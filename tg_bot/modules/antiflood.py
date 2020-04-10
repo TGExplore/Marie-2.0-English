@@ -6,10 +6,12 @@ from telegram.error import BadRequest
 from telegram.ext import Filters, MessageHandler, CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher
-from tg_bot.modules.helper_funcs.chat_status import is_user_admin, user_admin, can_restrict
-from tg_bot.modules.log_channel import loggable
-from tg_bot.modules.sql import antiflood_sql as sql
+from haruka import dispatcher
+from haruka.modules.helper_funcs.chat_status import is_user_admin, user_admin, can_restrict
+from haruka.modules.log_channel import loggable
+from haruka.modules.sql import antiflood_sql as sql
+
+from haruka.modules.translations.strings import tld
 
 FLOOD_GROUP = 3
 
@@ -34,21 +36,16 @@ def check_flood(bot: Bot, update: Update) -> str:
         return ""
 
     try:
-        chat.kick_member(user.id)
-        msg.reply_text("Don't disturb others you are No need for this group anymore...")
+        bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
+        msg.reply_text(tld(chat.id, "flood_mute"))
 
-        return "<b>{}:</b>" \
-               "\n#BANNED" \
-               "\n<b>User:</b> {}" \
-               "\nFlooded the group.".format(html.escape(chat.title),
-                                             mention_html(user.id, user.first_name))
+        return tld(chat.id, "flood_logger_success").format(
+            html.escape(chat.title), mention_html(user.id, user.first_name))
 
     except BadRequest:
-        msg.reply_text("You cannot use this service as long as you do not give me Permissions.")
+        msg.reply_text(tld(chat.id, "flood_err_no_perm"))
         sql.set_flood(chat.id, 0)
-        return "<b>{}:</b>" \
-               "\n#INFO" \
-               "\nDon't have kick permissions, so automatically disabled antiflood.".format(chat.title)
+        return tld(chat.id, "flood_logger_fail").format(chat.title)
 
 
 @run_async
@@ -64,33 +61,30 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
         val = args[0].lower()
         if val == "off" or val == "no" or val == "0":
             sql.set_flood(chat.id, 0)
-            message.reply_text("I will no longer dismiss those who flood.")
+            message.reply_text(tld(chat.id, "flood_set_off"))
 
         elif val.isdigit():
             amount = int(val)
             if amount <= 0:
                 sql.set_flood(chat.id, 0)
-                message.reply_text("I will no longer dismiss those who flood.")
-                return "<b>{}:</b>" \
-                       "\n#SETFLOOD" \
-                       "\n<b>Admin:</b> {}" \
-                       "\nDisabled antiflood.".format(html.escape(chat.title), mention_html(user.id, user.first_name))
+                message.reply_text(tld(chat.id, "flood_set_off"))
+                return tld(chat.id, "flood_logger_set_off").format(
+                    html.escape(chat.title),
+                    mention_html(user.id, user.first_name))
 
             elif amount < 3:
-                message.reply_text("Antiflood has to be either 0 (disabled), or a number bigger than 3!")
+                message.reply_text(tld(chat.id, "flood_err_num"))
                 return ""
 
             else:
                 sql.set_flood(chat.id, amount)
-                message.reply_text("Message control {} has been added to count ".format(amount))
-                return "<b>{}:</b>" \
-                       "\n#SETFLOOD" \
-                       "\n<b>Admin:</b> {}" \
-                       "\nSet antiflood to <code>{}</code>.".format(html.escape(chat.title),
-                                                                    mention_html(user.id, user.first_name), amount)
+                message.reply_text(tld(chat.id, "flood_set").format(amount))
+                return tld(chat.id, "flood_logger_set_on").format(
+                    html.escape(chat.title),
+                    mention_html(user.id, user.first_name), amount)
 
         else:
-            message.reply_text("I don't understand what you're saying .... Either use the number or use Yes-No")
+            message.reply_text(tld(chat.id, "flood_err_args"))
 
     return ""
 
@@ -101,35 +95,26 @@ def flood(bot: Bot, update: Update):
 
     limit = sql.get_flood_limit(chat.id)
     if limit == 0:
-        update.effective_message.reply_text("I am not doing message control right now!")
+        update.effective_message.reply_text(tld(chat.id, "flood_status_off"))
     else:
         update.effective_message.reply_text(
-            " {} I'll leave the bun to the person who sends the message more at the same time.".format(limit))
+            tld(chat.id, "flood_status_on").format(limit))
 
 
 def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(chat_id, user_id):
-    limit = sql.get_flood_limit(chat_id)
-    if limit == 0:
-        return "*Not* currently enforcing flood control."
-    else:
-        return " The message control is set to `{}`.".format(limit)
+__help__ = True
 
+# TODO: Add actions: ban/kick/mute/tban/tmute
 
-__help__ = """
- - /flood: To know your current message control..
-
-*Admin only:*
- - /setflood <int/'no'/'off'>: enables or disables flood control
-"""
-
-__mod_name__ = "AntiFlood"
-
-FLOOD_BAN_HANDLER = MessageHandler(Filters.all & ~Filters.status_update & Filters.group, check_flood)
-SET_FLOOD_HANDLER = CommandHandler("setflood", set_flood, pass_args=True, filters=Filters.group)
+FLOOD_BAN_HANDLER = MessageHandler(
+    Filters.all & ~Filters.status_update & Filters.group, check_flood)
+SET_FLOOD_HANDLER = CommandHandler("setflood",
+                                   set_flood,
+                                   pass_args=True,
+                                   filters=Filters.group)
 FLOOD_HANDLER = CommandHandler("flood", flood, filters=Filters.group)
 
 dispatcher.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
