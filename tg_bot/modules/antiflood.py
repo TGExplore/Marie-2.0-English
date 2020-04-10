@@ -34,7 +34,8 @@ def check_flood(bot: Bot, update: Update) -> str:
         return ""
 
     try:
-        chat.mute_member(user.id)
+        chat.kick_member(user.id)
+        chat.unban_member(user.id)
         msg.reply_text("Person is muted.")
 
         return "<b>{}:</b>" \
