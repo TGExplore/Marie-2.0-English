@@ -124,8 +124,8 @@ __help__ = """
 - /Ungmute : Ungmute a user
 Sudo/owner can use these commands too.
 **Users:**
-- /listsudo Gives a list of sudo users
-- /listsupport gives a list of support users
+- /listsudo Gives a list of sudo users *Not available yet
+- /listsupport gives a list of support users *Not available yet
 """
 __mod_name__ = "Special"
 
