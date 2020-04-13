@@ -5,8 +5,6 @@ You can find my original code  [here](https://github.com/TGExplore/Marie-2.0-Eng
 If you want to use this version(removed old sudo's)  
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Whit3diamond/Melody)
 
-Don't forget to add "heroku postgres" to resources/addons
-
 ENV: Use "ANYTHING"
 
 TOKEN: Your bot token, as a string.
