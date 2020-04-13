@@ -1,4 +1,4 @@
-I'm a modules Telegram group management bot named Melody.
+I'm a modular Telegram group management bot named Melody.
 
 You can find my original code  [here](https://github.com/TGExplore/Marie-2.0-English)
 
