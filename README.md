@@ -2,7 +2,7 @@ I'm a modular Telegram group management bot named Melody.
 
 You can find my original code  [here](https://github.com/TGExplore/Marie-2.0-English)
 
-If you want to use this version(removed old sudo's)
+If you want to use this version(removed old sudo's and updated)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Whit3diamond/Melody)
 
