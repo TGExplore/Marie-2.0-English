@@ -34,9 +34,12 @@ def check_flood(bot: Bot, update: Update) -> str:
         return ""
 
     try:
-        chat.kick_member(user.id)
-        chat.unban_member(user.id)
-        msg.reply_text("Person is banned but can come back")
+        bot.restrict_chat_member(chat.id, int(user_id),
+                                     can_send_messages=False,
+                                     can_send_media_messages=False,
+                                     can_send_other_messages=False,
+                                     can_add_web_page_previews=False)
+        msg.reply_text("You flooded the chat now I restrict you!")
 
         return "<b>{}:</b>" \
                "\n#MUTED" \
