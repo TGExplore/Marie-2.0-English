@@ -105,7 +105,7 @@ def flood(bot: Bot, update: Update):
         update.effective_message.reply_text("I am not doing message control right now!")
     else:
         update.effective_message.reply_text(
-            " {} I'll leave the bun to the person who sends the message more at the same time.".format(limit))
+            "I'll mute users if they send more than {} messages".format(limit))
 
 
 def __migrate__(old_chat_id, new_chat_id):
