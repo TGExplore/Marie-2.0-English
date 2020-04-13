@@ -18,15 +18,15 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-Hi {}, my name is Melody! if you have any questions about how to use me please give me /help... 
+Hi {}, my name is Melody! You can get my management commands by writing /help :)
 
-im a group manager bot maintained by  [this person](t.me/gleamglow).
+My owner develops me every week so you can face with issues and new things!
 
-My future updates will be in  [this group](t.me/melodytgsupport)
+My owner's  [link](t.me/gleamglow) also my support chat's  [link](t.me/melodytgsupport)
 
-For more commands write /help...
+I was born in 8/04/2020 so I'm very young.
 
-[Source code](https://github.com/TGExplore/Marie-2.0-English)
+You can find my source code  [here](https://cutt.ly/ItNIlIW)
 
 """
 
