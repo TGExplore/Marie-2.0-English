@@ -34,7 +34,7 @@ def check_flood(bot: Bot, update: Update) -> str:
         return ""
 
     try:
-        bot.restrict_chat_member(chat.id, user.id, until_date, can_send_messages=False)
+        bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
         msg.reply_text(tld(chat.id, "You have talked too much, not it's others' turn. You are muted!"))
 
         return "<b>{}:</b>" \
