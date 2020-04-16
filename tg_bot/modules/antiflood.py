@@ -34,9 +34,8 @@ def check_flood(bot: Bot, update: Update) -> str:
         return ""
 
     try:
-        bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
-        msg.reply_text(tld(chat.id, "I like to leave the flooding to natural disasters. But you, you were just a "
-                       "disappointment. *Muted*!"))
+        bot.restrict_chat_member(chat.id, user.id, until_date, can_send_messages=False)
+        msg.reply_text(tld(chat.id, "You have talked too much, not it's others' turn. You are muted!"))
 
         return "<b>{}:</b>" \
                "\n#MUTED" \
@@ -83,7 +82,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
             else:
                 sql.set_flood(chat.id, amount)
-                message.reply_text("Message control {} has been added to count ".format(amount))
+                message.reply_text("After {} messages, I will mute users.".format(amount))
                 return "<b>{}:</b>" \
                        "\n#SETFLOOD" \
                        "\n<b>Admin:</b> {}" \
