@@ -1,89 +1,96 @@
 {
-  "name": "CTRL",
-  "description": "Telegram's sassiest group manager. Modular Telegram group management bot!",
-  "keywords": [
-    "telegram",
-    "best",
-    "group",
-    "manager",
-    "3"
-  ],
-  "repository": "hhttps://github.com/TGExplore/Marie-2.0-English",
-  "env": {
-    "ENV": {
-      "description": "Setting this to ANYTHING will enable env variables",
-      "value": "ANYTHING"
-    },
-    "TOKEN": {
-      "description": "Your bot token, as a string.",
-      "value": ""
-    },
-    "OWNER_ID": {
-      "description": "An integer of consisting of your owner ID",
-      "value": "594813047"
-    },
-    "OWNER_USERNAME": {
-      "description": "Your username",
-      "value": "refundisillegal"
-    },
-    "WEBHOOK": {
-      "description": "Setting this to ANYTHING will enable webhooks when in env mode messages",
-      "value": "ANYTHING"
-    },
-    "URL": {
-      "description": "The Heroku App URL similar to https://<appname>.herokuapp.com/",
-      "value": ""
-    },
-    "MESSAGE_DUMP": {
+   "addons": [
+      {
+         "options": {
+            "version": "9.5"
+         },
+         "plan": "heroku-postgresql"
+      }
+   ],
+   "description": "Modular Telegram bot for managing your groups with a few extras!",
+   "env": {
+      "ALLOW_EXCL": {
+         "description": "Set this to True if you want ! to be a command prefix along with /",
+         "value": "True"
+      },
+      "BAN_STICKER": {
+         "description": "ID of the sticker you want to use when banning people.",
+         "required": false,
+         "value": "CAADBQADfQADv7rGI0wxx1ORU7UzAg"
+      },
+      "KICK_STICKER": {
+      "description": "Sticker while /kick ,similar to BAN_STICKER",
+      "value": "CAACAgEAAx0CRBRgbgACxqFepVXnztomzukPqb1Oo8R7lPr9vwACkQADPVMpRRzBe3PuzqIiGQQ"
+
+      "DEL_CMDS": {
+         "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
+         "value": "True"
+      },
+      "DONATION_LINK": {
+         "description": "Optional: link where you would like to receive donations.",
+         "required": false,
+         "value": "https://www.paypal.me/PaulSonOfLars"
+      },
+      "ENV": {
+         "description": "Setting this to ANYTHING will enable environment variables.",
+         "value": "ANYTHING"
+      },
+      "OWNER_ID": {
+         "description": "Your user ID as an integer.",
+         "value": "594813047"
+      },
+      "OWNER_USERNAME": {
+         "description": "Your username",
+         "value": "Refundisillegal"
+      },
+      "PORT": {
+         "description": "Port to use for your webhooks.",
+         "required": false,
+         "value": "8443"
+      },
+      "STRICT_GBAN": {
+         "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
+         "value": "True"
+      },
+      "MESSAGE_DUMP": {
       "description": "optional: a chat where your replied saved messages are stored, to stop people deleting their old",
       "value": "-1007777777777"
-    },
-    "SUDO_USERS": {
-      "description": "A space separated list of user_ids which should be considered sudo users",
-      "value": "594813047"
-    },
-    "SUPPORT_USERS": {
-      "description": "A space separated list of user_ids which should be considered support users (can gban/ungban, nothing else)",
-      "value": "594813047"
-    },
-    "WHITELIST_USERS": {
-      "description": "A space separated list of user_ids which should be considered whitelisted - they can't be banned.",
-      "value": "594813047"
-    },
-    "DONATION_LINK": {
-      "description": "Optional: link where you would like to receive donations.",
-      "value": "https://www.paypal.me/Your_id_here"
-    },
-    "PORT": {
-      "description": "Port to use for your webhooks",
-      "value": "8443"
-    },
-    "DEL_CMDS": {
-      "description": "Whether to delete commands from users which don't have rights to use that command",
-      "value": "True"
-    },
-    "STRICT_GBAN": {
-      "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
-      "value": "True"
-    },
-    "ALLOW_EXCL": {
-      "description": "Whether to allow using exclamation marks ! for commands as well as /.",
-      "value": "True"
-    },
-    "BAN_STICKER": {
-      "description": "Which sticker to use when banning people. Use https://telegram.dog/ShowJsonBot to get the file_id",
-      "value": "CAADBQADNwEAAjZzSxRZAc49mnFSSAI"
-    },
-    "KICK_STICKER": {
-      "description": "# StickerId while /kick ,same as BAN_STICKER",
-      "value": "CAACAgEAAx0CRBRgbgACxqFepVXnztomzukPqb1Oo8R7lPr9vwACkQADPVMpRRzBe3PuzqIiGQQ"
-  },
-  "addons": [
-    {
-      "plan": "heroku-postgresql",
-      "options": {
-        "version": "9.5"
+
+      },
+      "SUDO_USERS": {
+         "description": "A space separated list of user IDs who you want to assign as sudo users.",
+         "value": "594813047"
+      },
+      "SUPPORT_USERS": {
+         "description": "A space separated list of user IDs who you wanna assign as support users(gban perms only).",
+         "value": "594813047"
+      },
+      "TOKEN": {
+         "description": "Your bot token.",
+         "value": ""
+      },
+      "URL": {
+         "description": "The Heroku App URL :-  https://<appname>.herokuapp.com/",
+         "required": false,
+         "value": ""
+      },
+      "WEBHOOK": {
+         "description": "Setting this to ANYTHING will enable webhooks.",
+         "required": false,
+         "value": "ANYTHING"
+      },
+      "WHITELIST_USERS": {
+         "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
+         "value": "594813047"
       }
-    }
-  }
+   },
+   "keywords": [
+      "telegram",
+      "best",
+      "group",
+      "manager",
+      "Ctrl"
+   ],
+   "name": "CTRL",
+   "repository": "https://github.com/AVATARX0TIC/CTRL"
 }
