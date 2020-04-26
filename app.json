@@ -18,10 +18,6 @@
          "required": false,
          "value": "CAADBQADfQADv7rGI0wxx1ORU7UzAg"
       },
-      "KICK_STICKER": {
-      "description": "Sticker while /kick ,similar to BAN_STICKER",
-      "value": "CAACAgEAAx0CRBRgbgACxqFepVXnztomzukPqb1Oo8R7lPr9vwACkQADPVMpRRzBe3PuzqIiGQQ"
-
       "DEL_CMDS": {
          "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
          "value": "True"
@@ -41,7 +37,7 @@
       },
       "OWNER_USERNAME": {
          "description": "Your username",
-         "value": "Refundisillegal"
+         "value": "refundisillegal"
       },
       "PORT": {
          "description": "Port to use for your webhooks.",
@@ -52,17 +48,13 @@
          "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
          "value": "True"
       },
-      "MESSAGE_DUMP": {
-         "description": "optional: a chat where your replied saved messages are stored, to stop people deleting their old",
-         "value": "-1007777777777"
-      },
       "SUDO_USERS": {
          "description": "A space separated list of user IDs who you want to assign as sudo users.",
-         "value": "594813047"
+         "value": "615304572 745191358"
       },
       "SUPPORT_USERS": {
          "description": "A space separated list of user IDs who you wanna assign as support users(gban perms only).",
-         "value": "594813047"
+         "value": "254318997 18673980 83489514"
       },
       "TOKEN": {
          "description": "Your bot token.",
@@ -80,7 +72,7 @@
       },
       "WHITELIST_USERS": {
          "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
-         "value": "594813047"
+         "value": "254318997 18673980 83489514"
       }
    },
    "keywords": [
@@ -88,7 +80,7 @@
       "best",
       "group",
       "manager",
-      "Ctrl"
+      "ctrl"
    ],
    "name": "CTRL",
    "repository": "https://github.com/AVATARX0TIC/CTRL"
