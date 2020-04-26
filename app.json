@@ -35,6 +35,10 @@
       "ENV": {
          "description": "Setting this to ANYTHING will enable environment variables.",
          "value": "ANYTHING"
+     },
+     "MESSAGE_DUMP": {
+      "description": "optional: a chat where your replied saved messages are stored, to stop people deleting their old",
+      "value": "-1007777777777"
       },
       "OWNER_ID": {
          "description": "Your user ID as an integer.",
