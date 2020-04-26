@@ -53,8 +53,8 @@
          "value": "True"
       },
       "MESSAGE_DUMP": {
-      "description": "optional: a chat where your replied saved messages are stored, to stop people deleting their old",
-      "value": "-1007777777777"
+         "description": "optional: a chat where your replied saved messages are stored, to stop people deleting their old",
+         "value": "-1007777777777"
 
       },
       "SUDO_USERS": {
