@@ -1,3 +1,4 @@
+![CTRL](https://wallpapercave.com/w/uwp18581)
 # CTRL
 A modular telegram Python bot running on python3 with an sqlalchemy database.
 
