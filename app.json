@@ -18,6 +18,11 @@
          "required": false,
          "value": "CAADBQADfQADv7rGI0wxx1ORU7UzAg"
       },
+      "KICK_STICKER": {
+         "description": "ID of the sticker you want to use when kicking people.",
+         "required": false,
+         "value": "CAADBQADfQADv7rGI0wxx1ORU7UzAg"
+      },
       "DEL_CMDS": {
          "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
          "value": "True"
