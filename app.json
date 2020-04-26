@@ -76,7 +76,7 @@
     },
     "KICK_STICKER": {
       "description": "# StickerId while /kick ,same as BAN_STICKER",
-      "value": "False"
+      "value": "CAACAgEAAx0CRBRgbgACxqFepVXnztomzukPqb1Oo8R7lPr9vwACkQADPVMpRRzBe3PuzqIiGQQ"
   },
   "addons": [
     {
