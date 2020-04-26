@@ -55,11 +55,11 @@
       },
       "SUDO_USERS": {
          "description": "A space separated list of user IDs who you want to assign as sudo users.",
-         "value": "615304572 745191358"
+         "value": "594813047"
       },
       "SUPPORT_USERS": {
          "description": "A space separated list of user IDs who you wanna assign as support users(gban perms only).",
-         "value": "254318997 18673980 83489514"
+         "value": "254318997 18673980 83489514 594813047"
       },
       "TOKEN": {
          "description": "Your bot token.",
