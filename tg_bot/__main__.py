@@ -125,6 +125,7 @@ def test(bot: Bot, update: Update):
 @run_async
 def start(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat  # type: Optional[Chat]
+    msg = update.effective_message
     query = update.callback_query
     if update.effective_chat.type == "private":
         if len(args) >= 1:
