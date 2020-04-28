@@ -149,7 +149,7 @@ def start(bot: Bot, update: Update, args: List[str]):
     else:
         update.effective_message.reply_text("Hello " + "[{}](tg://user?id={})".format(msg.from_user.first_name,
                                             msg.from_user.id) + ", Wassup",
-                                            parse_mode=ParseMode.HTML)
+                                            parse_mode=ParseMode.MARKDOWN)
 
 def send_start(bot, update):
     #Try to remove old message
