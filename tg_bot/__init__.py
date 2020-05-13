@@ -59,7 +59,8 @@ if ENV:
     BAN_STICKER = os.environ.get('BAN_STICKER', 'CAADAgADOwADPPEcAXkko5EB3YGYAg')
     KICK_STICKER = os.environ.get('KICK_STICKER', False)
     ALLOW_EXCL = os.environ.get('ALLOW_EXCL', False)
-    API_WEATHER =os.environ.get('API_OPENWEATHER',False) 
+    API_WEATHER =os.environ.get('API_OPENWEATHER',False)
+    MAPS_API = os.environ.get('MAPS_API', None)
     DEEPFRY_TOKEN = os.environ.get('DEEPFRY_TOKEN', "")
     TEMPORARY_DATA = os.environ.get('TEMPORARY_DATA', None)
     escape_markdown = os.environ.get('escape_markdown',None)
@@ -106,6 +107,7 @@ else:
     KICK_STICKER = Config.KICK_STICKER
     ALLOW_EXCL = Config.ALLOW_EXCL
     API_OPENWEATHER = Config.API_OPENWEATHER
+    MAPS_API = Config.MAPS_API
     TEMPORARY_DATA = Config.TEMPORARY_DATA
     escape_markdown = config.escape_markdown
 SUDO_USERS.add(OWNER_ID)
