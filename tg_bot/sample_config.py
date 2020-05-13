@@ -37,7 +37,7 @@ class Config(object):
     ALLOW_EXCL = False  # Allow ! commands as well as /
     API_OPENWEATHER = False #Get API_OPENWEATHER FROM OFFICAL SITE https://da.gd/VAW3
     TEMPORARY_DATA = None # Temporary data for backup module, use int number
-
+    MAPS_API = ""
 
 class Production(Config):
     LOGGER = False
