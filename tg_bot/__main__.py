@@ -125,7 +125,6 @@ def test(bot: Bot, update: Update):
 @run_async
 def start(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat  # type: Optional[Chat]
-    msg = update.effective_message
     query = update.callback_query
     if update.effective_chat.type == "private":
         if len(args) >= 1:
@@ -161,14 +160,23 @@ def send_start(bot, update):
 
     chat = update.effective_chat  # type: Optional[Chat]
     first_name = update.effective_user.first_name 
-    text = PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID, parse_mode=ParseMode.MARKDOWN)
-                
+    text = PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID,
+           parse_mode=ParseMode.MARKDOWN)
+
+
+
     keyboard = [[
         InlineKeyboardButton(text=tld(chat.id, 'Support Group'),
                              url="https://t.me/ctrlsupport")
         ]]
+                           
     keyboard += [[
         InlineKeyboardButton(text=tld(chat.id, '❔ Help'), callback_data="help_back")
+    ]]
+
+    keyboard += [[
+        InlineKeyboardButton(text=tld(chat.id, "Add me to group"),
+                             url="t.me/{}?startgroup=true".format(bot.username))
     ]]
 
     update.effective_message.reply_text(
