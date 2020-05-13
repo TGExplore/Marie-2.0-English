@@ -1,13 +1,14 @@
 import html
+import locale
 import json
 import random
 from datetime import datetime
 from typing import Optional, List
-
+from tg_bot.modules.translations.strings import tld
 import requests
 from telegram import Message, Chat, Update, Bot, MessageEntity
 from telegram import ParseMode
-
+from tg_bot.modules.helper_funcs.alternate import send_message
 
 
 
@@ -15,7 +16,8 @@ from telegram import ParseMode, ReplyKeyboardRemove, ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, BAN_STICKER
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, BAN_STICKER, MAPS_API
+
 from tg_bot.__main__ import STATS, USER_INFO, TOKEN
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.extraction import extract_user
@@ -269,17 +271,14 @@ def info(bot: Bot, update: Update, args: List[str]):
                 text += "\n\nThis person has been whitelisted! " \
                         "That means I'm not allowed to ban/kick them."
 
-     try:
-        user_member = chat.get_member(user.id)
-        if user_member.status == 'administrator':
-            result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
-            result = result.json()["result"]
-            if "custom_title" in result.keys():
-                custom_title = result['custom_title']
-                text += f"\n\nThis user holds the title <b>{custom_title}</b> here."
-    except BadRequest:
-        pass
-
+    user_member = chat.get_member(user.id)
+    if user_member.status == 'administrator':
+        result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
+        result = result.json()["result"]
+        if "custom_title" in result.keys():
+            custom_title = result['custom_title']
+            text += f"\n\nThis user holds the title <b>{custom_title}</b> here."
+            
     for mod in USER_INFO:
         try:
             mod_info = mod.__user_info__(user.id).strip()
@@ -288,51 +287,33 @@ def info(bot: Bot, update: Update, args: List[str]):
         if mod_info:
             text += "\n\n" + mod_info
 
-    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
-
+    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
 @run_async
 def get_time(bot: Bot, update: Update, args: List[str]):
-    location = " ".join(args)
-    if location.lower() == bot.first_name.lower():
-        update.effective_message.reply_text("Its always banhammer time for me!")
-        bot.send_sticker(update.effective_chat.id, BAN_STICKER)
-        return
+        location = " ".join(args)
+        if location.lower() == bot.first_name.lower():
+            send_message(update.effective_message, "Its always banhammer time for me!")
+            bot.send_sticker(update.effective_chat.id, BAN_STICKER)
+            return
 
-    res = requests.get(GMAPS_LOC, params=dict(address=location))
+        res = requests.get('https://dev.virtualearth.net/REST/v1/timezone/?query={}&key={}'.format(location, MAPS_API))
 
-    if res.status_code == 200:
-        loc = json.loads(res.text)
-        if loc.get('status') == 'OK':
-            lat = loc['results'][0]['geometry']['location']['lat']
-            long = loc['results'][0]['geometry']['location']['lng']
+        if res.status_code == 200:
+            loc = res.json()
+            if len(loc['resourceSets'][0]['resources'][0]['timeZoneAtLocation']) == 0:
+                send_message(update.effective_message, tl(update.effective_message, "Location not Found!"))
+                return
+            placename = loc['resourceSets'][0]['resources'][0]['timeZoneAtLocation'][0]['placeName']
+            localtime = loc['resourceSets'][0]['resources'][0]['timeZoneAtLocation'][0]['timeZone'][0]['convertedTime']['localTime']
+            time = datetime.strptime(localtime, '%Y-%m-%dT%H:%M:%S').strftime("%H:%M:%S %A, %d %B")
+            send_message(update.effective_message, tld(update.effective_message, "It now `{}` in `{}`").format(time, placename), parse_mode="markdown")
+        else:
+            send_message(update.effective_message, tld(update.effective_message, "Use `/time name place`\nEx: `/time Kolkata`"), parse_mode="markdown")
 
-            country = None
-            city = None
-
-            address_parts = loc['results'][0]['address_components']
-            for part in address_parts:
-                if 'country' in part['types']:
-                    country = part.get('long_name')
-                if 'administrative_area_level_1' in part['types'] and not city:
-                    city = part.get('long_name')
-                if 'locality' in part['types']:
-                    city = part.get('long_name')
-
-            if city and country:
-                location = "{}, {}".format(city, country)
-            elif country:
-                location = country
-
-            timenow = int(datetime.utcnow().timestamp())
-            res = requests.get(GMAPS_TIME, params=dict(location="{},{}".format(lat, long), timestamp=timenow))
-            if res.status_code == 200:
-                offset = json.loads(res.text)['dstOffset']
-                timestamp = json.loads(res.text)['rawOffset']
-                time_there = datetime.fromtimestamp(timenow + timestamp + offset).strftime("%H:%M:%S on %A %d %B")
-                update.message.reply_text("It's {} in {}".format(time_there, location))
-
+           
+            
 
 @run_async
 def echo(bot: Bot, update: Update):
