@@ -119,7 +119,7 @@ def report(bot: Bot, update: Update) -> str:
                 continue
 
             if sql.user_should_report(admin.user.id):
-              all_admins.append("<a href='tg://user?id={}'>⁣</a>".format(admin.user.id))
+                all_admins.append("<a href='tg://user?id={}'>⁣</a>".format(admin.user.id))
                 try:
                     if not chat.type == Chat.SUPERGROUP:
                         bot.send_message(admin.user.id,
