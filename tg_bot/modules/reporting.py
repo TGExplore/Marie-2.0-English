@@ -113,11 +113,13 @@ def report(bot: Bot, update: Update) -> str:
             link = ""
             should_forward = True
 
+        all_admins = []
         for admin in admin_list:
             if admin.user.is_bot:  # can't message bots
                 continue
 
             if sql.user_should_report(admin.user.id):
+                all_admins.append("<a href='tg://user?id={}'>⁣</a>".format(admin.user.id))
                 try:
                     if not chat.type == Chat.SUPERGROUP:
                         bot.send_message(admin.user.id,
@@ -164,11 +166,13 @@ def report(bot: Bot, update: Update) -> str:
                 except BadRequest as excp:  # TODO: cleanup exceptions
                     LOGGER.exception("Exception while reporting user")
 
-        message.reply_to_message.reply_text("{} reported the message to the admins.".format(mention_html(user.id, user.first_name), parse_mode=ParseMode.HTML))
+        bot.send_message(chat.id, tld(update.effective_message, "⚠️ {} <b>User has been reported to the chat admins!</b>{}").format(
+                                            mention_html(reported_user.id, reported_user.first_name),
+                                            "".join(all_admins)), parse_mode=ParseMode.HTML, reply_to_message_id=message.reply_to_message.message_id)
         return msg
 
     return ""
-
+    
 
 def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
