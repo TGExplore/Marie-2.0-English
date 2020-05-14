@@ -124,7 +124,7 @@ def report(bot: Bot, update: Update) -> str:
                     if not chat.type == Chat.SUPERGROUP:
                         bot.send_message(admin.user.id,
                                          msg + link,
-                                         parse_mode=ParseMode.HTML)
+                                         parse_mode=ParseMode.MARKDOWN)
 
                         if should_forward:
                             message.reply_to_message.forward(admin.user.id)
@@ -137,7 +137,7 @@ def report(bot: Bot, update: Update) -> str:
                     if not chat.username:
                         bot.send_message(admin.user.id,
                                          msg + link,
-                                         parse_mode=ParseMode.HTML)
+                                         parse_mode=ParseMode.MARKDOWN)
 
                         if should_forward:
                             message.reply_to_message.forward(admin.user.id)
@@ -150,7 +150,7 @@ def report(bot: Bot, update: Update) -> str:
                     if chat.username and chat.type == Chat.SUPERGROUP:
                         bot.send_message(admin.user.id,
                                          msg + link,
-                                         parse_mode=ParseMode.HTML,
+                                         parse_mode=ParseMode.MARKDOWN,
                                          reply_markup=reply_markup)
 
                         if should_forward:
@@ -168,7 +168,7 @@ def report(bot: Bot, update: Update) -> str:
 
         bot.send_message(chat.id, tld(update.effective_message, "⚠️ {} <b>User has been reported to the chat admins!</b>{}").format(
                                             mention_html(reported_user.id, reported_user.first_name),
-                                            "".join(all_admins)), parse_mode=ParseMode.HTML, reply_to_message_id=message.reply_to_message.message_id)
+                                            "".join(all_admins)), parse_mode=ParseMode.MARKDOWN, reply_to_message_id=message.reply_to_message.message_id)
         return msg
 
     return ""
