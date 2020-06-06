@@ -11,15 +11,15 @@ from tg_bot import dispatcher
 
 @run_async
 @bot_admin
-def getlink(update, context):
+def getlink(bot: Bot, update: Update, args: List[int]):
     if args:
         chat_id = int(args[0])
     else:
         update.effective_message.reply_text("You don't seem to be referring to a chat")
-    chat = context.bot.get_chat(chat_id)
+    chat = bot.get_chat(chat_id)
     bot_member = chat.get_member(bot.id)
     if bot_member.can_invite_users:
-        invitelink = context.bot.exportChatInviteLink(chat_id)
+        invitelink = bot.exportChatInviteLink(chat_id)
         update.effective_message.reply_text(invitelink)
     else:
         update.effective_message.reply_text("I don't have access to the invite link!")
