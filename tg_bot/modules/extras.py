@@ -207,32 +207,32 @@ TOSS = (
 )
 
 @run_async
-def roll(bot: Bot, update: Update):
+def roll(update, context):
     update.message.reply_text(random.choice(range(1, 7)))
 	
-def toss(bot: Bot, update: Update):
+def toss(update, context):
     update.message.reply_text(random.choice(TOSS))
 
 @run_async
-def abuse(bot: Bot, update: Update):
+def abuse(update, context):
     # reply to correct message
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(ABUSE_STRINGS))
 	
 @run_async
-def shrug(bot: Bot, update: Update):
+def shrug(update, context):
     # reply to correct message
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text("¯\_(ツ)_/¯")	
 	
 @run_async
-def bluetext(bot: Bot, update: Update):
+def bluetext(update, context):
     # reply to correct message
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text("BLUE TEXT\n MUST CLICK\n I AM A STUPID ANIMAL THAT IS ATTRACTED TO COLORS")		
 
 @run_async
-def rlg(bot: Bot, update: Update):
+def rlg(update, context):
     # reply to correct message
     eyes = random.choice(EYES)
     mouth = random.choice(MOUTHS)
@@ -240,7 +240,7 @@ def rlg(bot: Bot, update: Update):
     repl = format(ears + eyes + mouth + eyes + ears)
     update.message.reply_text(repl)
 	
-def decide(bot: Bot, update: Update):
+def decide(update, context):
         r = randint(1, 100)
         if r <= 65:
             update.message.reply_text("Yes.")
@@ -249,7 +249,7 @@ def decide(bot: Bot, update: Update):
         else:
             update.message.reply_text("Maybe.")
             
-def table(bot: Bot, update: Update):
+def table(update, context):
             r = randint(1, 100)
             if r <= 45:
                 update.message.reply_text("(╯°□°）╯彡 ┻━┻")
