@@ -73,15 +73,15 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
             
     
 
+    if user_id == OWNER_ID:
+        message.reply_text("Haha, you know that I'm not gonna ban my boss")
+        return ""
     if is_user_ban_protected(chat, user_id, member):
         message.reply_text("I really wish I could ban admins...")
         return ""
 
     if user_id == bot.id:
         message.reply_text("I'm not gonna BAN myself, are you crazy?")
-        return ""
-    elif user_id == OWNER_ID:
-        message.reply_text("Haha, you know what I ain't gonna do, ban my Boss?")
         return ""
 
     log = "<b>{}:</b>" \
@@ -91,9 +91,10 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
                                      mention_html(member.user.id, member.user.first_name))
     
 
-    reply = "🔨 {} was banned by {}!".format(mention_html(member.user.id, member.user.first_name), mention_html(user.id, user.first_name))
+    reply = "User {} was 🔨banned by {} in {}.".format(mention_html(member.user.id, member.user.first_name), mention_html(user.id, user.first_name), chat.title)
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
+        reply += "\n<b>Reason:</b> {}".format(reason)
         
     try:
         chat.kick_member(user_id)
