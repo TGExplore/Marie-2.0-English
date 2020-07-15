@@ -32,7 +32,7 @@ def list_handlers(bot: Bot, update: Update):
     if not conn == False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
-        filter_list = "*Filters in {}:*\n"
+        filter_list = "*Filters in {}:*\n".format(chat_name) # fixed empty chatname in pm
     else:
         chat_id = update.effective_chat.id
         if chat.type == "private":
@@ -40,7 +40,7 @@ def list_handlers(bot: Bot, update: Update):
             filter_list = "*local filters:*\n"
         else:
             chat_name = chat.title
-            filter_list = "*Filters in {}*:\n"
+            filter_list = "*Filters in {}*:\n".format(chat_name) # fixed empty chatname in PM
 
 
     all_handlers = sql.get_chat_triggers(chat_id)
@@ -50,7 +50,7 @@ def list_handlers(bot: Bot, update: Update):
         return
 
     for keyword in all_handlers:
-        entry = " - {}\n".format(escape_markdown(keyword))
+        entry = " - `{}`\n".format(escape_markdown(keyword)) # added monospace, easy to copy, same as Rose.
         if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.MARKDOWN)
             filter_list = entry
@@ -145,7 +145,7 @@ def filters(bot: Bot, update: Update):
     sql.add_filter(chat_id, keyword, content, is_sticker, is_document, is_image, is_audio, is_voice, is_video,
                    buttons)
 
-    msg.reply_text("Handler '{}' added in *{}*!".format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+    msg.reply_text("Handler '`{}`' added in *{}*!".format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN) # added monospace like Rose
     raise DispatcherHandlerStop
 
 
@@ -226,7 +226,7 @@ def reply_filter(bot: Bot, update: Update):
                 keyb = build_keyboard(buttons)
                 keyboard = InlineKeyboardMarkup(keyb)
 
-                should_preview_disabled = True
+                should_preview_disabled = False
                 if "telegra.ph" in filt.reply or "youtu.be" in filt.reply:
                     should_preview_disabled = False
 
