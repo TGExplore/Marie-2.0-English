@@ -22,7 +22,7 @@ hoi {}, my name is {}! This bot was created by naveen no ue of sending message h
 
 im a group manager bot maintained by  [this person](tg://user?id={}).
 
-"""
+"So be silent"
 
 HELP_STRINGS = """
 
