@@ -18,11 +18,11 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-hoi {}, my name is {}! This bot was created by [Naveen](https://t.me/Anonymous].
+hoi {}, my name is {}! This bot was created by [Naveen](https://t.me/Anonymous9329).
 
 i am a group manager bot of this group [anonymous discussion group](https://t.me/joinchat/M_gNMlIDiBJBCfH_hRL7hg).
 
-"There is no use of messaging me. So be quite"
+"There is no use of messaging me. So be quite 🤫"
 
 HELP_STRINGS = """
 
