@@ -27,7 +27,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 # Not async
 def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = None) -> str:
     if is_user_admin(chat, user.id):
-        message.reply_text("Damn admins, can't even be warned!")
+        message.reply_text("Oops 🤭, Admins cannot be warned")
         return ""
 
     if warner:
@@ -64,12 +64,12 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
 
     else:
         keyboard = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Remove warn", callback_data="rm_warn({})".format(user.id))]])
+            [[InlineKeyboardButton("❌ Remove warn (admins only 🙍‍♂️)", callback_data="rm_warn({})".format(user.id))]])
 
-        reply = "{} has {}/{} warnings... watch out!".format(mention_html(user.id, user.first_name), num_warns,
+        reply = "{} has {}/{} warnings... 🙆‍♂️ ".format(mention_html(user.id, user.first_name), num_warns,
                                                              limit)
         if reason:
-            reply += "\nReason for last warn:\n{}".format(html.escape(reason))
+            reply += "\nReason for last warn ⚠️:\n{}".format(html.escape(reason))
 
         log_reason = "<b>{}:</b>" \
                      "\n#WARN" \
@@ -106,7 +106,7 @@ def button(bot: Bot, update: Update) -> str:
         res = sql.remove_warn(user_id, chat.id)
         if res:
             update.effective_message.edit_text(
-                "Warn removed by {}.".format(mention_html(user.id, user.first_name)),
+                "Warn removed by 🤴 {}, Don't Repeat it again 🧏‍♂️.".format(mention_html(user.id, user.first_name)),
                 parse_mode=ParseMode.HTML)
             user_member = chat.get_member(user_id)
             return "<b>{}:</b>" \
@@ -182,7 +182,7 @@ def warns(bot: Bot, update: Update, args: List[str]):
         limit, soft_warn = sql.get_warn_setting(chat.id)
 
         if reasons:
-            text = "This user has {}/{} warnings, for the following reasons:".format(num_warns, limit)
+            text = "This user has {}/{} warnings....🙆‍♂️, for the following reasons:".format(num_warns, limit)
             for reason in reasons:
                 text += "\n - {}".format(reason)
 
@@ -191,7 +191,7 @@ def warns(bot: Bot, update: Update, args: List[str]):
                 update.effective_message.reply_text(msg)
         else:
             update.effective_message.reply_text(
-                "User has {}/{} warnings, but no reasons for any of them.".format(num_warns, limit))
+                "User has {}/{} warnings, but no reasons for any of them 🤔.".format(num_warns, limit))
     else:
         update.effective_message.reply_text("This user hasn't got any warnings!")
 
@@ -248,16 +248,16 @@ def remove_warn_filter(bot: Bot, update: Update):
     chat_filters = sql.get_chat_warn_triggers(chat.id)
 
     if not chat_filters:
-        msg.reply_text("No warning filters are active here!")
+        msg.reply_text("No warning filters are active here!🤷‍♂️")
         return
 
     for filt in chat_filters:
         if filt == to_remove:
             sql.remove_warn_filter(chat.id, to_remove)
-            msg.reply_text("Yep, I'll stop warning people for that.")
+            msg.reply_text("Ok Boss 🙋‍♂️, I'll stop warning people for that ")
             raise DispatcherHandlerStop
 
-    msg.reply_text("That's not a current warning filter - run /warnlist for all active warning filters.")
+    msg.reply_text("That's not a current warning filter 🤦‍♂️ - run /warnlist for all active warning filters.")
 
 
 @run_async
@@ -406,7 +406,7 @@ be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is
  - /strongwarn <on/yes/off/no>: If set to on, exceeding the warn limit will result in a ban. Else, will just kick.
 """
 
-__mod_name__ = "Warnings"
+__mod_name__ = "Warns ⚠️"
 
 WARN_HANDLER = CommandHandler("warn", warn_user, pass_args=True, filters=Filters.group)
 RESET_WARN_HANDLER = CommandHandler(["resetwarn", "resetwarns"], reset_warns, pass_args=True, filters=Filters.group)
