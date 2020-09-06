@@ -244,7 +244,7 @@ def flood(bot: Bot, update: Update):
 @run_async
 @user_admin
 @loggable
-def set_flood_mode(bot: Bot, update):
+def set_flood_mode(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message  # type: Optional[Message]
