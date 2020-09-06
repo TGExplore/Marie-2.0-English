@@ -49,8 +49,7 @@ def check_flood(bot: Bot, update: Update) -> str:
             execstrings = "Kicked"
             tag = "KICKED"
         elif getmode == 3:
-            bot.restrict_chat_member(
-                chat.id, user.id, permissions=ChatPermissions(can_send_messages=False)
+            bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
             )
             execstrings = "Muted"
             tag = "MUTED"
@@ -61,11 +60,7 @@ def check_flood(bot: Bot, update: Update) -> str:
             tag = "TBAN"
         elif getmode == 5:
             mutetime = extract_time(msg, getvalue)
-            bot.restrict_chat_member(
-                chat.id,
-                user.id,
-                until_date=mutetime,
-                permissions=ChatPermissions(can_send_messages=False),
+            bot.restrict_chat_member(chat.id, user.id, can_send_messages=False, until_date=mutetime)
             )
             execstrings = "Muted for {}".format(getvalue)
             tag = "TMUTE"
