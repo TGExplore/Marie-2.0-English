@@ -61,7 +61,7 @@ def check_flood(bot: Bot, update: Update) -> str:
         elif getmode == 5:
             mutetime = extract_time(msg, getvalue)
             bot.restrict_chat_member(chat.id, user.id, can_send_messages=False, until_date=mutetime)
-            )
+            
             execstrings = "Muted for {}".format(getvalue)
             tag = "TMUTE"
         send_message(
