@@ -61,7 +61,7 @@ def check_flood(bot: Bot, update: Update) -> str:
             tag = "TBAN"
         elif getmode == 5:
             mutetime = extract_time(msg, getvalue)
-            context.bot.restrict_chat_member(
+            bot.restrict_chat_member(
                 chat.id,
                 user.id,
                 until_date=mutetime,
