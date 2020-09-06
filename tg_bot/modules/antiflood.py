@@ -65,7 +65,7 @@ def check_flood(bot: Bot, update: Update) -> str:
             execstrings = "Muted for {}".format(getvalue)
             tag = "TMUTE"
         send_message(
-            update.effective_message,
+            message,
             "Great, I like to leave flooding to natural disasters but you, "
             "you were just a disappointment. {}!".format(execstrings),
         )
@@ -148,7 +148,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
             elif amount < 3:
                 send_message(
-                    update.effective_message,
+                    message,
                     "Antiflood must be either 0 (disabled) or number greater than 3!",
                 )
                 return ""
@@ -165,7 +165,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
                     text = message.reply_text(
                         "Successfully updated anti-flood limit to {}!".format(amount)
                     )
-                send_message(update.effective_message, text, parse_mode="markdown")
+                send_message(message, text, parse_mode="markdown")
                 return (
                     "<b>{}:</b>"
                     "\n#SETFLOOD"
