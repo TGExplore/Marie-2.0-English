@@ -13,7 +13,7 @@ from tg_bot.modules.log_channel import loggable
 from tg_bot.modules.sql import antiflood_sql as sql
 from tg_bot.modules.connection import connected
 
-from tg_bot.modules.helper_funcs.alternate import send_message, typing_action
+from tg_bot.modules.helper_funcs.alternate import send_message
 
 FLOOD_GROUP = 3
 
@@ -101,7 +101,6 @@ def check_flood(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-@typing_action
 def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -196,7 +195,8 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@typing_action
+@user_admin
+@loggable
 def flood(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -244,7 +244,6 @@ def flood(bot: Bot, update: Update):
 @run_async
 @user_admin
 @loggable
-@typing_action
 def set_flood_mode(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
