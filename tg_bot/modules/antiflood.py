@@ -130,7 +130,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
                 )
             else:
                 text = message.reply_text("Antiflood has been disabled.")
-            send_message(update.effective_message, text, parse_mode="markdown")
+            send_message(message, text, parse_mode="markdown")
 
         elif val.isdigit():
             amount = int(val)
