@@ -50,7 +50,7 @@ def check_flood(bot: Bot, update: Update) -> str:
             tag = "KICKED"
         elif getmode == 3:
             bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
-            )
+            
             execstrings = "Muted"
             tag = "MUTED"
         elif getmode == 4:
