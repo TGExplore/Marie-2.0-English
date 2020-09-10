@@ -48,11 +48,6 @@
          "description": "Your username",
          "value": "refundisillegal"
       },
-      "PORT": {
-         "description": "Port to use for your webhooks.",
-         "required": false,
-         "value": "8443"
-      },
       "STRICT_GBAN": {
          "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
          "value": "True"
@@ -73,11 +68,6 @@
          "description": "The Heroku App URL :-  https://<appname>.herokuapp.com/",
          "required": false,
          "value": ""
-      },
-      "WEBHOOK": {
-         "description": "Setting this to ANYTHING will enable webhooks.",
-         "required": false,
-         "value": "ANYTHING"
       },
       "WHITELIST_USERS": {
          "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
