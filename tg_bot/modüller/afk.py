@@ -57,7 +57,7 @@ def reply_afk(bot: Bot, update: Update):
 
             else:
                 return
-
+Lop
             if sql.is_afk(user_id):
                 user = sql.check_afk_status(user_id)
                 if not user.reason:
@@ -68,8 +68,8 @@ def reply_afk(bot: Bot, update: Update):
 
 
 __help__ = """
- - /afk <reason>: mark yourself as AFK.
- - brb <reason>: same as the afk command - but not a command.
+ - /afk <reason>: kendini AFK olarak işaretle.
+ - brb <reason>: afk komutuyla aynı - ancak bir komut değil.
 
 When marked as AFK, any mentions will be replied to with a message to say you're not available!
 """
