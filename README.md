@@ -1,4 +1,4 @@
-![CTRL](https://i.ibb.co/HDtRGFq/1587897297749.jpg)
+
 # CTRL
 A modular telegram Python bot running on python3 with an sqlalchemy database.
 
@@ -17,6 +17,8 @@ You can also tap the Deploy To Heroku button below to deploy straight to Heroku!
 
 
 [![GitHub forks](https://img.shields.io/github/forks/AVATARX0TIC/ctrl.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/AVATARX0TIC/ctrl/network/) [![GitHub stars](https://img.shields.io/github/stars/AVATARX0TIC/ctrl.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/AVATARX0TIC/ctrl/stargazers/)
+
+![CTRL_LOGO](https://i.ibb.co/HDtRGFq/1587897297749.jpg)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AVATARX0TIC/CTRL)
 
