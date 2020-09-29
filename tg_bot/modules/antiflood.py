@@ -34,11 +34,11 @@ def check_flood(bot: Bot, update: Update) -> str:
         return ""
 
     try:
-        chat.kick_member(user.id)
-        msg.reply_text("dont disturb others you are No need for this group anymore...")
+        bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
+        msg.reply_text(tld(chat.id, "You have talked too much, not it's others' turn. You are muted!"))
 
         return "<b>{}:</b>" \
-               "\n#BANNED" \
+               "\n#MUTED" \
                "\n<b>User:</b> {}" \
                "\nFlooded the group.".format(html.escape(chat.title),
                                              mention_html(user.id, user.first_name))
@@ -82,7 +82,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
             else:
                 sql.set_flood(chat.id, amount)
-                message.reply_text("Message control {} has been added to count ".format(amount))
+                message.reply_text("After {} messages, I will mute users.".format(amount))
                 return "<b>{}:</b>" \
                        "\n#SETFLOOD" \
                        "\n<b>Admin:</b> {}" \
@@ -104,7 +104,7 @@ def flood(bot: Bot, update: Update):
         update.effective_message.reply_text("I am not doing message control right now!")
     else:
         update.effective_message.reply_text(
-            " {} I'll leave the bun to the person who sends the message more at the same time.".format(limit))
+            "I'll mute users if they send more than {} messages".format(limit))
 
 
 def __migrate__(old_chat_id, new_chat_id):
@@ -121,7 +121,6 @@ def __chat_settings__(chat_id, user_id):
 
 __help__ = """
  - /flood: To know your current message control..
-
 *Admin only:*
  - /setflood <int/'no'/'off'>: enables or disables flood control
 """

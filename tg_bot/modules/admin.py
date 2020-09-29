@@ -28,7 +28,7 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("mension one.... 🤷🏻‍♂.")
+        message.reply_text("Mension one.... 🤷🏻‍♂.")
         return ""
 
     user_member = chat.get_member(user_id)
@@ -48,12 +48,12 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
                           can_post_messages=bot_member.can_post_messages,
                           can_edit_messages=bot_member.can_edit_messages,
                           can_delete_messages=bot_member.can_delete_messages,
-                          # can_invite_users=bot_member.can_invite_users,
+                          can_invite_users=bot_member.can_invite_users,
                           can_restrict_members=bot_member.can_restrict_members,
                           can_pin_messages=bot_member.can_pin_messages,
                           can_promote_members=bot_member.can_promote_members)
 
-    message.reply_text("promoted🧡")
+    message.reply_text("Promoted!")
     return "<b>{}:</b>" \
            "\n#PROMOTED" \
            "\n<b>Admin:</b> {}" \
@@ -79,7 +79,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_member = chat.get_member(user_id)
     if user_member.status == 'creator':
-        message.reply_text("i cant ban creator of the group.... 😬")
+        message.reply_text("I can't ban creator of the group.... 😬")
         return ""
 
     if not user_member.status == 'administrator':

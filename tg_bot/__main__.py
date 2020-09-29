@@ -18,42 +18,35 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-hoi {}, my name is {}! if you have any questions about how to use me please give me /help... 
+Hi {}, my name is Melody! You can get my management commands by writing /help :)
 
-im a group manager bot maintained by  [this person](tg://user?id={}).
+My owner develops me every week so you can face with issues and new things!
 
-My future updates will be put into This Channel - @MarieChechi & My Support Group @InFoTelGroup.
+My owner's  [link](t.me/gleamglow) also my support chat's  [link](t.me/melodytgsupport)
 
-This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/TGExplore/Marie-2.0-English),
-you can create clone same like me..
+I was born in 8/04/2020 so I'm very young.
 
-For more commands click /help...
-
-**Keep in mind that any changes you DO do to the source have to be on github, as per the license.**
+You can find my source code  [here](https://cutt.ly/ItNIlIW)
 
 """
 
 HELP_STRINGS = """
 
-Hello! my name *{}*.
+Hello! my name is Melody.
 
 *Main* available commands:
  - /start: Start the bot...
  - /help: help....
- - /donate: To find out more about donating!
+ - /donate: a little help, not with money :)
+ 
  - /settings:
    - in PM: To find out what SETTINGS you have set....
    - in a group:
 
-{}
-And the following:
+You can use these following commands:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-It took lots of work for [my creator](t.me/SonOfLars) to get me to where I am now, and every donation helps \
-motivate him to make me even better. All the donation money will go to a better VPS to host me, and/or beer \
-(see his bio!). He's just a poor student, so every little helps!
-There are two ways of paying him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+DONATE_STRING = """Just PM me and say thanks"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -145,7 +138,7 @@ def start(bot: Bot, update: Update, args: List[str]):
                 PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID),
                 parse_mode=ParseMode.MARKDOWN)
     else:
-        update.effective_message.reply_text("waked up😏😏😏")
+        update.effective_message.reply_text("I'm awake!")
 
 
 # for test purposes
@@ -374,8 +367,8 @@ def donate(bot: Bot, update: Update):
     if chat.type == "private":
         update.effective_message.reply_text(DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
-        if OWNER_ID != 254318997 and DONATION_LINK:
-            update.effective_message.reply_text("You can also donate to the person currently running me "
+        if OWNER_ID != 1142196004 and DONATION_LINK:
+            update.effective_message.reply_text("PM me if you really want to donate :)"
                                                 "[here]({})".format(DONATION_LINK),
                                                 parse_mode=ParseMode.MARKDOWN)
 

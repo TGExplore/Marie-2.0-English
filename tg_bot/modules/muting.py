@@ -40,7 +40,7 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
 
         elif member.can_send_messages is None or member.can_send_messages:
             bot.restrict_chat_member(chat.id, user_id, can_send_messages=False)
-            message.reply_text("👍🏻 muted! 🤐")
+            message.reply_text("I muted this person!")
             return "<b>{}:</b>" \
                    "\n#MUTE" \
                    "\n<b>Admin:</b> {}" \
@@ -158,7 +158,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         if member.can_send_messages is None or member.can_send_messages:
             bot.restrict_chat_member(chat.id, user_id, until_date=mutetime, can_send_messages=False)
-            message.reply_text("shut up! 😠 Muted for {}!".format(time_val))
+            message.reply_text("Shhh be quiet for {}!".format(time_val))
             return log
         else:
             message.reply_text("This user is already muted.")
@@ -166,7 +166,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
-            message.reply_text("shut up! 😠 Muted for {}!".format(time_val), quote=False)
+            message.reply_text("Shhh be quiet for {}!".format(time_val), quote=False)
             return log
         else:
             LOGGER.warning(update)
