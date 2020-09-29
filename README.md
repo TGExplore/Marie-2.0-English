@@ -11,7 +11,12 @@ Can be found on telegram as [CTRL](https://t.me/ctrlrobot).
 
 You can also tap the Deploy To Heroku button below to deploy straight to Heroku!
 
-[![Build Status](https://travis-ci.com/AVATARX0TIC/CTRL.svg?branch=master)](https://travis-ci.com/AVATARX0TIC/CTRL)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)  
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/843cdeb7f4124dd39eb3930939478259)](https://app.codacy.com/manual/AVATARXOTIC/ctrl?utm_source=github.com&utm_medium=referral&utm_content=AVATARX0TIC/ctrl&utm_campaign=Badge_Grade_Dashboard
+
+
+[![GitHub forks](https://img.shields.io/github/forks/AVATARX0TIC/ctrl.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/AVATARX0TIC/ctrl/network/) [![GitHub stars](https://img.shields.io/github/stars/AVATARX0TIC/ctrl.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/AVATARX0TIC/ctrl/stargazers/)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AVATARX0TIC/CTRL)
 
