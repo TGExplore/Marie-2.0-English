@@ -28,7 +28,7 @@ ENUM_FUNC_MAP = {
     sql.Types.AUDIO.value: dispatcher.bot.send_audio,
     sql.Types.VOICE.value: dispatcher.bot.send_voice,
     sql.Types.VIDEO.value: dispatcher.bot.send_video,
-    sql.types.VIDEO.value: dispatcher.bot.send_video_note
+    sql.Types.VIDEO.value: dispatcher.bot.send_video_note
 }
 
 
