@@ -76,7 +76,7 @@ def get_note_type(msg: Message):
             text, buttons = button_markdown_parser(msgtext, entities=entities)
             data_type = Types.VIDEO
 
-       elif msg.reply_to_message.video_note:
+        elif msg.reply_to_message.video_note:
             content = msg.reply_to_message.video_note.file_id
             text, buttons = button_markdown_parser(msgtext, entities=entities)
             data_type = Types.VIDEO_NOTE
