@@ -37,7 +37,7 @@ def get_note_type(msg: Message):
             data_type = Types.TEXT
 
     elif msg.reply_to_message:
-        entities = msg.reply_to_message.parse_entities()
+        entities = msg.reply_to_message.parse_entities() or msg.reply_to_message.parse_caption_entities()
         msgtext = msg.reply_to_message.text or msg.reply_to_message.caption
         if len(args) >= 2 and msg.reply_to_message.text:  # not caption, text
             text, buttons = button_markdown_parser(msgtext,
@@ -132,9 +132,12 @@ def get_welcome_type(msg: Message):
         text = msg.reply_to_message.caption
         data_type = Types.VIDEO
 
-    elif msg.reply_to_message and msg.reply_to_message.video_note:
+    elif msg.reply_to_message.video_note:
+        msgtext = ""
+        if len(args) > 1:
+            msgtext = args[1]
         content = msg.reply_to_message.video_note.file_id
-        text = msg.reply_to_message.text
+        text, buttons = button_markdown_parser(msgtext, entities=msg.reply_to_message.parse_caption_entities(), offset=0)
         data_type = Types.VIDEO_NOTE
-        
+
     return text, data_type, content, buttons
