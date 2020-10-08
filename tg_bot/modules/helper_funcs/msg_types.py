@@ -15,7 +15,7 @@ class Types(IntEnum):
     AUDIO = 5
     VOICE = 6
     VIDEO = 7
-    VIDEO_NOTE = 8
+    VIDEO_NOTE = []
 
 
 def get_note_type(msg: Message):
