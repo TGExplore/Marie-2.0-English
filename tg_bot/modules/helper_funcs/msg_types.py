@@ -275,5 +275,5 @@ def get_filter_type(msg: Message):
         text = None
         data_type = None
         content = None
-o
+
     return text, data_type, content
