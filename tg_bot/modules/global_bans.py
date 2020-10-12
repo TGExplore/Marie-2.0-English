@@ -137,8 +137,8 @@ def gban(bot: Bot, update: Update, args: List[str]):
                 parse_mode=ParseMode.HTML,
             )
 
-        else:
-            message.reply_text(
+    else:
+    message.reply_text(
                 "This user is already gbanned, but had no reason set; I've gone and updated it!"
             )
 
