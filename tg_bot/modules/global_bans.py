@@ -128,7 +128,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
                 parse_mode=ParseMode.HTML,
             )
 
-            message.reply_text(
+          message.reply_text(
                 "This user is already gbanned, for the following reason:\n"
                 "<code>{}</code>\n"
                 "I've gone and updated it with your new reason!".format(
