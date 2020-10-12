@@ -138,10 +138,8 @@ def gban(bot: Bot, update: Update, args: List[str]):
             )
 
     else:
-        message.reply_text(
-            "This user is already gbanned, but had no reason set; I've gone and updated it!"
-        )
-
+         message.reply_text("This user is already gbanned, but had no reason set; I've gone and updated it!")
+             
     return
 
     message.reply_text(
