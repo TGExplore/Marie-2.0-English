@@ -137,10 +137,12 @@ def gban(bot: Bot, update: Update, args: List[str]):
                 parse_mode=ParseMode.HTML,
             )
 
-    else:
-         message.reply_text("This user is already gbanned, but had no reason set; I've gone and updated it!")
-             
-    return
+        else:
+            message.reply_text(
+                "This user is already gbanned, but had no reason set; I've gone and updated it!"
+            )
+
+        return
 
     message.reply_text(
         f"<b>Initiating Global Ban for</b> {mention_html(user_chat.id, user_chat.first_name)}"
