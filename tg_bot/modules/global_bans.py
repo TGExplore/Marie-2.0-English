@@ -134,7 +134,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
                 "I've gone and updated it with your new reason!".format(
                     html.escape(old_reason)
                 ),
-                parse_mode=ParseMode.HTML,
+                parse_mode=ParseMode.HTML
             )
 
     else:
