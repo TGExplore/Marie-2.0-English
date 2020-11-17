@@ -266,6 +266,7 @@ def enforce_gban(bot: Bot, update: Update):
 @run_async
 @user_admin
 def gbanstat(bot: Bot, update: Update, args: List[str]):
+chat = update.effective_chat  # type: Optional[Chat]
     if len(args) > 0:
         if args[0].lower() in ["on", "yes"]:
             sql.enable_gbans(update.effective_chat.id)
