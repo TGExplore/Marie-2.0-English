@@ -22,7 +22,7 @@ hoi {}, my name is {}! if you have any questions about how to use me please give
 
 im a group manager bot maintained by  [this person](tg:/Royal_Boy16/user?id={}).
 
-My future updates will be put in this group-  My Support Group @the_royal_network.
+My future updates will be put in this group-  My Support Group @the_royal_network .
 
 For more commands click /help...
 
