@@ -17,23 +17,7 @@ from tg_bot.modules import ALL_MODULES
 from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
-PM_START_TEXT = """
-Hello! {}, my name is {}!
-
-A [group](https://t.me/dgcinemax) manager bot maintained by [this person](tg://user?id={}).
-
-I can help you to download latest [movies](https://t.me/dgcinemax).
-
-Join @dgcinemax and enjoy every new movie release!
-
-
-
-
-For more commands click /help...
-
-
-
-"""
+PM_START_TEXT = """NO ONE GONNA HELP YOU."""
 
 HELP_STRINGS = """
 
@@ -51,7 +35,7 @@ Hello! my name *{}*.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
-DONATE_STRING = """ If you wish to donate then contact my [owner](https://t.me/CS_Lab).  """
+DONATE_STRING = """ If you wish to donate then contact my [owner](https://t.me/Jinn_of_universe)."""
 
 
 IMPORTED = {}
