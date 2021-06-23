@@ -1,7 +1,7 @@
 
 {
-  "name": "AnanthanNambiar_bot",
-  "description": "Devageetham Cinemax group manager!",
+  "name": "oru_adaar_filter_bot",
+  "description": "movie arcade group manager!",
   "keywords": [
     "telegram",
     "best",
@@ -9,7 +9,7 @@
     "manager",
     "3"
   ],
-  "repository": "hhttps://github.com/jithinjoy080/CS_Lab",
+  "repository": "https://github.com/Muthalib1010/CS_Lab/tree/master/tg_bot",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable env variables",
