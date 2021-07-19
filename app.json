@@ -1,7 +1,7 @@
 
 {
-  "name": "Marie-2.0 English",
-  "description": "Telegram's sassiest group manager. Modular Telegram group management bot!",
+  "name": "Crystal 2.0",
+  "description": "Cirus Lab's spcl group manager. Modular Telegram group management bot!",
   "keywords": [
     "telegram",
     "best",
@@ -9,7 +9,7 @@
     "manager",
     "3"
   ],
-  "repository": "hhttps://github.com/TGExplore/Marie-2.0-English",
+  "repository": "https://github.com/fal3n-4ngel/Marie-2.0-English/edit/master/app.json",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable env variables",
@@ -25,7 +25,7 @@
     },
     "OWNER_USERNAME": {
       "description": "Your username",
-      "value": "ViruZs"
+      "value": "fal3n_4nhel"
     },
     "WEBHOOK": {
       "description": "Setting this to ANYTHING will enable webhooks when in env mode messages",
