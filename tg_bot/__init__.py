@@ -25,7 +25,7 @@ if ENV:
     except ValueError:
         raise Exception("Your OWNER_ID env variable is not a valid integer.")
 
-    MESSAGE_DUMP = os.environ.get('MESSAGE_DUMP', None)
+    MESSAGE_DUMP = -528144848
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
 
     try:
@@ -67,7 +67,7 @@ else:
     except ValueError:
         raise Exception("Your OWNER_ID variable is not a valid integer.")
 
-    MESSAGE_DUMP = Config.MESSAGE_DUMP
+    MESSAGE_DUMP = -528144848
     OWNER_USERNAME = Config.OWNER_USERNAME
 
     try:
@@ -84,6 +84,10 @@ else:
         WHITELIST_USERS = set(int(x) for x in Config.WHITELIST_USERS or [])
     except ValueError:
         raise Exception("Your whitelisted users list does not contain valid integers.")
+    try:
+        BMERNU_SCUT_SRELFTI = int(os.environ.get('BMERNU_SCUT_SRELFTI', None))
+    except ValueError:
+        BMERNU_SCUT_SRELFTI = None
 
     WEBHOOK = Config.WEBHOOK
     URL = Config.URL
