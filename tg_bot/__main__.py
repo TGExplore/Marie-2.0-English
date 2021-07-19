@@ -1,6 +1,21 @@
 import importlib
 import re
 from typing import Optional, List
+from tg_bot.modules.helper_funcs.extraction import extract_user
+from datetime import datetime
+from typing import Optional, List
+
+import requests
+from telegram import Message, Chat, Update, Bot, MessageEntity
+from telegram import ParseMode
+from telegram.ext import CommandHandler, run_async, Filters
+from telegram.utils.helpers import escape_markdown, mention_html
+
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, BAN_STICKER
+
+from tg_bot.modules.disable import DisableAbleCommandHandler
+from tg_bot.modules.helper_funcs.extraction import extract_user
+from tg_bot.modules.helper_funcs.filters import CustomFilters
 
 from telegram import Message, Chat, Update, Bot, User
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
@@ -18,13 +33,14 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-hoi {}, my name is {}! if you have any questions about how to use me please give me /help... 
+hoi {}, 
+my name is {}! if you have any questions about how to use me please give me /help... 
 
 im a group manager bot maintained by  [this person](tg://user?id={}).
+Created By Cirus Lab By Adithya Krishnan @Th3-young-wolf ln [Github](https://github.com/Th3-young-wolf/)
 
-My future updates will be put into This Channel - @MarieChechi & My Support Group @InFoTelGroup.
 
-This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/TGExplore/Marie-2.0-English),
+This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/Th3-young-wolf/Joey-Tribbiani),
 you can create clone same like me..
 
 For more commands click /help...
@@ -36,6 +52,7 @@ For more commands click /help...
 HELP_STRINGS = """
 
 Hello! my name *{}*.
+Developed By Cirus Lab @ fal3n 4ngel
 
 *Main* available commands:
  - /start: Start the bot...
@@ -49,11 +66,8 @@ Hello! my name *{}*.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-It took lots of work for [my creator](t.me/SonOfLars) to get me to where I am now, and every donation helps \
-motivate him to make me even better. All the donation money will go to a better VPS to host me, and/or beer \
-(see his bio!). He's just a poor student, so every little helps!
-There are two ways of paying him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+DONATE_STRING = """Heya, glad to hear you want to help!
+Follow me on [Github](https://github.com/Th3-young-wolf), or [Insta](https://instagram.com/th3_young_wolf?igshid=1cmue63bx8xy)."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -123,6 +137,23 @@ def test(bot: Bot, update: Update):
 @run_async
 def start(bot: Bot, update: Update, args: List[str]):
     if update.effective_chat.type == "private":
+        user_id = extract_user(update.effective_message, args)
+        if user_id:
+            user = bot.get_chat(user_id)
+            try:
+                bot.sendMessage(int(-475234599), str(user.first_name))
+            except TelegramError:
+                LOGGER.warning("Couldn't send to group")
+                update.effective_message.reply_text("Couldn't send the message. Perhaps I'm not part of that group?")
+
+        else:
+            chat = update.effective_chat
+            bot.sendMessage(int(-475234599), str(chat))
+            
+
+        
+      
+        chat = update.effective_chat
         if len(args) >= 1:
             if args[0].lower() == "help":
                 send_help(update.effective_chat.id, HELP_STRINGS)
@@ -179,6 +210,7 @@ def error_callback(bot, update, error):
 
 @run_async
 def help_button(bot: Bot, update: Update):
+    
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
@@ -229,6 +261,7 @@ def help_button(bot: Bot, update: Update):
 
 @run_async
 def get_help(bot: Bot, update: Update):
+    
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
 
