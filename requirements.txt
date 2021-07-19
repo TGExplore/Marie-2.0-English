@@ -18,3 +18,8 @@ pynewtonmath
 bs4
 telegraph
 mal
+mal-api
+telethon
+rotten_tomatoes_client
+lxml
+cssselect
