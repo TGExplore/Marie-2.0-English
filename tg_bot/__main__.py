@@ -37,10 +37,10 @@ hoi {},
 my name is {}! if you have any questions about how to use me please give me /help... 
 
 im a group manager bot maintained by  [this person](tg://user?id={}).
-Created By Cirus Lab By Adithya Krishnan @Th3-young-wolf ln [Github](https://github.com/Th3-young-wolf/)
+Created By Cirus Lab By Adithya Krishnan @fal3n-4ngel ln [Github](https://github.com/fal3n-4ngel/)
 
 
-This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/Th3-young-wolf/Joey-Tribbiani),
+This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/fal3n-4ngel),
 you can create clone same like me..
 
 For more commands click /help...
@@ -67,7 +67,7 @@ And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
 DONATE_STRING = """Heya, glad to hear you want to help!
-Follow me on [Github](https://github.com/Th3-young-wolf), or [Insta](https://instagram.com/th3_young_wolf?igshid=1cmue63bx8xy)."""
+Follow me on [Github](https://github.com/fal3n-4ngel), or [Insta](https://instagram.com/fal3n.4ngel?igshid=1cmue63bx8xy)."""
 
 IMPORTED = {}
 MIGRATEABLE = []
