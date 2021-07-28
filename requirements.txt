@@ -25,7 +25,12 @@ lxml
 cssselect
 speedtest
 datetime
-platform
-psutil
+speedtest-cli>=2.0.2
+googletrans
+wikipedia
 spamwatch
+bleach
+git+https://github.com/starry69/python-markdown2.git
+alphabet_detector
+psutil
 pythonping
