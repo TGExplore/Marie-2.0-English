@@ -1,6 +1,9 @@
 # Crystal Cirus Lab
 
 An Enhanced Telegram Grp Management Bot By Cirus Lab.
+
+## Forked From Marie Bot Tg
+### Added New Commands , Fixed a few bugs
 •Exclusive Admin Commands.
 •New Fun Commands.
 •And Much more..
