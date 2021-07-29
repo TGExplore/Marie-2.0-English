@@ -1,6 +1,4 @@
-# Ted Mosby Cirus Lab
-![plot](https://github.com/Fal3n-4ngel/Joey-Tribbiani/blob/master/IMG_20210608_115450_622.jpg
-)
+# Crystal Cirus Lab
 
 An Enhanced Telegram Grp Management Bot By Cirus Lab.
 •Exclusive Admin Commands.
