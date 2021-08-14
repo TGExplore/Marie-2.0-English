@@ -33,7 +33,7 @@ For more commands click /help...
 
 HELP_STRINGS = """
 
-Hello! my name *{}*.
+Hello! my name is *{}*.
 
 *Main* available commands:
  - /start: Start the bot...
