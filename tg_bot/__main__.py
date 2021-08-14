@@ -22,7 +22,7 @@ hoi {}, my name is {}! if you have any questions about how to use me please give
 
 im a group manager bot maintained by  [this person](tg://user?id={}).
 
-My future updates will be put into This Channel - @Shinobi_official & My Support Group @Shinobi_support
+My future updates will be put into - [THIS CHANNEL](https://t.me/Shinobi_official) & My [SUPPORT GROUP](https://t.me/Shinobi_support)
 
 
 For more commands click /help...
