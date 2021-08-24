@@ -18,13 +18,13 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-hoi {}, my name is {}! if you have any questions about how to use me please give me /help... 
+Hey darling {USERNAME}, my name is {ANGELA ROBOT}! if you have any questions about how to use me please give me /help... 
 
-im a group manager bot maintained by  [this person](tg://user?id={}).
+im a group manager bot maintained by  [Rehan Bharaat](tg://user?id={@Road2Aiims}).
 
-My future updates will be put into This Channel - @MarieChechi & My Support Group @InFoTelGroup.
+My future updates will be put into This Channel - @Rehanultrasupport & My Support Group @InforehanGroup.
 
-This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/TGExplore/Marie-2.0-English),
+This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/RFhacking/Marie-2.0-English),
 you can create clone same like me..
 
 For more commands click /help...
@@ -357,8 +357,8 @@ def get_settings(bot: Bot, update: Update):
             msg.reply_text(text,
                            reply_markup=InlineKeyboardMarkup(
                                [[InlineKeyboardButton(text="Settings",
-                                                      url="t.me/{}?start=stngs_{}".format(
-                                                          bot.username, chat.id))]]))
+                                                      url="t.me/ANGELA_ROBOT{}?start=stngs_{}".format(
+                                                          bot.ANGELA_ROBOT, chat.id))]]))
         else:
             text = "Click here to check your settings."
 
@@ -374,7 +374,7 @@ def donate(bot: Bot, update: Update):
     if chat.type == "private":
         update.effective_message.reply_text(DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
-        if OWNER_ID != 254318997 and DONATION_LINK:
+        if OWNER_ID != 1798338526 and DONATION_LINK:
             update.effective_message.reply_text("You can also donate to the person currently running me "
                                                 "[here]({})".format(DONATION_LINK),
                                                 parse_mode=ParseMode.MARKDOWN)
