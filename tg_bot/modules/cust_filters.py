@@ -19,7 +19,7 @@ from tg_bot.modules.sql import cust_filters_sql as sql
 
 from tg_bot.modules.connection import connected
 
-HANDLER_GROUP = 10
+HANDLER_GROUP = 15
 BASIC_FILTER_STRING = "*Filters in this chat:*\n"
 
 
@@ -95,7 +95,9 @@ def filters(bot: Bot, update: Update):
     is_voice = False
     is_audio = False
     is_video = False
+    has_caption = False
     buttons = []
+    
 
     # determine what the contents of the filter are - text, image, sticker, etc
     if len(extracted) >= 2:
@@ -109,28 +111,34 @@ def filters(bot: Bot, update: Update):
     elif msg.reply_to_message and msg.reply_to_message.sticker:
         content = msg.reply_to_message.sticker.file_id
         is_sticker = True
+        has_caption = True
 
     elif msg.reply_to_message and msg.reply_to_message.document:
         content = msg.reply_to_message.document.file_id
         is_document = True
+        has_caption = True
 
     elif msg.reply_to_message and msg.reply_to_message.photo:
         offset = len(msg.reply_to_message.caption)
         ignore_underscore_case, buttons = button_markdown_parser(msg.reply_to_message.caption, entities=msg.reply_to_message.parse_entities(), offset=offset)
         content = msg.reply_to_message.photo[-1].file_id  # last elem = best quality
         is_image = True
+        has_caption = True
 
     elif msg.reply_to_message and msg.reply_to_message.audio:
         content = msg.reply_to_message.audio.file_id
         is_audio = True
+        has_caption = True
 
     elif msg.reply_to_message and msg.reply_to_message.voice:
         content = msg.reply_to_message.voice.file_id
         is_voice = True
+        has_caption = True
 
     elif msg.reply_to_message and msg.reply_to_message.video:
         content = msg.reply_to_message.video.file_id
         is_video = True
+        has_caption = True
 
     else:
         msg.reply_text("You didn't specify what to reply with!")
@@ -205,6 +213,8 @@ def reply_filter(bot: Bot, update: Update):
         if re.search(pattern, to_match, flags=re.IGNORECASE):
             filt = sql.get_filter(chat.id, keyword)
             buttons = sql.get_buttons(chat.id, filt.keyword)
+            media_caption = filt.caption if filt.caption is not None else ""
+           
             if filt.is_sticker:
                 message.reply_sticker(filt.reply)
             elif filt.is_document:
