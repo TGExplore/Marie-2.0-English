@@ -1,7 +1,7 @@
 
 {
-  "name": "Marie-2.0 English",
-  "description": "Telegram's sassiest group manager. Modular Telegram group management bot!",
+  "name": "NARUTO",
+  "description": "The best Telegram Group ManagerBot ever. Modular Telegram group management bot!",
   "keywords": [
     "telegram",
     "best",
@@ -9,7 +9,6 @@
     "manager",
     "3"
   ],
-  "repository": "hhttps://github.com/TGExplore/Marie-2.0-English",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable env variables",
@@ -25,7 +24,7 @@
     },
     "OWNER_USERNAME": {
       "description": "Your username",
-      "value": "ViruZs"
+      "value": "sidharth256"
     },
     "WEBHOOK": {
       "description": "Setting this to ANYTHING will enable webhooks when in env mode messages",
@@ -50,10 +49,6 @@
     "WHITELIST_USERS": {
       "description": "A space separated list of user_ids which should be considered whitelisted - they can't be banned.",
       "value": "254318997 683538773 570400686 466337795"
-    },
-    "DONATION_LINK": {
-      "description": "Optional: link where you would like to receive donations.",
-      "value": "https://www.paypal.me/Your_id_here"
     },
     "PORT": {
       "description": "Port to use for your webhooks",

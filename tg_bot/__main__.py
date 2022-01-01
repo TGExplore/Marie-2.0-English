@@ -22,10 +22,8 @@ hoi {}, my name is {}! if you have any questions about how to use me please give
 
 im a group manager bot maintained by  [this person](tg://user?id={}).
 
-My future updates will be put into This Channel - @MarieChechi & My Support Group @InFoTelGroup.
+My future updates will be put into - [THIS CHANNEL](https://t.me/Shinobi_official) & My [SUPPORT GROUP](https://t.me/Shinobi_support)
 
-This is my [Deploy Code](https://heroku.com/deploy?template=https://github.com/TGExplore/Marie-2.0-English),
-you can create clone same like me..
 
 For more commands click /help...
 
@@ -35,12 +33,11 @@ For more commands click /help...
 
 HELP_STRINGS = """
 
-Hello! my name *{}*.
+Hello! my name is *{}*.
 
 *Main* available commands:
  - /start: Start the bot...
  - /help: help....
- - /donate: To find out more about donating!
  - /settings:
    - in PM: To find out what SETTINGS you have set....
    - in a group:
@@ -49,11 +46,11 @@ Hello! my name *{}*.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll of the following commands  / or ! can  be used...\n")
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-It took lots of work for [my creator](t.me/SonOfLars) to get me to where I am now, and every donation helps \
-motivate him to make me even better. All the donation money will go to a better VPS to host me, and/or beer \
-(see his bio!). He's just a poor student, so every little helps!
-There are two ways of paying him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+#DONATE_STRING = """Heya, glad to hear you want to donate!
+#It took lots of work for [my creator](t.me/SonOfLars) to get me to where I am now, and every donation helps \
+#motivate him to make me even better. All the donation money will go to a better VPS to host me, and/or beer \
+#(see his bio!). He's just a poor student, so every little helps!
+#There are two ways of paying him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
 
 IMPORTED = {}
 MIGRATEABLE = []
