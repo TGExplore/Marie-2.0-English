@@ -1,0 +1,57 @@
+ithalat  json
+dan  pprint  ithalat  pprint
+
+ithalat  istekleri
+dan  telgraf  ithalat  Güncelleme , Bot
+dan  telgrafı . ext  import  CommandHandler
+
+dan  tg_bot  ithalat  memuru
+
+# Açık API anahtarı
+API_KEY  =  "6ae0c3a0-afdc-4532-a810-82ded0054236"
+URL  =  "http://services.gingersoftware.com/Ginger/correct/json/GingerTheText"
+
+
+def  translate ( bot : Bot , update : Update ):
+    eğer  güncelleme . efektif_mesaj . message_to_message :
+        msg  =  güncelleme . efektif_mesaj . reply_to_message
+
+        params  =  dict (
+            lang = "TR" ,
+            clientVersion = "2.0" ,
+            apiKey = API_KEY ,
+            metin = msj . Metin
+        )
+
+        res  =  istekler . get ( URL , params = params )
+        # print (res)
+        # print (res.text)
+        pprint ( json . yükler ( res . metin ))
+        değişiklikler  =  json . yükler ( res . metin ). get ( 'LightGingerTheTextResult' )
+        curr_string  =  ""
+
+        prev_end  =  0
+
+        için  değişim  içinde  değişimlere :
+            başlangıç  =  değişiklik . get ( 'Kimden' )
+            end  =  değişim . get ( 'To' ) +  1
+            öneriler  =  değişiklik . get ( 'Öneriler' )
+             öneriler varsa :
+                sugg_str  =  öneriler [ 0 ]. get ( 'Text' )   # bu listeye daha fazla bakmalı
+                curr_string  + =  msj . metin [ prev_end : başlangıç ] +  sugg_str
+
+                prev_end  =  bitiş
+
+        curr_string  + =  msj . metin [ prev_end :]
+        yazdır ( curr_string )
+        güncelleme . efektif_mesaj . yanıt_metni ( curr_string )
+
+
+__help__  =  "" "
+ - /tr: bir iletiyi yanıtlarken, dilbilgisi düzeltilmiş bir sürümle yanıt verir
+"""
+
+__mod_name__  =  "Tercüman"
+
+
+TRANSLATE_HANDLER  =  CommandHandler ( 'TR' , tercüme et )
